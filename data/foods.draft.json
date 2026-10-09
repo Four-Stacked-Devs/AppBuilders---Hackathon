@@ -1,0 +1,230 @@
+[
+  {
+    "id": "rice_white_cooked",
+    "name": "White rice, cooked",
+    "aliases": [
+      "kanin",
+      "white rice",
+      "rice",
+      "puting kanin"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "cup": null
+    },
+    "defaultUnit": "cup",
+    "foodGroup": "grains",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "rice_garlic",
+    "name": "Garlic fried rice",
+    "aliases": [
+      "sinangag",
+      "garlic rice",
+      "fried rice"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "cup": null
+    },
+    "defaultUnit": "cup",
+    "foodGroup": "grains",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "tapa_beef",
+    "name": "Beef tapa",
+    "aliases": [
+      "tapa",
+      "beef tapa"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "serving": null
+    },
+    "defaultUnit": "serving",
+    "foodGroup": "meat",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "egg_fried",
+    "name": "Egg, fried",
+    "aliases": [
+      "itlog",
+      "pritong itlog",
+      "fried egg",
+      "egg",
+      "sunny side up"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "piece": null
+    },
+    "defaultUnit": "piece",
+    "foodGroup": "eggs",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "egg_boiled",
+    "name": "Egg, boiled",
+    "aliases": [
+      "nilagang itlog",
+      "boiled egg",
+      "hard boiled egg"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "piece": null
+    },
+    "defaultUnit": "piece",
+    "foodGroup": "eggs",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "pork_adobo",
+    "name": "Pork adobo",
+    "aliases": [
+      "adobong baboy",
+      "pork adobo",
+      "adobo"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "serving": null
+    },
+    "defaultUnit": "serving",
+    "foodGroup": "meat",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "chicken_adobo",
+    "name": "Chicken adobo",
+    "aliases": [
+      "adobong manok",
+      "chicken adobo"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "serving": null
+    },
+    "defaultUnit": "serving",
+    "foodGroup": "meat",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "pandesal",
+    "name": "Pandesal",
+    "aliases": [
+      "pandesal",
+      "pan de sal",
+      "pan de salt",
+      "tinapay"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "piece": null
+    },
+    "defaultUnit": "piece",
+    "foodGroup": "grains",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "banana_lakatan",
+    "name": "Banana, lakatan",
+    "aliases": [
+      "saging",
+      "banana",
+      "lakatan"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "piece": null
+    },
+    "defaultUnit": "piece",
+    "foodGroup": "fruits",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "milk_tea",
+    "name": "Milk tea",
+    "aliases": [
+      "milk tea",
+      "milktea",
+      "boba",
+      "pearl milk tea"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "serving": null
+    },
+    "defaultUnit": "serving",
+    "foodGroup": "drinks",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "cola_regular",
+    "name": "Cola, regular",
+    "aliases": [
+      "coke",
+      "coca-cola",
+      "coca cola",
+      "cola",
+      "softdrinks",
+      "soft drinks"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "can": null
+    },
+    "defaultUnit": "can",
+    "foodGroup": "drinks",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "coffee_3in1",
+    "name": "Coffee, 3-in-1",
+    "aliases": [
+      "kape",
+      "coffee",
+      "3 in 1",
+      "3-in-1"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "serving": null
+    },
+    "defaultUnit": "serving",
+    "foodGroup": "drinks",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  },
+  {
+    "id": "lumpia_shanghai",
+    "name": "Lumpiang shanghai",
+    "aliases": [
+      "lumpia",
+      "lumpiang shanghai",
+      "shanghai"
+    ],
+    "kcalPer100g": null,
+    "portions": {
+      "piece": null
+    },
+    "defaultUnit": "piece",
+    "foodGroup": "meat",
+    "source": "TODO: PhilFCT entry name/code or product label, accessed <date>",
+    "portionSource": "TODO: where the grams per portion came from"
+  }
+]
