@@ -4,7 +4,7 @@ import { Sidebar } from './components/Sidebar'
 import { Setup } from './screens/Setup'
 import { Onboarding } from './screens/Onboarding'
 import { Talk } from './screens/Talk'
-import { TodayScreen } from './screens/Today'
+import { Dashboard } from './screens/Dashboard'
 
 function App(): React.JSX.Element {
   const { screen, setAi, ai, profile, profileLoaded, setProfile } = useVox()
@@ -35,7 +35,8 @@ function App(): React.JSX.Element {
     )
 
   let body: React.JSX.Element
-  if (screen === 'today' || screen === 'weekly' || screen === 'monthly') body = <TodayScreen />
+  if (screen === 'today' || screen === 'weekly' || screen === 'monthly')
+    body = <Dashboard key={screen} tab={screen} />
   else body = <Talk />
 
   return (
