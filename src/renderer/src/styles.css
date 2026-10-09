@@ -1,4 +1,4 @@
-@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/inter';
 
 :root {
   --paper: #f2f5f1;
@@ -11,8 +11,8 @@
   --mango-ink: #3a2c00;
   --focus: #1f6f5c;
 
-  --display: 'Bricolage Grotesque Variable', system-ui, sans-serif;
-  --body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --display: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   --r-sm: 8px;
   --r-lg: 18px;
