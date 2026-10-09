@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import { SendHorizontal } from 'lucide-react'
 import type { ConfirmInput, ConfirmResult } from '@shared/schemas'
 import { useVox, type Turn } from '../store'
 import { ConfirmCard } from '../components/ConfirmCard'
 import { MicButton } from '../components/MicButton'
+import mark from '../assets/logo-mark.png'
 
 const EXAMPLES = [
   'Nag-jog ako ng 30 minutes kanina',
@@ -13,7 +15,18 @@ const EXAMPLES = [
 const cleanError = (err: unknown): string =>
   String(err).replace(/^Error: (Error invoking remote method '[^']+': )?(Error: )?/, '')
 
-export function LogScreen(): React.JSX.Element {
+function VoxMsg({ children }: { children: React.ReactNode }): React.JSX.Element {
+  return (
+    <div className="msg">
+      <span className="avatar">
+        <img src={mark} alt="VOX" />
+      </span>
+      <div className="msg-body">{children}</div>
+    </div>
+  )
+}
+
+export function Talk(): React.JSX.Element {
   const { turns, addTurn, updateTurn, ai, profile } = useVox()
   const [text, setText] = useState('')
   const end = useRef<HTMLDivElement>(null)
@@ -47,24 +60,25 @@ export function LogScreen(): React.JSX.Element {
   const ready = ai.state === 'ready'
 
   return (
-    <div className="log">
+    <div className="talk">
+      <header className="talk-head">
+        <h1>Talk to VOX</h1>
+        <p className="sub">
+          Your AI fitness coach. Log what you ate, how you moved and how you slept.
+        </p>
+      </header>
       <div className="thread">
         <div className="thread-inner">
           {turns.length === 0 && (
-            <div className="empty-log">
-              <h1>Ano ginawa mo today, {profile?.nickname}?</h1>
-              <p className="muted">
-                Say or type what you ate, how you moved, how you slept. Vox works it out on this
-                computer and asks you to check before saving.
-              </p>
-              <div className="examples">
-                {EXAMPLES.map((e) => (
-                  <button key={e} className="example" disabled={!ready} onClick={() => send(e)}>
-                    {e}
-                  </button>
-                ))}
+            <VoxMsg>
+              <div className="vox empty-log">
+                <h2>Ano ginawa mo today, {profile?.nickname}?</h2>
+                <p className="muted">
+                  Say or type what you ate, how you moved, how you slept. Vox works it out on this
+                  computer and asks you to check before saving.
+                </p>
               </div>
-            </div>
+            </VoxMsg>
           )}
           {turns.map((t) => (
             <TurnView
@@ -77,50 +91,47 @@ export function LogScreen(): React.JSX.Element {
           <div ref={end} />
         </div>
       </div>
-      <div className="composer">
-        <div className="composer-inner">
-          <textarea
-            aria-label="What did you do today?"
-            placeholder={ready ? 'Nag-jog ako ng 30 minutes…' : 'Loading AI on this computer…'}
-            rows={1}
-            value={text}
-            maxLength={500}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault()
-                void send()
-              }
-            }}
-          />
-          {text.trim() ? (
-            <button
-              className="round send"
-              aria-label="Send"
-              disabled={!ready || busy}
-              onClick={() => send()}
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M4 12h14M12 5l7 7-7 7"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+      <div>
+        <div className="suggestions">
+          {EXAMPLES.map((e) => (
+            <button key={e} className="example" disabled={!ready || busy} onClick={() => send(e)}>
+              {e}
             </button>
-          ) : (
+          ))}
+        </div>
+        <div className="composer">
+          <div className="composer-inner">
+            <textarea
+              aria-label="What did you do today?"
+              placeholder={ready ? 'Message VOX…' : 'Loading AI on this computer…'}
+              rows={1}
+              value={text}
+              maxLength={500}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault()
+                  void send()
+                }
+              }}
+            />
             <MicButton
               disabled={busy}
               onTranscript={(t) => setText((cur) => (cur ? `${cur} ${t}` : t))}
             />
-          )}
+            <button
+              className="round send"
+              aria-label="Send"
+              disabled={!ready || busy || !text.trim()}
+              onClick={() => send()}
+            >
+              <SendHorizontal size={18} aria-hidden="true" />
+            </button>
+          </div>
+          <p className="composer-hint">
+            Enter to send. Hold the mic (or Space) to talk. Nothing leaves this computer.
+          </p>
         </div>
-        <p className="composer-hint">
-          Enter to send. Hold the mic (or Space) to talk. Nothing leaves this computer.
-        </p>
       </div>
     </div>
   )
@@ -136,38 +147,58 @@ function TurnView({
   onDiscard: () => void
 }): React.JSX.Element {
   const r = turn.result
+  const safety = r?.ok && turn.state !== 'skipped' ? r.safetyMessage : undefined
+  const card = r?.ok && (turn.state === 'card' || turn.state === 'confirming') ? r : null
   return (
     <>
       <div className="you">{turn.text}</div>
-      {turn.state === 'parsing' && <div className="vox thinking">Thinking on this computer…</div>}
+      {turn.state === 'parsing' && (
+        <VoxMsg>
+          <div className="vox thinking">Thinking on this computer…</div>
+        </VoxMsg>
+      )}
       {turn.state === 'crisis' && r && !r.ok && (
-        <div className="safety" role="alert">
-          <h3>Nandito kami para sa’yo</h3>
-          <p>{r.reason}</p>
-        </div>
+        <VoxMsg>
+          <div className="safety" role="alert">
+            <h3>Nandito kami para sa’yo</h3>
+            <p>{r.reason}</p>
+          </div>
+        </VoxMsg>
       )}
       {turn.state === 'failed' && (
-        <div className="vox">{r && !r.ok ? r.reason : `Something went wrong: ${turn.error}`}</div>
+        <VoxMsg>
+          <div className="vox">{r && !r.ok ? r.reason : `Something went wrong: ${turn.error}`}</div>
+        </VoxMsg>
       )}
-      {r?.ok && r.safetyMessage && turn.state !== 'skipped' && (
-        <div className="safety" role="alert">
-          <p>{r.safetyMessage}</p>
-        </div>
+      {safety && (
+        <VoxMsg>
+          <div className="safety" role="alert">
+            <p>{safety}</p>
+          </div>
+        </VoxMsg>
       )}
-      {r?.ok && (turn.state === 'card' || turn.state === 'confirming') && (
-        <>
+      {card && (
+        <VoxMsg>
           {turn.error && <p className="error">{turn.error}</p>}
           <ConfirmCard
-            result={r}
+            result={card}
             rawText={turn.text}
             busy={turn.state === 'confirming'}
             onConfirm={onConfirm}
             onCancel={onDiscard}
           />
-        </>
+        </VoxMsg>
       )}
-      {turn.state === 'skipped' && <div className="vox muted">Discarded. Nothing was saved.</div>}
-      {turn.state === 'done' && turn.confirmed && <Reaction result={turn.confirmed} />}
+      {turn.state === 'skipped' && (
+        <VoxMsg>
+          <div className="vox muted">Discarded. Nothing was saved.</div>
+        </VoxMsg>
+      )}
+      {turn.state === 'done' && turn.confirmed && (
+        <VoxMsg>
+          <Reaction result={turn.confirmed} />
+        </VoxMsg>
+      )}
     </>
   )
 }
@@ -181,7 +212,7 @@ function Reaction({ result }: { result: ConfirmResult }): React.JSX.Element {
   })
   return (
     <div className="vox">
-      <p style={{ margin: 0 }}>{reaction.text}</p>
+      <p>{reaction.text}</p>
       <div className="meta">
         {lines.length > 0 && <div>Saved: {lines.join('; ')}.</div>}
         {reaction.source === 'ai' ? (

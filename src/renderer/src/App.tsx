@@ -3,7 +3,7 @@ import { useVox } from './store'
 import { Sidebar } from './components/Sidebar'
 import { Setup } from './screens/Setup'
 import { Onboarding } from './screens/Onboarding'
-import { LogScreen } from './screens/Log'
+import { Talk } from './screens/Talk'
 import { TodayScreen } from './screens/Today'
 
 function App(): React.JSX.Element {
@@ -36,7 +36,7 @@ function App(): React.JSX.Element {
 
   let body: React.JSX.Element
   if (screen === 'today' || screen === 'weekly' || screen === 'monthly') body = <TodayScreen />
-  else body = <LogScreen />
+  else body = <Talk />
 
   return (
     <div className="app">
