@@ -1,22 +1,20 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+// Sandboxed preload: only contextBridge and ipcRenderer from electron, no npm imports.
+import { contextBridge, ipcRenderer } from 'electron'
+import type { VoxApi } from '../shared/api'
+import type { AiStatus } from '../shared/status'
 
-// Custom APIs for renderer
-const api = {}
-
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
+const api: VoxApi = {
+  ai: {
+    status: () => ipcRenderer.invoke('ai:status'),
+    onStatus: (cb) => {
+      const h = (_e: unknown, s: AiStatus): void => cb(s)
+      ipcRenderer.on('ai:status-changed', h)
+      return () => ipcRenderer.removeListener('ai:status-changed', h)
+    }
+  },
+  debug: {
+    generate: (text) => ipcRenderer.invoke('debug:generate', text)
   }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
 }
+
+contextBridge.exposeInMainWorld('vox', api)

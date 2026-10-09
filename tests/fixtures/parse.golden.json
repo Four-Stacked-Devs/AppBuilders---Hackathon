@@ -1,0 +1,61 @@
+[
+  {
+    "note": "nag jog ako kanina mga 45 mins",
+    "expect": { "exercises": [{ "activity": "jog", "durationMin": 45, "effort": "unknown" }] }
+  },
+  { "note": "4 hrs lang tulog ko kagabi", "expect": { "sleepHours": 4 } },
+  {
+    "note": "nag basketball kami 2 hours tapos nag milk tea",
+    "expect": {
+      "exercises": [{ "activity": "basketball", "durationMin": 120, "effort": "unknown" }],
+      "foods": [{ "name": "milk tea", "quantity": 1, "unit": "serving" }]
+    }
+  },
+  {
+    "note": "kumain ako ng tapsilog tsaka isang Coke",
+    "expect": {
+      "foods": [
+        { "name": "tapsilog", "quantity": 1, "unit": "serving" },
+        { "name": "coke", "quantity": 1, "unit": "serving" }
+      ]
+    }
+  },
+  {
+    "note": "almusal ko 2 pandesal tapos kape",
+    "expect": {
+      "foods": [
+        { "name": "pandesal", "quantity": 2, "unit": "piece" },
+        { "name": "kape", "quantity": 1, "unit": "serving" }
+      ]
+    }
+  },
+  { "note": "uminom ako ng limang baso ng tubig ngayong araw", "expect": { "waterGlasses": 5 } },
+  {
+    "note": "nag-walk ako ng kalahating oras, chill lang",
+    "expect": { "exercises": [{ "activity": "walk", "durationMin": 30, "effort": "light" }] }
+  },
+  {
+    "note": "lunch adobong manok, 1 cup rice tapos isang saging",
+    "expect": {
+      "foods": [
+        { "name": "adobo", "quantity": 1, "unit": "serving" },
+        { "name": "rice", "quantity": 1, "unit": "cup" },
+        { "name": "saging", "quantity": 1, "unit": "piece" }
+      ]
+    }
+  },
+  {
+    "note": "68 kilos ako ngayon, nag-gym ng isang oras, todo",
+    "expect": {
+      "bodyWeightKg": 68,
+      "exercises": [{ "activity": "gym", "durationMin": 60, "effort": "hard" }]
+    }
+  },
+  {
+    "note": "uhm ano, kumain ng tatlong lumpia tapos nag bike 20 minutes",
+    "expect": {
+      "foods": [{ "name": "lumpia", "quantity": 3, "unit": "piece" }],
+      "exercises": [{ "activity": "bike", "durationMin": 20, "effort": "unknown" }]
+    }
+  }
+]

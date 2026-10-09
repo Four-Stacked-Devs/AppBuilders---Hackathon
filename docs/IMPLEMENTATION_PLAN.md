@@ -445,7 +445,9 @@ export function generate(opts: GenerateOpts): Promise<string> {
       });
     } finally {
       clearTimeout(timer);
-      session.dispose();      // frees the sequence for the next request (VERIFY)
+      // disposeSequence defaults to false in node-llama-cpp 3.22.1. A plain dispose() keeps
+      // the context's only sequence taken, so the NEXT request throws. Verified 2026-10-10.
+      session.dispose({ disposeSequence: true });
     }
   });
 }
@@ -818,6 +820,8 @@ export function matchFood(name: string) {
 
 Activities use the same pattern with their own index. Add `data/combos.json` for Filipino combo meals so one word expands into parts, for example `"tapsilog": ["tapa_beef", "rice_garlic", "egg_fried"]`. Each part then uses its own sourced row and default portion.
 
+**Water is not a food.** Before matching, any food whose normalized name is `tubig` or `water` is removed from `foods`. If `waterGlasses` is 0, its quantity becomes `waterGlasses`; otherwise the parser's `waterGlasses` value is kept and the food is just dropped. (Benchmark finding: Qwen2.5-3B and 1.5B both returned "uminom ako ng limang baso ng tubig" as a food *and* as `waterGlasses`.)
+
 **Unknown items are never guessed.** An unmatched item appears on the card with its top 3 candidates and a Skip option; it is never sent to the LLM for a calorie estimate.
 
 ### 3.6 Confirmation card (renderer, owner B)
@@ -850,6 +854,7 @@ Keep the database in memory and call `save()` after each confirm. Group entries 
 ### Exit check
 
 - [ ] Five test sentences produce correct cards, including one with an unknown food and one combo meal
+- [ ] `tests/match.test.ts` covers the water rule: `{foods:[{name:'tubig',quantity:5,unit:'baso'}], waterGlasses:0}` → no foods, `waterGlasses: 5`; and `{foods:[{name:'Water',quantity:2,unit:'glass'}], waterGlasses:3}` → no foods, `waterGlasses: 3`
 - [ ] Editing quantity and swapping a match work
 - [ ] Confirm saves an entry; restarting the app keeps it
 - [ ] Commit and `git tag phase-3`
@@ -1460,7 +1465,7 @@ Every risk below has a fallback decided in advance, so nobody debates options at
 ### Items to verify before relying on them
 
 - [ ] Each model repo, file name, size and license on Hugging Face (especially the Qwen2.5-3B license for your use)
-- [ ] node-llama-cpp v3 API names used in `llm.ts`: `getLlama`, `loadModel`, `createContext`, `LlamaChatSession`, `createGrammarForJsonSchema`, prompt options, and how `dispose()` frees the sequence
+- [x] node-llama-cpp v3 API names used in `llm.ts`: `getLlama`, `loadModel`, `createContext`, `LlamaChatSession`, `createGrammarForJsonSchema`, prompt options, and how `dispose()` frees the sequence (verified on 3.22.1: needs `dispose({ disposeSequence: true })`)
 - [ ] Whisper ONNX file names in `onnx-community/whisper-base` and that `dtype: 'q8'` loads the `_quantized` files
 - [ ] The `onnxruntime-web` dist path and `wasmPaths` setting for your installed transformers.js version
 - [ ] Accepted `language` values for Whisper in transformers.js
