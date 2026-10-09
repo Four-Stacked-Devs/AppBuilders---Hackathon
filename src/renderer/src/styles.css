@@ -22,6 +22,9 @@ html {
   --water: #46acfa;
   --good: #019256;
   --warm: #ff8800;
+  /* Faint card lift seen in the light wireframes; dark cards are flat. */
+  --nav-ring: transparent;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
   /* Hero art goes here later, e.g. url('./assets/hero-light.png'); none until source files exist. */
   --banner-art: none;
 
@@ -46,6 +49,8 @@ html {
     --insight: #20161a;
     --sleep: #8c76fd;
     --water: #38adfe;
+    --shadow: none;
+    --nav-ring: #751818;
     color-scheme: dark;
   }
 }
@@ -63,6 +68,8 @@ html {
   --insight: #20161a;
   --sleep: #8c76fd;
   --water: #38adfe;
+  --shadow: none;
+  --nav-ring: #751818;
   color-scheme: dark;
 }
 
@@ -156,7 +163,7 @@ p {
 
 .app {
   display: grid;
-  grid-template-columns: 18rem 1fr;
+  grid-template-columns: 19rem 1fr;
   height: 100%;
 }
 
@@ -206,6 +213,7 @@ p {
   background: none;
   font-size: 1.1rem;
   text-align: left;
+  white-space: nowrap;
 }
 
 .nav-item:hover {
@@ -213,6 +221,7 @@ p {
 }
 
 .nav-item[aria-current='page'] {
+  box-shadow: inset 0 0 0 1px var(--nav-ring); /* dark wireframe pill edge, sampled */
   background: var(--primary-soft);
   color: var(--primary);
   font-weight: 500;
@@ -257,6 +266,7 @@ p {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
   padding: 1.6rem;
 }
 
@@ -420,6 +430,7 @@ p {
   margin-bottom: 1rem;
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
   background-image:
     var(--banner-art), linear-gradient(100deg, var(--surface) 40%, var(--primary-soft) 100%);
   background-position: right center;
@@ -476,6 +487,16 @@ p {
 
 .stat[data-tone='water'] svg {
   color: var(--water);
+}
+
+/* Solid glyphs, as in the wireframe stat and chart cards. */
+.stat .lucide-flame,
+.stat .lucide-droplet,
+.stat .lucide-moon,
+.bar-card .lucide-droplet,
+.bar-card .lucide-moon,
+.banner .lucide-flame {
+  fill: currentColor;
 }
 
 .stat .value {
@@ -727,6 +748,7 @@ p {
   height: 2.6rem;
   border: 1px solid var(--line);
   border-radius: 50%;
+  background: var(--surface-2);
   font-size: 1.05rem;
 }
 
@@ -961,6 +983,11 @@ p {
   justify-content: space-between;
   align-items: center;
   margin-top: 2.4rem;
+}
+
+/* The welcome step's button sits under the text, on the left. */
+.welcome ~ .wizard-actions {
+  justify-content: flex-start;
 }
 
 /* ---------- talk (chat) ---------- */
