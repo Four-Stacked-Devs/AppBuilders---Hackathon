@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "foods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "quantity": { "type": "number" },
+          "unit": { "type": "string" }
+        },
+        "required": ["name", "quantity", "unit"]
+      }
+    },
+    "exercises": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "activity": { "type": "string" },
+          "durationMin": { "type": "number" },
+          "effort": { "type": "string", "enum": ["light", "moderate", "hard", "unknown"] }
+        },
+        "required": ["activity", "durationMin", "effort"]
+      }
+    },
+    "sleepHours": { "type": "number" },
+    "waterGlasses": { "type": "number" },
+    "bodyWeightKg": { "type": "number" },
+    "unclear": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["foods", "exercises", "sleepHours", "waterGlasses", "bodyWeightKg", "unclear"]
+}
