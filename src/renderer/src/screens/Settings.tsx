@@ -3,6 +3,7 @@ import { ageYears } from '@shared/calc'
 import { useVox } from '../store'
 import type { ThemePref } from '../theme'
 import { AiChip } from '../components/AiChip'
+import { OnDeviceFacts } from '../components/OnDeviceFacts'
 
 const THEMES: { id: ThemePref; label: string; icon: typeof Sun }[] = [
   { id: 'light', label: 'Light', icon: Sun },
@@ -118,6 +119,7 @@ export function Settings(): React.JSX.Element {
           <div style={{ marginTop: '1.2rem' }}>
             <AiChip status={ai} />
           </div>
+          <OnDeviceFacts />
         </section>
       </div>
     </div>

@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import type { AiStatus } from '@shared/status'
 import { initLlm } from './ai/llm'
 import { registerIpc } from './ipc'
+import { requests } from './meta'
 
 // Dev only: run a second, separate VOX (its own data file and browser profile) for testing,
 // e.g. VOX_USER_DATA=/tmp/vox-test. Must be set before the app is ready.
@@ -64,6 +65,13 @@ app.whenReady().then(() => {
   })
 
   // Only the microphone (for local Whisper) is ever granted.
+  // Count every request the window makes to the internet (shown in Settings). Nothing is
+  // blocked here; the page's CSP already limits connections to the app itself.
+  session.defaultSession.webRequest.onBeforeRequest((details, cb) => {
+    requests.record(details.url)
+    cb({})
+  })
+
   session.defaultSession.setPermissionRequestHandler((_wc, permission, cb) =>
     cb(permission === 'media')
   )

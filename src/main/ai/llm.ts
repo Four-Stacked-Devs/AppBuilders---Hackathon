@@ -5,7 +5,7 @@ import type { AiStatus } from '@shared/status'
 import { fakeGenerate } from './fakeLlm'
 
 export const FAKE_LLM = process.env.VOX_FAKE_LLM === '1'
-const MODEL_FILE = process.env.VOX_MODEL_FILE ?? 'qwen2.5-3b-instruct-q4_k_m.gguf'
+export const MODEL_FILE = process.env.VOX_MODEL_FILE ?? 'qwen2.5-3b-instruct-q4_k_m.gguf'
 
 let nlc: typeof import('node-llama-cpp')
 let llama: Llama
@@ -13,6 +13,9 @@ let model: LlamaModel
 let context: LlamaContext
 let queue: Promise<unknown> = Promise.resolve()
 let status: AiStatus = { state: 'loading' }
+let gpu: string | null = null // 'metal' | 'vulkan' | 'cuda' | 'cpu', once loaded
+
+export const getGpu = (): string | null => (FAKE_LLM ? 'mock mode' : gpu)
 
 export const getStatus = (): AiStatus => status
 
@@ -34,6 +37,7 @@ export async function initLlm(onStatus: (s: AiStatus) => void): Promise<void> {
     set({ state: 'loading', message: 'Loading AI model on this computer…' })
     nlc = await import('node-llama-cpp') // ESM-only package: dynamic import
     llama = await nlc.getLlama() // picks Metal / Vulkan / CUDA / CPU
+    gpu = llama.gpu || 'cpu'
     model = await llama.loadModel({ modelPath: modelPath() })
     context = await model.createContext({ contextSize: 4096 })
     await generate({

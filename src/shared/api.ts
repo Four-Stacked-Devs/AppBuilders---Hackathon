@@ -16,6 +16,18 @@ export interface VoxApi {
     status(): Promise<AiStatus>
     onStatus(cb: (s: AiStatus) => void): () => void
   }
+  meta: {
+    // What runs where, and how many requests the window has made to the internet since launch.
+    get(): Promise<{
+      modelFile: string
+      gpu: string | null
+      whisperModel: string
+      dataFile: string
+      outsideRequests: number
+      lastOutsideHost: string | null
+      since: string
+    }>
+  }
   profile: {
     get(): Promise<Profile | null>
     save(p: ProfileInput): Promise<Profile>
