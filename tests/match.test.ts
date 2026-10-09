@@ -97,6 +97,20 @@ describe('water rule', () => {
     expect(out.foods).toEqual([])
     expect(out.waterGlasses).toBe(3)
   })
+  it('catches water named inside a phrase', () => {
+    const out = applyWaterRule(
+      parsed({ foods: [{ name: 'baso ng tubig', quantity: 3, unit: 'glass' }] })
+    )
+    expect(out).toMatchObject({ foods: [], waterGlasses: 3 })
+  })
+  it('treats a bare "baso" as water only when the note mentions water', () => {
+    const food = { name: 'baso', quantity: 3, unit: 'serving' }
+    expect(applyWaterRule(parsed({ foods: [food] }), '3 baso ng tubig')).toMatchObject({
+      foods: [],
+      waterGlasses: 3
+    })
+    expect(applyWaterRule(parsed({ foods: [food] }), '3 baso ng gatas').foods).toHaveLength(1)
+  })
   it('leaves other foods alone', () => {
     const out = applyWaterRule(parsed({ foods: [{ name: 'kanin', quantity: 1, unit: 'cup' }] }))
     expect(out.foods).toHaveLength(1)

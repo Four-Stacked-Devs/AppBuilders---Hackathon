@@ -30,7 +30,7 @@ export async function parseLog(text: string): Promise<ParseResult> {
       })
       const result = ParsedLog.safeParse(JSON.parse(raw))
       if (result.success) {
-        const parsed = applyWaterRule(result.data)
+        const parsed = applyWaterRule(result.data, text)
         return {
           ok: true,
           parsed,

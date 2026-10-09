@@ -46,16 +46,22 @@ const UNIT_WORDS: Record<string, PortionUnit> = {
 // The model keeps units as the user said them; this maps them to portion keys (plan 3.4).
 export const normalizeUnit = (raw: string): PortionUnit => UNIT_WORDS[norm(raw)] ?? 'serving'
 
-const WATER = new Set(['tubig', 'water'])
+const WATER_WORD = /\b(tubig|water)\b/
+const CONTAINER = new Set(['baso', 'glass', 'glasses'])
 
-// Water is logged as glasses, never as a food (plan 3.5).
-export function applyWaterRule(p: ParsedLog): ParsedLog {
-  const water = p.foods.filter((f) => WATER.has(norm(f.name)))
+// Water is logged as glasses, never as a food (plan 3.5). Catches "tubig", "baso ng tubig",
+// and a bare "baso" (glass) when the note itself mentions water, which Qwen2.5-3B returned
+// for "3 baso ng tubig".
+export function applyWaterRule(p: ParsedLog, rawText = ''): ParsedLog {
+  const noteHasWater = WATER_WORD.test(norm(rawText))
+  const isWater = (name: string): boolean =>
+    WATER_WORD.test(norm(name)) || (noteHasWater && CONTAINER.has(norm(name)))
+  const water = p.foods.filter((f) => isWater(f.name))
   if (water.length === 0) return p
   const glasses = p.waterGlasses || water.reduce((n, f) => n + f.quantity, 0)
   return {
     ...p,
-    foods: p.foods.filter((f) => !WATER.has(norm(f.name))),
+    foods: p.foods.filter((f) => !isWater(f.name)),
     waterGlasses: Math.min(glasses, 30)
   }
 }
