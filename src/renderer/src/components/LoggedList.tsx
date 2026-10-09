@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ListChecks } from 'lucide-react'
 import type { LogEntry } from '@shared/schemas'
+import { SkeletonRows } from './Skeleton'
 import { entrySummary, sayingOf, timeOfDay } from '../format'
 
 // The day's logs, each deletable after a confirm step. Deleting removes the entry from this
@@ -49,7 +50,7 @@ export function LoggedList(props: {
         {title}
       </h3>
       {entries === null ? (
-        <p className="empty">Loading…</p>
+        <SkeletonRows n={2} />
       ) : entries.length === 0 ? (
         <p className="empty">Nothing logged yet.</p>
       ) : (

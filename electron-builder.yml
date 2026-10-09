@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: vox
+appId: com.vox.app
+productName: VOX
 directories:
   buildResources: build
 files:

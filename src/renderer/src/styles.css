@@ -1536,3 +1536,125 @@ p {
   align-items: center;
   gap: 0.4rem;
 }
+
+/* ---------- panther loader, splash and skeletons ---------- */
+
+.panther-loader {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.panther-loader img {
+  display: block;
+  width: 16rem;
+  height: auto;
+  user-select: none;
+}
+
+.panther-loader[data-size='sm'] img {
+  width: 8rem;
+}
+
+.panther-loader[data-size='lg'] img {
+  width: 26rem;
+}
+
+.panther-bar {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 0.5rem;
+  border-radius: 99rem;
+  background: var(--line);
+}
+
+.panther-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+  transition: width 0.25s ease-out;
+}
+
+.panther-bar[data-indeterminate='true'] span {
+  width: 40%;
+  animation: sweep 1.2s ease-in-out infinite;
+}
+
+.panther-label {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  background: var(--bg);
+  text-align: center;
+}
+
+.splash h1 {
+  letter-spacing: 0.08em;
+}
+
+.skeleton {
+  display: block;
+  border-radius: 0.6rem;
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--line) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.skeleton-col {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.skeleton-bars {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  align-items: end;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
+}

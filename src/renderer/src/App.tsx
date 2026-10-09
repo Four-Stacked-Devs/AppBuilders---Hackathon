@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useVox } from './store'
 import { Sidebar } from './components/Sidebar'
+import { Splash } from './components/Splash'
 import { Setup } from './screens/Setup'
 import { Onboarding } from './screens/Onboarding'
 import { Talk } from './screens/Talk'
@@ -10,6 +11,7 @@ import { Settings } from './screens/Settings'
 
 function App(): React.JSX.Element {
   const { screen, setAi, ai, profile, profileLoaded, setProfile } = useVox()
+  const [skipSplash, setSkipSplash] = useState(false)
 
   useEffect(() => {
     const off = window.vox.ai.onStatus(setAi)
@@ -26,6 +28,8 @@ function App(): React.JSX.Element {
         </main>
       </div>
     )
+  if (ai.state === 'loading' && !skipSplash)
+    return <Splash status={ai} onSkip={() => setSkipSplash(true)} />
   if (!profileLoaded) return <div className="app bare" />
   if (!profile || screen === 'onboarding')
     return (
