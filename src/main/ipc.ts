@@ -4,6 +4,7 @@ import {
   ConfirmInput,
   DateArg,
   LogText,
+  FindingId,
   PlanAction,
   PlanAddInput,
   ProfileInput
@@ -12,6 +13,7 @@ import { getStatus } from './ai/llm'
 import { parseLog } from './ai/parse'
 import { confirmLog, deleteEntry, getDay, getEntries, getHistory, getStreak } from './confirm'
 import { seedDemoHistory } from './dev/seed'
+import { dismissInsight, getInsights } from './insights'
 import { getMeta } from './meta'
 import { addPlan, listActivities, listPlans, resolvePlan } from './plans'
 import { getProfile, saveProfile } from './profile'
@@ -41,6 +43,9 @@ export function registerIpc(): void {
   handle('history:range', z.tuple([DateArg, DateArg]), (from, to) => getHistory(from, to))
   handle('day:entries', z.tuple([DateArg]), (date) => getEntries(date))
   handle('streak:get', none, () => getStreak())
+
+  handle('insights:get', none, () => getInsights())
+  handle('insights:dismiss', z.tuple([FindingId]), (id) => dismissInsight(id))
 
   handle('plan:list', none, () => listPlans())
   handle('plan:activities', none, () => listActivities())

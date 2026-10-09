@@ -286,6 +286,27 @@ export type PlanAddInput = z.infer<typeof PlanAddInput>
 export const PlanAction = z.enum(['retry', 'shrink', 'drop'])
 export type PlanAction = z.infer<typeof PlanAction>
 
+// ---------- Habit insights ----------
+
+export const FindingId = z.enum(['active-days', 'short-sleep', 'best-day'])
+export type FindingId = z.infer<typeof FindingId>
+
+// A pattern found by plain rules over the saved logs, with the logs that show it.
+export const Finding = z.object({
+  id: FindingId,
+  text: z.string(),
+  evidence: z.array(
+    z.object({ id: z.string(), date: LocalDate, rawText: z.string(), seeded: z.boolean() })
+  )
+})
+export type Finding = z.infer<typeof Finding>
+
+export const InsightList = z.object({
+  enough: z.boolean(), // false until at least 3 of the last 7 days have a log
+  findings: z.array(Finding)
+})
+export type InsightList = z.infer<typeof InsightList>
+
 // ---------- IPC argument schemas ----------
 
 export const LogText = z.string().trim().min(1).max(500)

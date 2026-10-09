@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ListChecks } from 'lucide-react'
 import type { LogEntry } from '@shared/schemas'
-import { entrySummary, timeOfDay } from '../format'
+import { entrySummary, sayingOf, timeOfDay } from '../format'
 
 // The day's logs, each deletable after a confirm step. Deleting removes the entry from this
 // computer; the day's totals are rebuilt from the remaining entries by main.
@@ -58,9 +58,7 @@ export function LoggedList(props: {
             <div className="metric logged-row" key={e.id}>
               <span className="logged-time">{timeOfDay(e.createdAt)}</span>
               <div className="logged-text">
-                <div>
-                  “{e.rawText}”{e.seeded && <span className="muted"> (demo)</span>}
-                </div>
+                <div>{sayingOf(e)}</div>
                 <div className="muted small">{entrySummary(e, showWeight)}</div>
               </div>
               {confirming === e.id ? (

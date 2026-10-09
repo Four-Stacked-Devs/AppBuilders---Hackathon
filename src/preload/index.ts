@@ -26,6 +26,10 @@ const api: VoxApi = {
     entries: (d) => ipcRenderer.invoke('day:entries', d)
   },
   entry: { delete: (id) => ipcRenderer.invoke('entry:delete', id) },
+  insights: {
+    get: () => ipcRenderer.invoke('insights:get'),
+    dismiss: (id) => ipcRenderer.invoke('insights:dismiss', id)
+  },
   plan: {
     list: () => ipcRenderer.invoke('plan:list'),
     activities: () => ipcRenderer.invoke('plan:activities'),

@@ -3,6 +3,8 @@ import type {
   ConfirmResult,
   Commitment,
   DaySummary,
+  FindingId,
+  InsightList,
   LogEntry,
   ParseResult,
   PlanAction,
@@ -44,6 +46,10 @@ export interface VoxApi {
   day: {
     get(date: string): Promise<DaySummary>
     entries(date: string): Promise<LogEntry[]> // oldest first
+  }
+  insights: {
+    get(): Promise<InsightList> // habit patterns with the logs behind them
+    dismiss(id: FindingId): Promise<{ ok: true }> // "This isn't right": not shown again
   }
   plan: {
     list(): Promise<PlanList> // plans around today plus the comeback and rest flags

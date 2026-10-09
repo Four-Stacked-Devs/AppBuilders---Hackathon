@@ -8,11 +8,12 @@ export const Db = z.object({
   version: z.literal(1),
   profile: Profile.nullable(),
   entries: z.array(LogEntry),
-  commitments: z.array(Commitment).default([]) // older files have none
+  commitments: z.array(Commitment).default([]), // older files have none
+  dismissed: z.array(z.string()).default([]) // insight ids the person said are not right
 })
 export type Db = z.infer<typeof Db>
 
-const empty = (): Db => ({ version: 1, profile: null, entries: [], commitments: [] })
+const empty = (): Db => ({ version: 1, profile: null, entries: [], commitments: [], dismissed: [] })
 
 export type Store = { get: () => Db; update: (fn: (db: Db) => Db) => Db }
 
