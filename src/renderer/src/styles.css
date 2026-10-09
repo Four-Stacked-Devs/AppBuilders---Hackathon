@@ -1528,3 +1528,11 @@ p {
   color: var(--good);
   font-weight: 600;
 }
+
+/* ---------- trends (Progress) ---------- */
+
+.trend-word {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
