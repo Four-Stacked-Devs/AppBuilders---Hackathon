@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useVox } from './store'
 import { Sidebar } from './components/Sidebar'
 import { Setup } from './screens/Setup'
-import { ProfileScreen } from './screens/Profile'
+import { Onboarding } from './screens/Onboarding'
 import { LogScreen } from './screens/Log'
 import { TodayScreen } from './screens/Today'
 
@@ -29,7 +29,7 @@ function App(): React.JSX.Element {
     return (
       <div className="app bare">
         <main className="main">
-          <ProfileScreen />
+          <Onboarding />
         </main>
       </div>
     )
