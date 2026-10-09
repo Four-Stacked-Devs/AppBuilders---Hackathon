@@ -40,14 +40,19 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
   const today = localDate()
   const period = PERIOD[tab]
   const [anchor, setAnchor] = useState(today)
-  const [days, setDays] = useState<DaySummary[] | null>(null)
+  // Data is tagged with the range it was fetched for, so a new period never shows old numbers.
+  const [loaded, setLoaded] = useState<{ key: string; days: DaySummary[] } | null>(null)
   const [seeding, setSeeding] = useState(false)
   const range = periodRange(period, anchor)
   const to = range.to > today ? today : range.to
 
+  const days = loaded?.key === `${range.from}|${to}` ? loaded.days : null
+
   useEffect(() => {
     let alive = true
-    window.vox.history.range(range.from, to).then((d) => alive && setDays(d))
+    window.vox.history
+      .range(range.from, to)
+      .then((d) => alive && setLoaded({ key: `${range.from}|${to}`, days: d }))
     return () => {
       alive = false
     }
@@ -88,7 +93,10 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
     setSeeding(true)
     try {
       await window.vox.dev.seed()
-      setDays(await window.vox.history.range(range.from, to))
+      setLoaded({
+        key: `${range.from}|${to}`,
+        days: await window.vox.history.range(range.from, to)
+      })
     } finally {
       setSeeding(false)
     }
