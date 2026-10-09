@@ -38,7 +38,16 @@ export async function initLlm(onStatus: (s: AiStatus) => void): Promise<void> {
     nlc = await import('node-llama-cpp') // ESM-only package: dynamic import
     llama = await nlc.getLlama() // picks Metal / Vulkan / CUDA / CPU
     gpu = llama.gpu || 'cpu'
-    model = await llama.loadModel({ modelPath: modelPath() })
+    let lastPct = -1
+    model = await llama.loadModel({
+      modelPath: modelPath(),
+      onLoadProgress: (p) => {
+        const pct = Math.round(p * 100)
+        if (pct === lastPct) return // at most one update per percent
+        lastPct = pct
+        set({ state: 'loading', message: 'Loading AI model on this computer…', progress: p })
+      }
+    })
     context = await model.createContext({ contextSize: 4096 })
     await generate({
       system: 'Reply with OK.',

@@ -6,6 +6,7 @@ import type { DaySummary } from '@shared/schemas'
 import { useVox } from '../store'
 import { shortDate } from '../format'
 import { useTokens } from '../useTokens'
+import { SkeletonCard, SkeletonChart } from '../components/Skeleton'
 import { BarCard } from '../components/BarCard'
 import { HabitInsights } from '../components/HabitInsights'
 import { TrendsPanel } from '../components/TrendsPanel'
@@ -46,7 +47,11 @@ export function Progress(): React.JSX.Element {
         </div>
       </div>
       {days === null ? (
-        <p className="muted">Loading…</p>
+        <div className="stack">
+          <SkeletonChart h="16rem" />
+          <SkeletonCard />
+          <SkeletonChart />
+        </div>
       ) : (
         <div className="stack">
           {adult && <WeightChart days={days} />}

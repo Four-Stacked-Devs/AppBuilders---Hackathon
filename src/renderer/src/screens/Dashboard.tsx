@@ -21,6 +21,7 @@ import { PlansPanel } from '../components/PlansPanel'
 import { usePlans } from '../usePlans'
 import { COMEBACK_TEXT } from '@shared/insights/copy'
 import { PeriodNav } from '../components/PeriodNav'
+import { SkeletonStats } from '../components/Skeleton'
 import { StatCard } from '../components/StatCard'
 import { StreakCard } from '../components/StreakCard'
 import { WeightChart } from '../components/WeightChart'
@@ -189,7 +190,7 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
       </div>
 
       {days === null ? (
-        <p className="muted">Loading…</p>
+        <SkeletonStats />
       ) : tab === 'today' ? (
         day && (
           <>
