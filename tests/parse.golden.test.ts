@@ -37,16 +37,23 @@ afterAll(async () => {
 })
 
 describe(`golden parse (${MODEL_FILE})`, () => {
-  it.each(golden)('$note', async ({ note, expect: want }) => {
-    const session = new nlc.LlamaChatSession({ contextSequence: context.getSequence(), systemPrompt: prompt })
-    try {
-      const raw = await session.prompt(note, { grammar, temperature: 0, maxTokens: 300 })
-      const parsed = applyWaterRule(ParsedLog.parse(JSON.parse(raw)))
-      const errors = checkParse(parsed, want)
-      results.push(errors.length === 0)
-      expect(errors, raw).toEqual([])
-    } finally {
-      session.dispose({ disposeSequence: true })
-    }
-  }, 60_000)
+  it.each(golden)(
+    '$note',
+    async ({ note, expect: want }) => {
+      const session = new nlc.LlamaChatSession({
+        contextSequence: context.getSequence(),
+        systemPrompt: prompt
+      })
+      try {
+        const raw = await session.prompt(note, { grammar, temperature: 0, maxTokens: 300 })
+        const parsed = applyWaterRule(ParsedLog.parse(JSON.parse(raw)), note)
+        const errors = checkParse(parsed, want)
+        results.push(errors.length === 0)
+        expect(errors, raw).toEqual([])
+      } finally {
+        session.dispose({ disposeSequence: true })
+      }
+    },
+    60_000
+  )
 })
