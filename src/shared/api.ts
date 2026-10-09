@@ -32,8 +32,4 @@ export interface VoxApi {
   dev: {
     seed(): Promise<{ entries: number }> // demo history, every entry marked seeded (Phase 5.3)
   }
-  // Temporary Phase 1 debug hook: sends raw text to the model, returns raw output.
-  debug: {
-    generate(text: string): Promise<string>
-  }
 }

@@ -22,10 +22,7 @@ const api: VoxApi = {
   },
   day: { get: (d) => ipcRenderer.invoke('day:get', d) },
   history: { range: (f, t) => ipcRenderer.invoke('history:range', f, t) },
-  dev: { seed: () => ipcRenderer.invoke('dev:seed') },
-  debug: {
-    generate: (text) => ipcRenderer.invoke('debug:generate', text)
-  }
+  dev: { seed: () => ipcRenderer.invoke('dev:seed') }
 }
 
 contextBridge.exposeInMainWorld('vox', api)

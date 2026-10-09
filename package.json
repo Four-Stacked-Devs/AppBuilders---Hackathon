@@ -23,11 +23,13 @@
     "ort:copy": "node scripts/copy-ort-wasm.mjs",
     "bench": "node scripts/bench-models.mjs",
     "dev:mock": "VOX_FAKE_LLM=1 electron-vite dev",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:golden": "vitest run --config vitest.golden.config.ts"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@huggingface/transformers": "^4.3.1",
     "fuse.js": "^7.5.0",
     "node-llama-cpp": "^3.22.1",

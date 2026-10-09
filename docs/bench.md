@@ -42,3 +42,25 @@ not pure generation speed.
 Loaded `qwen2.5-3b-instruct-q4_k_m.gguf` inside Electron 39.8.10 (`npm run dev`) on the
 same machine: status went loading → ready within about 4 s of launch, and a short debug
 prompt returned in 0.7 s.
+
+## Windows laptop, full pipeline (Phases 3–6)
+
+- **Date:** 2026-10-10, ~04:30–05:00 PHT
+- **Machine:** Windows 11 laptop, Intel Core i5-11400H, 16 GB RAM, NVIDIA RTX 3050 Laptop GPU
+- **Backend:** node-llama-cpp 3.22.1 prebuilt, **Vulkan** (`inspect gpu`: CUDA runtime not
+  installed). Electron 39 via `npm run dev`.
+- **Conditions:** memory was tight: `inspect gpu` reported 96% RAM used and 32 GB of swap in
+  use while the app and other programs were open. Not best-case numbers.
+- **Model:** `qwen2.5-3b-instruct-q4_k_m.gguf`; Whisper `onnx-community/whisper-base` q8 on WASM.
+
+| What | Measured |
+| --- | --- |
+| Golden parse (`npm run test:golden`, after the app's water rule) | **9/10**; 73.5 s for all 10 sentences including model load. Miss: `saging` got unit `serving` |
+| In-app parse, "I went jogging for 30 minutes and drank 3 glasses of water." | 1.75 s (`window.vox.log.parse`, timed in the renderer) |
+| In-app confirm with AI explain (basketball 120 min) | 1.8 s from Confirm click to reaction shown |
+| First parse right after launch, under heavy swap | still running at 12 s, finished before 32 s; not timed precisely |
+| Whisper, 4.4 s English clip (Windows SAPI voice, 16 kHz) | 4.72 s first run, 4.55 s second; transcript exact |
+| Outside network requests from the page during the voice test | 0 (`performance.getEntriesByType('resource')`) |
+
+Whisper was only tested with a synthetic English clip. Taglish speech and the `language`
+setting (auto, english, tagalog) still need testing with a real voice on the demo laptop.
