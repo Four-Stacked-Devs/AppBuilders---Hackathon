@@ -51,7 +51,7 @@ describe('weightChange', () => {
         day('2026-09-02'),
         day('2026-09-20', { bodyWeightKg: 69.05 })
       ])
-    ).toEqual({ latestKg: 69.1, changeKg: -1.2, since: '2026-09-01' })
+    ).toEqual({ latestKg: 69.1, changeKg: -1.1, since: '2026-09-01' }) // change matches the rounded numbers shown: 69.1 - 70.2
   })
   it('is null with no weigh-ins', () => {
     expect(weightChange([day('2026-09-01')])).toBeNull()

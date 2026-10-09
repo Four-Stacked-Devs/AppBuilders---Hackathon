@@ -41,7 +41,8 @@ export function weightChange(
   const last = w[w.length - 1]
   return {
     latestKg: tenth(last.bodyWeightKg as number),
-    changeKg: tenth((last.bodyWeightKg as number) - (first.bodyWeightKg as number)),
+    // From the rounded values, so the change always matches the numbers shown beside it.
+    changeKg: tenth(tenth(last.bodyWeightKg as number) - tenth(first.bodyWeightKg as number)),
     since: first.date
   }
 }
