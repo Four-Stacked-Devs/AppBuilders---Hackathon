@@ -1,11 +1,19 @@
 import { app, ipcMain } from 'electron'
 import { z } from 'zod'
-import { ConfirmInput, DateArg, LogText, ProfileInput } from '@shared/schemas'
+import {
+  ConfirmInput,
+  DateArg,
+  LogText,
+  PlanAction,
+  PlanAddInput,
+  ProfileInput
+} from '@shared/schemas'
 import { getStatus } from './ai/llm'
 import { parseLog } from './ai/parse'
 import { confirmLog, deleteEntry, getDay, getEntries, getHistory, getStreak } from './confirm'
 import { seedDemoHistory } from './dev/seed'
 import { getMeta } from './meta'
+import { addPlan, listActivities, listPlans, resolvePlan } from './plans'
 import { getProfile, saveProfile } from './profile'
 
 // Every handler validates its arguments (as a tuple) with Zod before touching them.
@@ -33,6 +41,13 @@ export function registerIpc(): void {
   handle('history:range', z.tuple([DateArg, DateArg]), (from, to) => getHistory(from, to))
   handle('day:entries', z.tuple([DateArg]), (date) => getEntries(date))
   handle('streak:get', none, () => getStreak())
+
+  handle('plan:list', none, () => listPlans())
+  handle('plan:activities', none, () => listActivities())
+  handle('plan:add', z.tuple([PlanAddInput]), (input) => addPlan(input))
+  handle('plan:resolve', z.tuple([z.string().min(1).max(100), PlanAction]), (id, action) =>
+    resolvePlan(id, action)
+  )
   handle('entry:delete', z.tuple([z.string().min(1).max(100)]), (id) => deleteEntry(id))
 
   // Demo history is a dev tool only; packaged builds never seed.

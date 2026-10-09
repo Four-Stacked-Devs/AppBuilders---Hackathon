@@ -1,17 +1,18 @@
 import { existsSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
 import { z } from 'zod'
-import { LogEntry, Profile } from '@shared/schemas'
+import { Commitment, LogEntry, Profile } from '@shared/schemas'
 
 // JSON file store in the user-data folder. The data is tiny, so the whole database is kept
 // in memory and rewritten atomically after each change. It is never uploaded anywhere.
 export const Db = z.object({
   version: z.literal(1),
   profile: Profile.nullable(),
-  entries: z.array(LogEntry)
+  entries: z.array(LogEntry),
+  commitments: z.array(Commitment).default([]) // older files have none
 })
 export type Db = z.infer<typeof Db>
 
-const empty = (): Db => ({ version: 1, profile: null, entries: [] })
+const empty = (): Db => ({ version: 1, profile: null, entries: [], commitments: [] })
 
 export type Store = { get: () => Db; update: (fn: (db: Db) => Db) => Db }
 
