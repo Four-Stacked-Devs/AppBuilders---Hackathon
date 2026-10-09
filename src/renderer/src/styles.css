@@ -1390,3 +1390,33 @@ p {
 .calc-lines li + li {
   margin-top: 0.4rem;
 }
+
+/* ---------- logged list (Today) ---------- */
+
+.logged {
+  margin-top: 0.6rem;
+}
+
+.logged-row {
+  align-items: flex-start;
+}
+
+.logged-time {
+  flex: none;
+  width: 4.4rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.logged-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.logged-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}

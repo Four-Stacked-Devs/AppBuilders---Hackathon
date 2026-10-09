@@ -108,3 +108,28 @@ describe('calcLine', () => {
     ).toBe('Pandesal: 2 piece = 60 g (product label).')
   })
 })
+
+describe('entrySummary', () => {
+  const entry = {
+    id: 'e', createdAt: '2026-10-10T01:00:00.000Z', date: '2026-10-10', rawText: 'x',
+    facts: {
+      caloriesEnabled: true,
+      items: [
+        { displayName: 'Jogging, general', minutes: 30, intensity: 'vigorous' as const, kcal: 230, source: 's' },
+        { displayName: 'Rice', quantityLabel: '2 cups', kcal: 410, source: 's' }
+      ],
+      dayTotals: { activeMinutes: 0, waterGlasses: 0, sleepHours: 0 }
+    },
+    sleepHours: 7, waterGlasses: 3, bodyWeightKg: 70.5,
+    reaction: { text: 'r', source: 'template' as const }, seeded: false
+  }
+  it('lists items and extras without kcal', async () => {
+    const { entrySummary } = await import('../src/renderer/src/format')
+    expect(entrySummary(entry, true)).toBe('Jogging, general 30 min · Rice 2 cups · 3 glasses water · 7 h sleep · 70.5 kg')
+    expect(entrySummary(entry, false)).not.toMatch(/kg/)
+  })
+  it('says when nothing was saved', async () => {
+    const { entrySummary } = await import('../src/renderer/src/format')
+    expect(entrySummary({ ...entry, facts: { ...entry.facts, items: [] }, sleepHours: 0, waterGlasses: 0, bodyWeightKg: 0 }, true)).toBe('Nothing to count')
+  })
+})
