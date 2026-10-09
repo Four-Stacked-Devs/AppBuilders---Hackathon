@@ -154,6 +154,7 @@ export const FactItem = z.object({
   kcal: z.number().optional(),
   source: z.string()
 })
+export type FactItem = z.infer<typeof FactItem>
 export const Facts = z.object({
   caloriesEnabled: z.boolean(),
   items: z.array(FactItem),
