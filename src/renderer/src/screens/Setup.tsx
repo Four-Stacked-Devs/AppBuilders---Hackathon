@@ -1,10 +1,12 @@
 import type { AiStatus } from '@shared/status'
+import { Brand } from '../components/Brand'
 
 // Shown when the on-device model can't load. Never fails silently.
 export function Setup({ status }: { status: AiStatus }): React.JSX.Element {
   const missing = /no such file|ENOENT|not found|does not exist/i.test(status.message ?? '')
   return (
-    <div className="setup">
+    <div className="setup panel">
+      <Brand />
       <h1>{missing ? 'Model file missing' : 'The AI model did not load'}</h1>
       <p>
         {missing ? (
