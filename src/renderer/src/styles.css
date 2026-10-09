@@ -1420,3 +1420,11 @@ p {
   justify-content: flex-end;
   gap: 0.8rem;
 }
+
+/* ---------- on-device facts (Settings) ---------- */
+
+.dl dd.path {
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 1.05rem;
+}

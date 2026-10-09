@@ -12,6 +12,7 @@ const api: VoxApi = {
       return () => ipcRenderer.removeListener('ai:status-changed', h)
     }
   },
+  meta: { get: () => ipcRenderer.invoke('meta:get') },
   profile: {
     get: () => ipcRenderer.invoke('profile:get'),
     save: (p) => ipcRenderer.invoke('profile:save', p)

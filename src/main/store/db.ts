@@ -5,7 +5,9 @@ import { createStore, type Store } from './store'
 let store: Store | null = null
 
 // The app's single store, in Electron's user-data folder. Created on first use.
+export const dataFilePath = (): string => join(app.getPath('userData'), 'vox-data.json')
+
 export function db(): Store {
-  store ??= createStore(join(app.getPath('userData'), 'vox-data.json'))
+  store ??= createStore(dataFilePath())
   return store
 }

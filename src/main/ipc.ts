@@ -5,6 +5,7 @@ import { getStatus } from './ai/llm'
 import { parseLog } from './ai/parse'
 import { confirmLog, deleteEntry, getDay, getEntries, getHistory } from './confirm'
 import { seedDemoHistory } from './dev/seed'
+import { getMeta } from './meta'
 import { getProfile, saveProfile } from './profile'
 
 // Every handler validates its arguments (as a tuple) with Zod before touching them.
@@ -20,6 +21,7 @@ const none = z.tuple([])
 
 export function registerIpc(): void {
   handle('ai:status', none, () => getStatus())
+  handle('meta:get', none, () => getMeta())
 
   handle('profile:get', none, () => getProfile())
   handle('profile:save', z.tuple([ProfileInput]), (p) => saveProfile(p))
