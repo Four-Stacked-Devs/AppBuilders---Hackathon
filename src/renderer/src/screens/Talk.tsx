@@ -92,13 +92,15 @@ export function Talk(): React.JSX.Element {
         </div>
       </div>
       <div>
-        <div className="suggestions">
-          {EXAMPLES.map((e) => (
-            <button key={e} className="example" disabled={!ready || busy} onClick={() => send(e)}>
-              {e}
-            </button>
-          ))}
-        </div>
+        {turns.length === 0 && (
+          <div className="suggestions">
+            {EXAMPLES.map((e) => (
+              <button key={e} className="example" disabled={!ready || busy} onClick={() => send(e)}>
+                {e}
+              </button>
+            ))}
+          </div>
+        )}
         <div className="composer">
           <div className="composer-inner">
             <textarea
