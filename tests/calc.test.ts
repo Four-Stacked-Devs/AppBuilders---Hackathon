@@ -43,3 +43,16 @@ describe('ageYears', () => {
   it('reads the date as a local calendar day, not UTC', () =>
     expect(ageYears('2013-10-10', today)).toBe(13))
 })
+
+describe('movingAverage (synthetic values)', () => {
+  it('averages values inside the trailing window', async () => {
+    const { movingAverage } = await import('../src/shared/calc')
+    const out = movingAverage([
+      { date: '2026-10-01', value: 70 },
+      { date: '2026-10-04', value: 72 },
+      { date: '2026-10-08', value: 74 }, // window 10-02..10-08 excludes 10-01
+      { date: '2026-10-30', value: 60 }
+    ])
+    expect(out.map((p) => p.value)).toEqual([70, 71, 73, 60])
+  })
+})
