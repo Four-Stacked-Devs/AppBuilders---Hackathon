@@ -21,6 +21,7 @@
     "build:linux": "electron-vite build && electron-builder --linux",
     "models:download": "node scripts/download-models.mjs",
     "ort:copy": "node scripts/copy-ort-wasm.mjs",
+    "bench": "node scripts/bench-models.mjs",
     "dev:mock": "VOX_FAKE_LLM=1 electron-vite dev",
     "test": "vitest run"
   },
