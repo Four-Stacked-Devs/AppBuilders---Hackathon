@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { ConfirmInput, MatchedItem, ParseResult } from '@shared/schemas'
+import { useVox } from '../store'
 
 type Ok = Extract<ParseResult, { ok: true }>
 type Row = MatchedItem & { key: number; removed?: boolean }
@@ -29,10 +30,12 @@ export function ConfirmCard({
   onCancel: () => void
 }): React.JSX.Element {
   const [rows, setRows] = useState<Row[]>(() => result.items.map((it, key) => ({ ...it, key })))
+  const teen = useVox((s) => s.profile?.mode === 'teen')
   const [extras, setExtras] = useState({
     sleepHours: result.parsed.sleepHours,
     waterGlasses: result.parsed.waterGlasses,
-    bodyWeightKg: result.parsed.bodyWeightKg
+    // Teen mode has no weight content anywhere (main also drops it).
+    bodyWeightKg: teen ? 0 : result.parsed.bodyWeightKg
   })
   const [swapOpen, setSwapOpen] = useState<number | null>(null)
 
