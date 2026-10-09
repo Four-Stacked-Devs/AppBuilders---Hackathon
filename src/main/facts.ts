@@ -147,3 +147,14 @@ export function summarizeDay(
     includesDemoData: day.some((e) => e.seeded)
   }
 }
+
+// The entries without `id`; `deleted` says whether it was there.
+export function removeEntry(
+  entries: LogEntry[],
+  id: string
+): { entries: LogEntry[]; deleted: boolean } {
+  const kept = entries.filter((e) => e.id !== id)
+  return kept.length === entries.length
+    ? { entries, deleted: false }
+    : { entries: kept, deleted: true }
+}

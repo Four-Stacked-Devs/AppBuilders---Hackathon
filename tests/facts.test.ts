@@ -170,3 +170,32 @@ describe('itemCalc', () => {
     expect(calc[0]).not.toHaveProperty('kcalPer100g')
   })
 })
+
+describe('removeEntry', () => {
+  it('drops the entry and its minutes from the day', async () => {
+    const { removeEntry } = await import('../src/main/facts')
+    const base = {
+      createdAt: '2026-10-10T01:00:00.000Z',
+      date: '2026-10-10',
+      rawText: 'x',
+      sleepHours: 0,
+      waterGlasses: 0,
+      bodyWeightKg: 0,
+      reaction: { text: 'r', source: 'template' as const },
+      seeded: false
+    }
+    const facts = (minutes: number): LogEntry['facts'] => ({
+      caloriesEnabled: false,
+      items: [{ displayName: 'A', minutes, source: 's' }],
+      dayTotals: { activeMinutes: 0, waterGlasses: 0, sleepHours: 0 }
+    })
+    const entries: LogEntry[] = [
+      { ...base, id: 'keep', facts: facts(20) },
+      { ...base, id: 'drop', facts: facts(30) }
+    ]
+    const out = removeEntry(entries, 'drop')
+    expect(out.deleted).toBe(true)
+    expect(summarizeDay('2026-10-10', out.entries, null, 30).activeMinutes).toBe(20)
+    expect(removeEntry(entries, 'missing')).toEqual({ entries, deleted: false })
+  })
+})

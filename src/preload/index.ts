@@ -20,7 +20,11 @@ const api: VoxApi = {
     parse: (t) => ipcRenderer.invoke('log:parse', t),
     confirm: (i) => ipcRenderer.invoke('log:confirm', i)
   },
-  day: { get: (d) => ipcRenderer.invoke('day:get', d) },
+  day: {
+    get: (d) => ipcRenderer.invoke('day:get', d),
+    entries: (d) => ipcRenderer.invoke('day:entries', d)
+  },
+  entry: { delete: (id) => ipcRenderer.invoke('entry:delete', id) },
   history: { range: (f, t) => ipcRenderer.invoke('history:range', f, t) },
   dev: { seed: () => ipcRenderer.invoke('dev:seed') }
 }

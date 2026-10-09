@@ -1,5 +1,5 @@
 // Display text only; no new numbers are calculated here (hours are minutes shown as hours).
-import type { CalcItem } from '@shared/schemas'
+import type { CalcItem, LogEntry } from '@shared/schemas'
 
 export const greeting = (hour: number): string =>
   hour >= 5 && hour < 12
@@ -46,4 +46,22 @@ export function calcLine(c: CalcItem): string {
   if (c.kcal === undefined || c.kcalPer100g === undefined)
     return `${c.name}: ${amount} (${foodSource(c.source)}).`
   return `${c.name}: ${amount} × ${c.kcalPer100g} kcal per 100 g (${foodSource(c.source)}) ≈ ${c.kcal} kcal, ${ROUNDED}`
+}
+
+// "08:42" in local time.
+export const timeOfDay = (iso: string): string =>
+  new Date(iso).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+
+// What a saved log counted, without energy numbers: "Jogging 30 min · 3 glasses water".
+export function entrySummary(e: LogEntry, showWeight: boolean): string {
+  const parts = e.facts.items.map((i) =>
+    i.minutes !== undefined
+      ? `${i.displayName} ${i.minutes} min`
+      : `${i.displayName} ${i.quantityLabel ?? ''}`.trim()
+  )
+  if (e.waterGlasses > 0)
+    parts.push(`${e.waterGlasses} ${e.waterGlasses === 1 ? 'glass' : 'glasses'} water`)
+  if (e.sleepHours > 0) parts.push(`${e.sleepHours} h sleep`)
+  if (showWeight && e.bodyWeightKg > 0) parts.push(`${e.bodyWeightKg} kg`)
+  return parts.length ? parts.join(' · ') : 'Nothing to count'
 }

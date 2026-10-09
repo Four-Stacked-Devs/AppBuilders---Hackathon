@@ -9,6 +9,9 @@ import { registerIpc } from './ipc'
 // Dev only: run a second, separate VOX (its own data file and browser profile) for testing,
 // e.g. VOX_USER_DATA=/tmp/vox-test. Must be set before the app is ready.
 if (process.env.VOX_USER_DATA && !app.isPackaged) app.setPath('userData', process.env.VOX_USER_DATA)
+// Dev only: VOX_HIDE_WINDOW=1 opens that test window off-screen and off the taskbar (it is
+// driven over the debug port), so it can't be mistaken for the real app but still renders.
+const hideWindow = !app.isPackaged && process.env.VOX_HIDE_WINDOW === '1'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -21,12 +24,15 @@ function createWindow(): void {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: true
-    }
+      sandbox: true,
+      backgroundThrottling: !hideWindow
+    },
+    ...(hideWindow ? { x: -3000, y: 0, skipTaskbar: true, focusable: false } : {})
   })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    if (hideWindow) mainWindow.showInactive()
+    else mainWindow.show()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

@@ -3,7 +3,7 @@ import { ageYears } from '@shared/calc'
 import { addDays, localDate } from '@shared/dates'
 import type { ConfirmInput, ConfirmResult, DaySummary, Facts, LogEntry } from '@shared/schemas'
 import { explain } from './ai/explain'
-import { computeItems, currentWeightKg, summarizeDay } from './facts'
+import { computeItems, currentWeightKg, removeEntry, summarizeDay } from './facts'
 import { matcher } from './matching/match'
 import { checkSafety } from './safety/rules'
 import { db } from './store/db'
@@ -73,4 +73,23 @@ export function getHistory(from: string, to: string): DaySummary[] {
   const out: DaySummary[] = []
   for (let d = from; d <= to && out.length < 366; d = addDays(d, 1)) out.push(getDay(d))
   return out
+}
+
+// One day's entries, oldest first, for the "Logged today" list.
+export const getEntries = (date: string): LogEntry[] =>
+  db()
+    .get()
+    .entries.filter((e) => e.date === date)
+    .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1))
+
+// Deletes one entry from this computer. Day summaries are always rebuilt from entries, so the
+// totals drop with it.
+export function deleteEntry(id: string): { deleted: boolean } {
+  let deleted = false
+  db().update((d) => {
+    const out = removeEntry(d.entries, id)
+    deleted = out.deleted
+    return { ...d, entries: out.entries }
+  })
+  return { deleted }
 }

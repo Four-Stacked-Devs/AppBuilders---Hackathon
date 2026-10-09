@@ -2,6 +2,7 @@ import type {
   ConfirmInput,
   ConfirmResult,
   DaySummary,
+  LogEntry,
   ParseResult,
   Profile,
   ProfileInput
@@ -25,6 +26,10 @@ export interface VoxApi {
   }
   day: {
     get(date: string): Promise<DaySummary>
+    entries(date: string): Promise<LogEntry[]> // oldest first
+  }
+  entry: {
+    delete(id: string): Promise<{ deleted: boolean }> // removes it from this computer
   }
   history: {
     range(from: string, to: string): Promise<DaySummary[]> // inclusive, oldest first

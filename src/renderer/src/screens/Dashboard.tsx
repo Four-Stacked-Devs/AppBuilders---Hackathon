@@ -16,6 +16,7 @@ import { greeting, longDate, monthLabel, shortDate, shortDay } from '../format'
 import { useTokens } from '../useTokens'
 import { Banner } from '../components/Banner'
 import { BarCard, type BarPoint } from '../components/BarCard'
+import { LoggedList } from '../components/LoggedList'
 import { PeriodNav } from '../components/PeriodNav'
 import { StatCard } from '../components/StatCard'
 import { WeightChart } from '../components/WeightChart'
@@ -89,14 +90,17 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
         ? `${shortDate(range.from)} – ${shortDate(range.to)}, ${range.to.slice(0, 4)}`
         : monthLabel(anchor)
 
+  const refresh = async (): Promise<void> =>
+    setLoaded({
+      key: `${range.from}|${to}`,
+      days: await window.vox.history.range(range.from, to)
+    })
+
   const seed = async (): Promise<void> => {
     setSeeding(true)
     try {
       await window.vox.dev.seed()
-      setLoaded({
-        key: `${range.from}|${to}`,
-        days: await window.vox.history.range(range.from, to)
-      })
+      await refresh()
     } finally {
       setSeeding(false)
     }
@@ -222,6 +226,12 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
                 <p>{day.latestReaction.text}</p>
               </section>
             )}
+            <LoggedList
+              date={anchor}
+              title={anchor === today ? 'Logged today' : `Logged on ${shortDate(anchor)}`}
+              showWeight={adult}
+              onChanged={() => void refresh()}
+            />
           </>
         )
       ) : tab === 'weekly' ? (
