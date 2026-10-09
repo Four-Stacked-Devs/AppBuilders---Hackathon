@@ -1189,7 +1189,6 @@ p {
 }
 
 .mic-status {
-  display: none;
   position: absolute;
   right: 0;
   bottom: calc(100% + 1rem);
@@ -1202,8 +1201,15 @@ p {
   white-space: nowrap;
 }
 
-.mic-status[data-active='true'] {
-  display: block;
+/* Hidden visually while idle but kept in the accessibility tree, so the live region
+   announces errors and recording state. */
+.mic-status:not([data-active='true']) {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
 }
 
 /* ---------- confirm card (markup in ConfirmCard.tsx) ---------- */
