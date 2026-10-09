@@ -24,15 +24,38 @@ const WHISPER = {
   ]
 }
 
+const RETRIES = 5
+
+// Resumes from dest.part with an HTTP Range request, so a dropped connection
+// doesn't restart a 2 GB download from zero.
+async function fetchOnce(url, part) {
+  const have = existsSync(part) ? statSync(part).size : 0
+  const res = await fetch(url, { headers: have ? { Range: `bytes=${have}-` } : {} })
+  if (res.status === 416) return // .part already complete
+  if (!res.ok) throw new Error(`${res.status} ${url}`)
+  const append = have > 0 && res.status === 206
+  if (have && !append) console.log('     server ignored resume, restarting')
+  else if (append) console.log(`     resuming at ${(have / 1e6).toFixed(0)} MB`)
+  await pipeline(Readable.fromWeb(res.body), createWriteStream(part, { flags: append ? 'a' : 'w' }))
+}
+
 async function get(repo, file, dest) {
   if (existsSync(dest) && statSync(dest).size > 0) return console.log('skip', dest)
   mkdirSync(dirname(dest), { recursive: true })
   const url = `https://huggingface.co/${repo}/resolve/main/${file}`
+  const part = dest + '.part'
   console.log('get ', url)
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`${res.status} ${url}`)
-  await pipeline(Readable.fromWeb(res.body), createWriteStream(dest + '.part'))
-  renameSync(dest + '.part', dest)
+  for (let attempt = 1; ; attempt++) {
+    try {
+      await fetchOnce(url, part)
+      break
+    } catch (err) {
+      if (attempt >= RETRIES) throw err
+      console.warn(`     attempt ${attempt} failed (${err.cause?.code ?? err.message}), retrying`)
+      await new Promise((r) => setTimeout(r, 2000 * attempt))
+    }
+  }
+  renameSync(part, dest)
 }
 
 const wanted = process.argv.slice(2).length ? process.argv.slice(2) : ['qwen3b']
