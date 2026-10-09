@@ -299,8 +299,12 @@ export function Onboarding(): React.JSX.Element {
                     )}
                     <dt>Height</dt>
                     <dd>{form.heightCm} cm</dd>
-                    <dt>Weight</dt>
-                    <dd>{form.weightKg} kg</dd>
+                    {mode !== 'teen' && (
+                      <>
+                        <dt>Weight</dt>
+                        <dd>{form.weightKg} kg</dd>
+                      </>
+                    )}
                   </dl>
                 </div>
                 <div className="panel">
