@@ -26,7 +26,13 @@ describe('store', () => {
   it('starts empty and survives a reload', () => {
     const file = join(dir, 'db.json')
     const s = createStore(file)
-    expect(s.get()).toEqual({ version: 1, profile: null, entries: [], commitments: [] })
+    expect(s.get()).toEqual({
+      version: 1,
+      profile: null,
+      entries: [],
+      commitments: [],
+      dismissed: []
+    })
     s.update((db) => ({ ...db, profile }))
     expect(createStore(file).get().profile).toEqual(profile)
   })

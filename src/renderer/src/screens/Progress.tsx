@@ -7,6 +7,7 @@ import { useVox } from '../store'
 import { shortDate } from '../format'
 import { useTokens } from '../useTokens'
 import { BarCard } from '../components/BarCard'
+import { HabitInsights } from '../components/HabitInsights'
 import { TrendsPanel } from '../components/TrendsPanel'
 import { WeightChart } from '../components/WeightChart'
 
@@ -62,6 +63,7 @@ export function Progress(): React.JSX.Element {
               </div>
             </section>
           )}
+          <HabitInsights />
           <TrendsPanel days={days} />
           <p className="sub">Last 30 days</p>
           <div className="grid-2">

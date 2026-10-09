@@ -65,3 +65,7 @@ export function entrySummary(e: LogEntry, showWeight: boolean): string {
   if (showWeight && e.bodyWeightKg > 0) parts.push(`${e.bodyWeightKg} kg`)
   return parts.length ? parts.join(' · ') : 'Nothing to count'
 }
+
+// What was said, quoted; demo entries just say they are demo data.
+export const sayingOf = (e: { rawText: string; seeded: boolean }): string =>
+  e.seeded ? '(demo data)' : `“${e.rawText}”`
