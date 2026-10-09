@@ -216,6 +216,11 @@ p {
   white-space: nowrap;
 }
 
+/* Long labels must not squeeze the icon. */
+.nav-item svg {
+  flex: none;
+}
+
 .nav-item:hover {
   background: var(--surface-2);
 }
