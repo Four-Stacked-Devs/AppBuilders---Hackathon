@@ -6,6 +6,10 @@ import type { AiStatus } from '@shared/status'
 import { initLlm } from './ai/llm'
 import { registerIpc } from './ipc'
 
+// Dev only: run a second, separate VOX (its own data file and browser profile) for testing,
+// e.g. VOX_USER_DATA=/tmp/vox-test. Must be set before the app is ready.
+if (process.env.VOX_USER_DATA && !app.isPackaged) app.setPath('userData', process.env.VOX_USER_DATA)
+
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 1200,
