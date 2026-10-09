@@ -4,6 +4,7 @@ import type { ConfirmInput, ConfirmResult } from '@shared/schemas'
 import { useVox, type Turn } from '../store'
 import { ConfirmCard } from '../components/ConfirmCard'
 import { MicButton } from '../components/MicButton'
+import { calcLine } from '../format'
 import { WorkingSteps } from '../components/WorkingSteps'
 import mark from '../assets/logo-mark.png'
 
@@ -223,6 +224,16 @@ function Reaction({ result }: { result: ConfirmResult }): React.JSX.Element {
       <p>{reaction.text}</p>
       <div className="meta">
         {lines.length > 0 && <div>Saved: {lines.join('; ')}.</div>}
+        {entry.calc && entry.calc.length > 0 && (
+          <details>
+            <summary>How was this calculated?</summary>
+            <ul className="calc-lines">
+              {entry.calc.map((c, i) => (
+                <li key={i}>{calcLine(c)}</li>
+              ))}
+            </ul>
+          </details>
+        )}
         {reaction.source === 'ai' ? (
           <div>Written by the AI on this computer, numbers checked against the facts.</div>
         ) : (

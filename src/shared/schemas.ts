@@ -176,6 +176,36 @@ export const Reaction = z.object({
 })
 export type Reaction = z.infer<typeof Reaction>
 
+// The inputs behind each saved number, for the "How was this calculated?" breakdown. Kept apart
+// from Facts on purpose: the explain step never sees these, so they don't widen the numbers the
+// validator allows. kcal, kcalPer100g and weightKg are absent when calories were off.
+export const CalcItem = z.discriminatedUnion('kind', [
+  z.object({
+    kind: z.literal('food'),
+    refId: z.string(),
+    name: z.string(),
+    quantity: z.number(),
+    unit: z.string(),
+    grams: z.number(),
+    kcalPer100g: z.number().optional(),
+    kcal: z.number().optional(),
+    source: z.string()
+  }),
+  z.object({
+    kind: z.literal('exercise'),
+    refId: z.string(),
+    name: z.string(),
+    minutes: z.number(),
+    met: z.number(),
+    intensity: z.enum(['light', 'moderate', 'vigorous']),
+    compendiumCode: z.string(),
+    weightKg: z.number().optional(),
+    kcal: z.number().optional(),
+    source: z.string()
+  })
+])
+export type CalcItem = z.infer<typeof CalcItem>
+
 export const LogEntry = z.object({
   id: z.string(),
   createdAt: z.iso.datetime(),
@@ -186,7 +216,9 @@ export const LogEntry = z.object({
   waterGlasses: z.number(),
   bodyWeightKg: z.number(),
   reaction: Reaction,
-  seeded: z.boolean() // true only for demo history from dev:seed (Phase 5.3)
+  seeded: z.boolean(), // true only for demo history from dev:seed (Phase 5.3)
+  calc: z.array(CalcItem).optional(), // absent on entries saved before the breakdown existed
+  safety: SafetyHit.exclude(['crisis']).nullable().optional() // 'eating' pauses nudges and streaks
 })
 export type LogEntry = z.infer<typeof LogEntry>
 

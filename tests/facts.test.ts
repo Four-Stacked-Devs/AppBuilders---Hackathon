@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { itemFacts, summarizeDay } from '../src/main/facts'
+import { itemCalc, itemFacts, summarizeDay } from '../src/main/facts'
 import { createMatcher } from '../src/main/matching/match'
 import type { LogEntry, Profile } from '../src/shared/schemas'
 
@@ -132,5 +132,41 @@ describe('summarizeDay', () => {
     const s = summarizeDay('2026-10-10', [entry({})], { ...profile, caloriesEnabled: false }, 25)
     expect(s).not.toHaveProperty('kcalIn')
     expect(s).not.toHaveProperty('tdee')
+  })
+})
+
+describe('itemCalc', () => {
+  const items = [
+    { kind: 'food' as const, refId: 'f', quantity: 2, unit: 'cup' },
+    { kind: 'exercise' as const, refId: 'a', durationMin: 30.4, effort: 'unknown' as const }
+  ]
+  it('carries the inputs and gives the same kcal as itemFacts', () => {
+    const ctx = { matcher, weightKg: 70, caloriesEnabled: true }
+    const calc = itemCalc(items, ctx)
+    const facts = itemFacts(items, ctx)
+    expect(calc.map((c) => c.kcal)).toEqual(facts.map((f) => f.kcal))
+    expect(calc[0]).toMatchObject({
+      kind: 'food',
+      refId: 'f',
+      quantity: 2,
+      unit: 'cup',
+      grams: 316,
+      kcalPer100g: 130
+    })
+    expect(calc[1]).toMatchObject({
+      kind: 'exercise',
+      refId: 'a',
+      minutes: 30,
+      met: 8,
+      weightKg: 70,
+      compendiumCode: '00000',
+      intensity: 'vigorous'
+    })
+  })
+  it('leaves out kcal and weight when calories are off', () => {
+    const calc = itemCalc(items, { matcher, weightKg: 70, caloriesEnabled: false })
+    for (const c of calc) expect(c).not.toHaveProperty('kcal')
+    expect(calc[1]).not.toHaveProperty('weightKg')
+    expect(calc[0]).not.toHaveProperty('kcalPer100g')
   })
 })

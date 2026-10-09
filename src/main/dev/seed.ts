@@ -3,7 +3,7 @@ import { addDays, localDate } from '@shared/dates'
 import { roundHalf } from '@shared/calc'
 import type { ConfirmItem, LogEntry, ProfileInput } from '@shared/schemas'
 import { templateReaction } from '../ai/templates'
-import { currentWeightKg, itemFacts, summarizeDay } from '../facts'
+import { computeItems, currentWeightKg, summarizeDay } from '../facts'
 import { ACTIVITIES, FOODS, matcher } from '../matching/match'
 import { saveProfile } from '../profile'
 import { db } from '../store/db'
@@ -50,7 +50,7 @@ export function seedDemoHistory(): { entries: number } {
     const weighIn = profile.mode === 'adult' && i % 3 === 0
     const bodyWeightKg = weighIn ? roundHalf(profile.weightKg + 0.5 * Math.sin(i / 3)) : 0
     const weightKg = bodyWeightKg || currentWeightKg([...kept, ...seeded], profile, date)
-    const factItems = itemFacts(items, {
+    const { facts: factItems, calc } = computeItems(items, {
       matcher,
       weightKg,
       caloriesEnabled: profile.caloriesEnabled
@@ -69,7 +69,8 @@ export function seedDemoHistory(): { entries: number } {
       waterGlasses: 4 + (i % 4),
       bodyWeightKg,
       reaction: { text: '', source: 'template' },
-      seeded: true
+      seeded: true,
+      calc
     }
     const day = summarizeDay(date, [base], profile, ageYears(profile.birthDate))
     const facts = {
