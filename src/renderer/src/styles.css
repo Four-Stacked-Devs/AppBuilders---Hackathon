@@ -486,7 +486,7 @@ p {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -1484,4 +1484,47 @@ p {
   50% {
     filter: hue-rotate(28deg) brightness(1.1);
   }
+}
+
+/* ---------- plans (Today) ---------- */
+
+.plan-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+}
+
+.plan-form .unit-select {
+  height: 3.6rem;
+  padding: 0 1rem;
+}
+
+.plan-minutes {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.plan-minutes input {
+  width: 7rem;
+}
+
+.plan-cue {
+  flex: 1;
+  min-width: 14rem;
+}
+
+.plan-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.plan-done {
+  color: var(--good);
+  font-weight: 600;
 }

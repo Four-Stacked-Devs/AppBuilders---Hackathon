@@ -17,6 +17,9 @@ import { useTokens } from '../useTokens'
 import { Banner } from '../components/Banner'
 import { BarCard, type BarPoint } from '../components/BarCard'
 import { LoggedList } from '../components/LoggedList'
+import { PlansPanel } from '../components/PlansPanel'
+import { usePlans } from '../usePlans'
+import { COMEBACK_TEXT } from '@shared/insights/copy'
 import { PeriodNav } from '../components/PeriodNav'
 import { StatCard } from '../components/StatCard'
 import { StreakCard } from '../components/StreakCard'
@@ -45,6 +48,8 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
   // Data is tagged with the range it was fetched for, so a new period never shows old numbers.
   const [loaded, setLoaded] = useState<{ key: string; days: DaySummary[] } | null>(null)
   const [seeding, setSeeding] = useState(false)
+  const [planTick, setPlanTick] = useState(0)
+  const plans = usePlans(planTick)
   const range = periodRange(period, anchor)
   const to = range.to > today ? today : range.to
 
@@ -193,9 +198,11 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
                 icon={Flame}
                 title={`${greeting(new Date().getHours())}, ${profile?.nickname}!`}
               >
-                {day.entryCount > 0
-                  ? 'Here’s what you’ve logged today.'
-                  : 'Nothing logged yet today. Tell VOX what you did.'}
+                {plans?.comeback && day.entryCount === 0
+                  ? COMEBACK_TEXT
+                  : day.entryCount > 0
+                    ? 'Here’s what you’ve logged today.'
+                    : 'Nothing logged yet today. Tell VOX what you did.'}
               </Banner>
             )}
             <div className="stats">
@@ -228,11 +235,17 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
                 <p>{day.latestReaction.text}</p>
               </section>
             )}
+            {anchor === today && plans && (
+              <PlansPanel plans={plans} onChanged={() => setPlanTick((n) => n + 1)} />
+            )}
             <LoggedList
               date={anchor}
               title={anchor === today ? 'Logged today' : `Logged on ${shortDate(anchor)}`}
               showWeight={adult}
-              onChanged={() => void refresh()}
+              onChanged={() => {
+                void refresh()
+                setPlanTick((n) => n + 1)
+              }}
             />
           </>
         )

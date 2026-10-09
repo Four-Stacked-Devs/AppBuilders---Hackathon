@@ -26,6 +26,12 @@ const api: VoxApi = {
     entries: (d) => ipcRenderer.invoke('day:entries', d)
   },
   entry: { delete: (id) => ipcRenderer.invoke('entry:delete', id) },
+  plan: {
+    list: () => ipcRenderer.invoke('plan:list'),
+    activities: () => ipcRenderer.invoke('plan:activities'),
+    add: (input) => ipcRenderer.invoke('plan:add', input),
+    resolve: (id, action) => ipcRenderer.invoke('plan:resolve', id, action)
+  },
   streak: { get: () => ipcRenderer.invoke('streak:get') },
   history: { range: (f, t) => ipcRenderer.invoke('history:range', f, t) },
   dev: { seed: () => ipcRenderer.invoke('dev:seed') }

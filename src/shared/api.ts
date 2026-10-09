@@ -1,9 +1,13 @@
 import type {
   ConfirmInput,
   ConfirmResult,
+  Commitment,
   DaySummary,
   LogEntry,
   ParseResult,
+  PlanAction,
+  PlanAddInput,
+  PlanList,
   Profile,
   ProfileInput
 } from './schemas'
@@ -40,6 +44,12 @@ export interface VoxApi {
   day: {
     get(date: string): Promise<DaySummary>
     entries(date: string): Promise<LogEntry[]> // oldest first
+  }
+  plan: {
+    list(): Promise<PlanList> // plans around today plus the comeback and rest flags
+    activities(): Promise<{ id: string; name: string }[]>
+    add(input: PlanAddInput): Promise<Commitment> // today or tomorrow, at most two a day
+    resolve(id: string, action: PlanAction): Promise<{ ok: true }> // for a missed plan
   }
   streak: {
     get(): Promise<Streak> // logging streak for the flame; see src/shared/insights/streak.ts

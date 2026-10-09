@@ -246,6 +246,46 @@ export const ConfirmResult = z.object({
 })
 export type ConfirmResult = z.infer<typeof ConfirmResult>
 
+// ---------- Plans: "Plano ko bukas" ----------
+
+// An if-then plan the person made for a day, e.g. 20 minutes of walking after waking up.
+export const Commitment = z.object({
+  id: z.string(),
+  date: LocalDate, // the day the plan is for
+  activityRefId: z.string(),
+  activityName: z.string(),
+  minutes: z.number().int().min(5).max(300),
+  cue: z.string().max(40).optional(), // e.g. "pagkagising"
+  createdAt: z.iso.datetime(),
+  resolution: z.enum(['retried', 'shrunk', 'dropped']).optional() // set once a missed plan is dealt with
+})
+export type Commitment = z.infer<typeof Commitment>
+
+export const PlanStatus = z.enum(['kept', 'pending', 'missed', 'resolved'])
+export type PlanStatus = z.infer<typeof PlanStatus>
+
+export const PlanItem = Commitment.extend({ status: PlanStatus })
+export type PlanItem = z.infer<typeof PlanItem>
+
+export const PlanList = z.object({
+  plans: z.array(PlanItem), // yesterday, today and tomorrow
+  comeback: z.boolean(), // 3 or more days with nothing logged
+  rest: z.boolean(), // hard days with little sleep, 3 days running
+  nudgesOff: z.boolean() // an eating-related safety message was shown in the last 14 days
+})
+export type PlanList = z.infer<typeof PlanList>
+
+export const PlanAddInput = z.object({
+  date: LocalDate,
+  activityRefId: z.string().min(1).max(60),
+  minutes: z.number().int().min(5).max(300),
+  cue: z.string().trim().max(40).optional()
+})
+export type PlanAddInput = z.infer<typeof PlanAddInput>
+
+export const PlanAction = z.enum(['retry', 'shrink', 'drop'])
+export type PlanAction = z.infer<typeof PlanAction>
+
 // ---------- IPC argument schemas ----------
 
 export const LogText = z.string().trim().min(1).max(500)
