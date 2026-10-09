@@ -8,6 +8,7 @@ import type {
   ProfileInput
 } from './schemas'
 import type { AiStatus } from './status'
+import type { Streak } from './insights/streak'
 
 // The only API the renderer can call. Exposed by the preload as window.vox.
 // Dates are local calendar days, "YYYY-MM-DD".
@@ -39,6 +40,9 @@ export interface VoxApi {
   day: {
     get(date: string): Promise<DaySummary>
     entries(date: string): Promise<LogEntry[]> // oldest first
+  }
+  streak: {
+    get(): Promise<Streak> // logging streak for the flame; see src/shared/insights/streak.ts
   }
   entry: {
     delete(id: string): Promise<{ deleted: boolean }> // removes it from this computer

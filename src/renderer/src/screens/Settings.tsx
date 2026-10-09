@@ -54,7 +54,7 @@ export function Settings(): React.JSX.Element {
               <dd>{profile.nickname}</dd>
               <dt>Date of Birth</dt>
               <dd>
-                {dob} ({ageYears(profile.birthDate)} years old)
+                {dob} ({ageYears(profile.birthDate, new Date())} years old)
               </dd>
               {!teen && (
                 <>

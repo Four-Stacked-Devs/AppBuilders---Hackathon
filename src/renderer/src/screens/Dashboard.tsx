@@ -19,6 +19,7 @@ import { BarCard, type BarPoint } from '../components/BarCard'
 import { LoggedList } from '../components/LoggedList'
 import { PeriodNav } from '../components/PeriodNav'
 import { StatCard } from '../components/StatCard'
+import { StreakCard } from '../components/StreakCard'
 import { WeightChart } from '../components/WeightChart'
 
 type Tab = 'today' | 'weekly' | 'monthly'
@@ -198,6 +199,7 @@ export function Dashboard({ tab }: { tab: Tab }): React.JSX.Element {
               </Banner>
             )}
             <div className="stats">
+              {anchor === today && <StreakCard refreshKey={loaded} />}
               {energy && day.kcalIn !== undefined && (
                 <StatCard icon={Flame} value={`~${day.kcalIn}`} label="kcal eaten, estimate" />
               )}

@@ -289,7 +289,7 @@ export function Onboarding(): React.JSX.Element {
                     <dt>Date of Birth</dt>
                     <dd>
                       {form.birthDate &&
-                        `${longDob(form.birthDate)} (${ageYears(form.birthDate)} years old)`}
+                        `${longDob(form.birthDate)} (${ageYears(form.birthDate, new Date())} years old)`}
                     </dd>
                     {mode !== 'teen' && (
                       <>
