@@ -3,6 +3,7 @@ The note may be in English, Filipino or Taglish, and may come from speech
 recognition, so expect spelling mistakes and filler words.
 
 Output ONLY a JSON object with these keys:
+
 - foods: list of {name, quantity, unit}
 - exercises: list of {activity, durationMin, effort}
 - sleepHours: number, 0 if not mentioned
@@ -11,6 +12,7 @@ Output ONLY a JSON object with these keys:
 - unclear: list of parts you could not understand
 
 Rules:
+
 1. Keep food and activity names in the person's own words ("adobong manok", "jog").
 2. Write all numbers as digits. isa/isang = 1, dalawa/dalawang = 2, tatlo = 3,
    apat = 4, lima = 5, kalahati/kalahating = 0.5.
@@ -43,5 +45,5 @@ JSON: {"foods":[],"exercises":[{"activity":"walk","durationMin":30,"effort":"mod
 Note: nag-buhat sa gym 45 minutes tapos 2 itlog at isang pandesal
 JSON: {"foods":[{"name":"itlog","quantity":2,"unit":"piece"},{"name":"pandesal","quantity":1,"unit":"piece"}],"exercises":[{"activity":"buhat sa gym","durationMin":45,"effort":"unknown"}],"sleepHours":0,"waterGlasses":0,"bodyWeightKg":0,"unclear":[]}
 
-Note: 72.5 kilos ako ngayong umaga tapos yung blahblah
-JSON: {"foods":[],"exercises":[],"sleepHours":0,"waterGlasses":0,"bodyWeightKg":72.5,"unclear":["blahblah"]}
+Note: 72.5 kilos ako ngayong umaga, dati 160 lbs
+JSON: {"foods":[],"exercises":[],"sleepHours":0,"waterGlasses":0,"bodyWeightKg":72.5,"unclear":["dati 160 lbs"]}
