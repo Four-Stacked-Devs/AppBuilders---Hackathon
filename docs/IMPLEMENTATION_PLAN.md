@@ -820,6 +820,8 @@ export function matchFood(name: string) {
 
 Activities use the same pattern with their own index. Add `data/combos.json` for Filipino combo meals so one word expands into parts, for example `"tapsilog": ["tapa_beef", "rice_garlic", "egg_fried"]`. Each part then uses its own sourced row and default portion.
 
+**Water is not a food.** Before matching, any food whose normalized name is `tubig` or `water` is removed from `foods`. If `waterGlasses` is 0, its quantity becomes `waterGlasses`; otherwise the parser's `waterGlasses` value is kept and the food is just dropped. (Benchmark finding: Qwen2.5-3B and 1.5B both returned "uminom ako ng limang baso ng tubig" as a food *and* as `waterGlasses`.)
+
 **Unknown items are never guessed.** An unmatched item appears on the card with its top 3 candidates and a Skip option; it is never sent to the LLM for a calorie estimate.
 
 ### 3.6 Confirmation card (renderer, owner B)
@@ -852,6 +854,7 @@ Keep the database in memory and call `save()` after each confirm. Group entries 
 ### Exit check
 
 - [ ] Five test sentences produce correct cards, including one with an unknown food and one combo meal
+- [ ] `tests/match.test.ts` covers the water rule: `{foods:[{name:'tubig',quantity:5,unit:'baso'}], waterGlasses:0}` → no foods, `waterGlasses: 5`; and `{foods:[{name:'Water',quantity:2,unit:'glass'}], waterGlasses:3}` → no foods, `waterGlasses: 3`
 - [ ] Editing quantity and swapping a match work
 - [ ] Confirm saves an entry; restarting the app keeps it
 - [ ] Commit and `git tag phase-3`
