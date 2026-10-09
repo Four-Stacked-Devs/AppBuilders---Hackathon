@@ -1,5 +1,6 @@
 import { bmr, exerciseKcal, foodKcal, intensity, round10, roundHalf, tdee } from '@shared/calc'
 import type {
+  CalcItem,
   ConfirmItem,
   DaySummary,
   FactItem,
@@ -22,37 +23,73 @@ const foodSourceLabel = (s: string): string => (/^PhilFCT/i.test(s) ? 'PhilFCT' 
 const plural = (n: number, unit: string): string =>
   n === 1 || unit === 'serving' ? unit : unit === 'glass' ? 'glasses' : `${unit}s`
 
-export function itemFacts(items: ConfirmItem[], ctx: FactCtx): FactItem[] {
-  const out: FactItem[] = []
+// One pass computes both the facts the LLM may mention and the inputs behind them, so the
+// breakdown and the saved numbers can never disagree.
+export function computeItems(
+  items: ConfirmItem[],
+  ctx: FactCtx
+): { facts: FactItem[]; calc: CalcItem[] } {
+  const facts: FactItem[] = []
+  const calc: CalcItem[] = []
   for (const it of items) {
     if (it.kind === 'food') {
       const row = ctx.matcher.food(it.refId)
       if (!row) throw new Error(`unknown food ${it.refId}`)
       const unit = row.portions[it.unit as keyof typeof row.portions] ? it.unit : row.defaultUnit
       const grams = (row.portions[unit as keyof typeof row.portions] ?? 0) * it.quantity
-      out.push({
+      const kcal = ctx.caloriesEnabled ? round10(foodKcal(grams, row.kcalPer100g)) : undefined
+      const source = foodSourceLabel(row.source)
+      facts.push({
         displayName: row.name,
         quantityLabel: `${it.quantity} ${plural(it.quantity, unit)}`,
-        ...(ctx.caloriesEnabled ? { kcal: round10(foodKcal(grams, row.kcalPer100g)) } : {}),
-        source: foodSourceLabel(row.source)
+        ...(kcal !== undefined ? { kcal } : {}),
+        source
+      })
+      calc.push({
+        kind: 'food',
+        refId: row.id,
+        name: row.name,
+        quantity: it.quantity,
+        unit,
+        grams,
+        ...(kcal !== undefined ? { kcalPer100g: row.kcalPer100g, kcal } : {}),
+        source: row.source
       })
     } else {
       const row = ctx.matcher.activity(it.refId)
       if (!row) throw new Error(`unknown activity ${it.refId}`)
       const minutes = Math.round(it.durationMin)
-      out.push({
+      const kcal = ctx.caloriesEnabled
+        ? round10(exerciseKcal(row.met, ctx.weightKg, minutes))
+        : undefined
+      facts.push({
         displayName: row.name,
         minutes,
         intensity: intensity(row.met),
-        ...(ctx.caloriesEnabled
-          ? { kcal: round10(exerciseKcal(row.met, ctx.weightKg, minutes)) }
-          : {}),
+        ...(kcal !== undefined ? { kcal } : {}),
+        source: '2024 Adult Compendium'
+      })
+      calc.push({
+        kind: 'exercise',
+        refId: row.id,
+        name: row.name,
+        minutes,
+        met: row.met,
+        intensity: intensity(row.met),
+        compendiumCode: row.compendiumCode,
+        ...(kcal !== undefined ? { weightKg: ctx.weightKg, kcal } : {}),
         source: '2024 Adult Compendium'
       })
     }
   }
-  return out
+  return { facts, calc }
 }
+
+export const itemFacts = (items: ConfirmItem[], ctx: FactCtx): FactItem[] =>
+  computeItems(items, ctx).facts
+
+export const itemCalc = (items: ConfirmItem[], ctx: FactCtx): CalcItem[] =>
+  computeItems(items, ctx).calc
 
 // Latest logged body weight on or before `date`, else the profile weight.
 export function currentWeightKg(

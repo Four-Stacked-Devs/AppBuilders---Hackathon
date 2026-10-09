@@ -1379,3 +1379,14 @@ p {
   white-space: pre-wrap;
   font-size: 1rem;
 }
+
+/* ---------- calculation breakdown (inside .vox .meta) ---------- */
+
+.calc-lines {
+  margin: 0.6rem 0 0;
+  padding-left: 1.6rem;
+}
+
+.calc-lines li + li {
+  margin-top: 0.4rem;
+}

@@ -1,4 +1,6 @@
-// Display text only; no numbers are calculated here.
+// Display text only; no new numbers are calculated here (hours are minutes shown as hours).
+import type { CalcItem } from '@shared/schemas'
+
 export const greeting = (hour: number): string =>
   hour >= 5 && hour < 12
     ? 'Good morning'
@@ -21,3 +23,27 @@ export const shortDay = (date: string): string =>
   at(date).toLocaleDateString('en-US', { weekday: 'short' })
 export const monthLabel = (date: string): string =>
   at(date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+
+const hours = (minutes: number): string => `${Math.round((minutes / 60) * 100) / 100} h`
+
+// "PhilFCT A020" when the source names a PhilFCT food id, otherwise "product label".
+const foodSource = (source: string): string => {
+  const id = /^PhilFCT\b.*?\b([A-Z]\d{3})\b/.exec(source)
+  return id ? `PhilFCT ${id[1]}` : /^PhilFCT/.test(source) ? 'PhilFCT' : 'product label'
+}
+
+const ROUNDED = 'rounded to the nearest 10. An estimate.'
+
+// One line of the "How was this calculated?" breakdown, from the stored inputs only.
+export function calcLine(c: CalcItem): string {
+  if (c.kind === 'exercise') {
+    const ref = `${c.source} ${c.compendiumCode}`
+    if (c.kcal === undefined || c.weightKg === undefined)
+      return `${c.name}: ${c.minutes} min, ${c.intensity} (${c.met} MET, ${ref}).`
+    return `${c.name}: ${c.met} MET (${ref}) × ${c.weightKg} kg × ${hours(c.minutes)} ≈ ${c.kcal} kcal, ${ROUNDED}`
+  }
+  const amount = `${c.quantity} ${c.unit} = ${c.grams} g`
+  if (c.kcal === undefined || c.kcalPer100g === undefined)
+    return `${c.name}: ${amount} (${foodSource(c.source)}).`
+  return `${c.name}: ${amount} × ${c.kcalPer100g} kcal per 100 g (${foodSource(c.source)}) ≈ ${c.kcal} kcal, ${ROUNDED}`
+}

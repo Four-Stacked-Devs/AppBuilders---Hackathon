@@ -3,7 +3,7 @@ import { ageYears } from '@shared/calc'
 import { addDays, localDate } from '@shared/dates'
 import type { ConfirmInput, ConfirmResult, DaySummary, Facts, LogEntry } from '@shared/schemas'
 import { explain } from './ai/explain'
-import { currentWeightKg, itemFacts, summarizeDay } from './facts'
+import { computeItems, currentWeightKg, summarizeDay } from './facts'
 import { matcher } from './matching/match'
 import { checkSafety } from './safety/rules'
 import { db } from './store/db'
@@ -26,7 +26,7 @@ export async function confirmLog(input: ConfirmInput): Promise<ConfirmResult> {
   const bodyWeightKg = mode === 'teen' ? 0 : input.bodyWeightKg
   const weightKg = bodyWeightKg || currentWeightKg(entries, profile, date)
 
-  const items = itemFacts(input.items, { matcher, weightKg, caloriesEnabled })
+  const { facts: items, calc } = computeItems(input.items, { matcher, weightKg, caloriesEnabled })
   const draft: LogEntry = {
     id: randomUUID(),
     createdAt: new Date().toISOString(),
@@ -41,7 +41,9 @@ export async function confirmLog(input: ConfirmInput): Promise<ConfirmResult> {
     waterGlasses: input.waterGlasses,
     bodyWeightKg,
     reaction: { text: '', source: 'template' },
-    seeded: false
+    seeded: false,
+    calc,
+    safety: input.safety
   }
   const day = summarizeDay(date, [...entries, draft], profile, age())
   const facts: Facts = {
