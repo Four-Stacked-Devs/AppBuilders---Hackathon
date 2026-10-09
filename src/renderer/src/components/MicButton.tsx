@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { startRecording } from '../voice/recorder'
 import { onSttState, sttState, transcribe } from '../voice/stt'
+import { Mic } from 'lucide-react'
 
 const MAX_MS = 30_000
 
@@ -108,18 +109,13 @@ export function MicButton({
         onPointerUp={() => void stop()}
         onPointerCancel={() => void stop()}
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor" />
-          <path
-            d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-            strokeLinecap="round"
-          />
-        </svg>
+        <Mic size={18} aria-hidden="true" />
       </button>
-      <span className="mic-status" role="status">
+      <span
+        className="mic-status"
+        role="status"
+        data-active={Boolean(error) || phase !== 'idle' || stt !== 'ready'}
+      >
         {error || label}
       </span>
     </div>

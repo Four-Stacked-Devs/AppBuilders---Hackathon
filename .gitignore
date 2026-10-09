@@ -9,3 +9,6 @@ out
 models/
 src/renderer/public/models/
 src/renderer/public/ort/
+
+# local design reference screenshots (large, not committed)
+wireframe/
