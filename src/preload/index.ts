@@ -12,6 +12,17 @@ const api: VoxApi = {
       return () => ipcRenderer.removeListener('ai:status-changed', h)
     }
   },
+  profile: {
+    get: () => ipcRenderer.invoke('profile:get'),
+    save: (p) => ipcRenderer.invoke('profile:save', p)
+  },
+  log: {
+    parse: (t) => ipcRenderer.invoke('log:parse', t),
+    confirm: (i) => ipcRenderer.invoke('log:confirm', i)
+  },
+  day: { get: (d) => ipcRenderer.invoke('day:get', d) },
+  history: { range: (f, t) => ipcRenderer.invoke('history:range', f, t) },
+  dev: { seed: () => ipcRenderer.invoke('dev:seed') },
   debug: {
     generate: (text) => ipcRenderer.invoke('debug:generate', text)
   }
