@@ -1,5 +1,5 @@
 // Downloads the GGUF language model(s) and Whisper ONNX files from Hugging Face.
-// Usage: npm run models:download -- [qwen3b] [llama3b] [qwen15b]   (default: qwen3b)
+// Usage: npm run models:download -- [qwen3b] [llama3b] [qwen15b] [qwen3_4b]   (default: qwen3b)
 import { createWriteStream, existsSync, mkdirSync, renameSync, statSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { Readable } from 'node:stream'
@@ -9,7 +9,9 @@ import { pipeline } from 'node:stream/promises'
 const LLMS = {
   qwen3b: { repo: 'Qwen/Qwen2.5-3B-Instruct-GGUF', file: 'qwen2.5-3b-instruct-q4_k_m.gguf' },
   llama3b: { repo: 'bartowski/Llama-3.2-3B-Instruct-GGUF', file: 'Llama-3.2-3B-Instruct-Q4_K_M.gguf' },
-  qwen15b: { repo: 'Qwen/Qwen2.5-1.5B-Instruct-GGUF', file: 'qwen2.5-1.5b-instruct-q4_k_m.gguf' }
+  qwen15b: { repo: 'Qwen/Qwen2.5-1.5B-Instruct-GGUF', file: 'qwen2.5-1.5b-instruct-q4_k_m.gguf' },
+  // Apache-2.0, ~2.5 GB; verified on huggingface.co on 2026-10-10 (the file name is case-sensitive)
+  qwen3_4b: { repo: 'unsloth/Qwen3-4B-Instruct-2507-GGUF', file: 'Qwen3-4B-Instruct-2507-Q4_K_M.gguf' }
 }
 const WHISPER = {
   repo: 'onnx-community/whisper-base',
