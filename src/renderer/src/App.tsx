@@ -1,34 +1,46 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import { useEffect, useState } from 'react'
+import type { AiStatus } from '@shared/status'
 
 function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const [status, setStatus] = useState<AiStatus>({ state: 'loading' })
+  const [text, setText] = useState('Nag-jog ako ng 30 minutes tapos kumain ng 2 cups rice')
+  const [output, setOutput] = useState('')
+  const [busy, setBusy] = useState(false)
+
+  useEffect(() => {
+    const off = window.vox.ai.onStatus(setStatus)
+    window.vox.ai.status().then(setStatus)
+    return off
+  }, [])
+
+  // Temporary Phase 1 debug: send a sentence, log and show the raw model output.
+  const send = async (): Promise<void> => {
+    setBusy(true)
+    const started = performance.now()
+    try {
+      const raw = await window.vox.debug.generate(text)
+      const secs = ((performance.now() - started) / 1000).toFixed(1)
+      console.log(`[vox debug] ${secs}s raw output:`, raw)
+      setOutput(`${raw}\n\n(${secs}s)`)
+    } catch (err) {
+      setOutput(String(err))
+    } finally {
+      setBusy(false)
+    }
+  }
 
   return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
+    <div style={{ width: 640, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <p>
+        AI: <b>{status.state}</b>
+        {status.message ? ` (${status.message})` : ''}
       </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
-    </>
+      <textarea rows={3} value={text} onChange={(e) => setText(e.target.value)} />
+      <button disabled={busy || status.state !== 'ready' || !text.trim()} onClick={send}>
+        {busy ? 'Thinking on this computer…' : 'Debug: send to model'}
+      </button>
+      <pre style={{ whiteSpace: 'pre-wrap', userSelect: 'text' }}>{output}</pre>
+    </div>
   )
 }
 
