@@ -1,0 +1,74 @@
+[
+  {
+    "id": "jogging_general",
+    "name": "Jogging, general",
+    "aliases": ["jog", "jogging", "nag-jog", "nag jog", "takbo", "tumakbo"],
+    "compendiumCode": "12020",
+    "met": 7.5,
+    "source": "2024 Adult Compendium, 12020 \"Jogging, general, self-selected pace\", pacompendium.com/running, accessed 2026-10-10"
+  },
+  {
+    "id": "walking_moderate",
+    "name": "Walking, moderate pace",
+    "aliases": ["walk", "walking", "lakad", "naglakad", "nag-walk", "nag walk"],
+    "compendiumCode": "17190",
+    "met": 3.8,
+    "source": "2024 Adult Compendium, 17190 \"Walking, 2.8 to 3.4 mph, level, moderate pace, firm surface\", pacompendium.com/walking, accessed 2026-10-10"
+  },
+  {
+    "id": "walking_brisk",
+    "name": "Walking, brisk",
+    "aliases": ["brisk walk", "brisk walking", "mabilis na lakad", "power walk"],
+    "compendiumCode": "17200",
+    "met": 4.8,
+    "source": "2024 Adult Compendium, 17200 \"Walking, 3.5 to 3.9 mph, level, brisk, firm surface, walking for exercise\", pacompendium.com/walking, accessed 2026-10-10"
+  },
+  {
+    "id": "basketball_general",
+    "name": "Basketball, general",
+    "aliases": ["basketball", "nag-basketball", "nag basketball", "basket"],
+    "compendiumCode": "15055",
+    "met": 7.5,
+    "source": "2024 Adult Compendium, 15055 \"Basketball, general\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "bicycling_general",
+    "name": "Bicycling, general",
+    "aliases": ["bike", "biking", "bicycle", "cycling", "nag-bike", "nag bike", "bisikleta"],
+    "compendiumCode": "01014",
+    "met": 7.0,
+    "source": "2024 Adult Compendium, 01014 \"Bicycling, general\", pacompendium.com/bicycling, accessed 2026-10-10"
+  },
+  {
+    "id": "weight_training_general",
+    "name": "Weight training",
+    "aliases": ["buhat", "nagbuhat", "nag-buhat", "buhat sa gym", "gym", "weights", "weight training", "lifting", "lift"],
+    "compendiumCode": "02054",
+    "met": 3.5,
+    "source": "2024 Adult Compendium, 02054 \"Resistance (weight) training, multiple exercises, 8-15 reps at varied resistance\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "badminton_social",
+    "name": "Badminton, social",
+    "aliases": ["badminton", "nag-badminton", "nag badminton", "shuttlecock"],
+    "compendiumCode": "15030",
+    "met": 5.5,
+    "source": "2024 Adult Compendium, 15030 \"Badminton, social singles and doubles, general\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "volleyball_general",
+    "name": "Volleyball",
+    "aliases": ["volleyball", "nag-volleyball", "nag volleyball", "volley"],
+    "compendiumCode": "15710",
+    "met": 4.0,
+    "source": "2024 Adult Compendium, 15710 \"Volleyball (Taylor Code 400)\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "aerobic_dance_low",
+    "name": "Aerobic dance, low impact",
+    "aliases": ["aerobics", "aerobic dance", "zumba", "dance workout", "nag-zumba", "nag zumba"],
+    "compendiumCode": "02005",
+    "met": 4.8,
+    "source": "2024 Adult Compendium, 02005 \"Aerobic dance, low impact, moderate effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  }
+]
