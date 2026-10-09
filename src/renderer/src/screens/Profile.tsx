@@ -66,7 +66,7 @@ export function ProfileScreen(): React.JSX.Element {
     setSaving(true)
     try {
       setProfile(await window.vox.profile.save(input.data))
-      setScreen('log')
+      setScreen('talk')
     } catch (err) {
       setError(
         String(err).replace(/^Error: (Error invoking remote method '[^']+': )?(Error: )?/, '')
@@ -189,7 +189,7 @@ export function ProfileScreen(): React.JSX.Element {
             {saving ? 'Saving…' : 'Save profile'}
           </button>
           {profile && (
-            <button type="button" className="link" onClick={() => setScreen('log')}>
+            <button type="button" className="link" onClick={() => setScreen('talk')}>
               Cancel
             </button>
           )}

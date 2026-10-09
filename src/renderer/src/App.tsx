@@ -7,7 +7,7 @@ import { LogScreen } from './screens/Log'
 import { TodayScreen } from './screens/Today'
 
 const TABS: { id: Screen; label: string }[] = [
-  { id: 'log', label: 'Log' },
+  { id: 'talk', label: 'Log' },
   { id: 'today', label: 'Today' }
 ]
 
@@ -25,7 +25,7 @@ function App(): React.JSX.Element {
   let body: React.JSX.Element | null = null
   if (ai.state === 'error') body = <Setup status={ai} />
   else if (!profileLoaded) body = null
-  else if (needsProfile || screen === 'profile') body = <ProfileScreen />
+  else if (needsProfile || screen === 'onboarding') body = <ProfileScreen />
   else if (screen === 'today') body = <TodayScreen />
   else body = <LogScreen />
 
@@ -50,7 +50,7 @@ function App(): React.JSX.Element {
         <div className="spacer" />
         <AiChip status={ai} />
         {profile && (
-          <button className="icon-btn" onClick={() => setScreen('profile')}>
+          <button className="icon-btn" onClick={() => setScreen('onboarding')}>
             {profile.nickname}
           </button>
         )}
