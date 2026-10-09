@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react'
 import { useVox, type Screen } from '../store'
 import { AiChip } from './AiChip'
 import { Brand } from './Brand'
+import { StreakChip } from './StreakCard'
 
 const DASHBOARD: Screen[] = ['today', 'weekly', 'monthly']
 
@@ -37,6 +38,7 @@ export function Sidebar(): React.JSX.Element {
         {ITEMS.map((i) => item(i.id, i.label, i.icon, i.match))}
       </nav>
       <div className="sidebar-foot">
+        <StreakChip />
         <AiChip status={ai} />
         {item('settings', 'Settings', Settings, ['settings'])}
       </div>

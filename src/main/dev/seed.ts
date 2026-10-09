@@ -72,7 +72,7 @@ export function seedDemoHistory(): { entries: number } {
       seeded: true,
       calc
     }
-    const day = summarizeDay(date, [base], profile, ageYears(profile.birthDate))
+    const day = summarizeDay(date, [base], profile, ageYears(profile.birthDate, new Date()))
     const facts = {
       ...base.facts,
       dayTotals: {

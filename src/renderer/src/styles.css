@@ -22,6 +22,18 @@ html {
   --water: #46acfa;
   --good: #019256;
   --warm: #ff8800;
+  /* Streak flame tiers (core, edge), cooler to hotter like real fire. Never the brand red:
+     red only means the brand, never being over, under or behind. */
+  --flame-spark-core: #ffc061;
+  --flame-spark-edge: #ff8800;
+  --flame-warm-core: #ffe27a;
+  --flame-warm-edge: #f2a900;
+  --flame-hot-core: #fff8de;
+  --flame-hot-edge: #f5b400;
+  --flame-blue-core: #cfe6ff;
+  --flame-blue-edge: #2f7cf6;
+  --flame-violet-core: #eadfff;
+  --flame-violet-edge: #8b5cf6;
   /* Faint card lift seen in the light wireframes; dark cards are flat. */
   --nav-ring: transparent;
   --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
@@ -49,6 +61,8 @@ html {
     --insight: #20161a;
     --sleep: #8c76fd;
     --water: #38adfe;
+    --flame-blue-edge: #4d94ff;
+    --flame-violet-edge: #a07cff;
     --shadow: none;
     --nav-ring: #751818;
     color-scheme: dark;
@@ -68,6 +82,8 @@ html {
   --insight: #20161a;
   --sleep: #8c76fd;
   --water: #38adfe;
+  --flame-blue-edge: #4d94ff;
+  --flame-violet-edge: #a07cff;
   --shadow: none;
   --nav-ring: #751818;
   color-scheme: dark;
@@ -470,7 +486,7 @@ p {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -906,7 +922,7 @@ p {
 
 .choices {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   gap: 1rem;
 }
 
@@ -1427,4 +1443,45 @@ p {
   overflow-wrap: anywhere;
   color: var(--muted);
   font-size: 1.05rem;
+}
+
+/* ---------- streak flame ---------- */
+
+.streak-note {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.streak-cheer {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.streak-flame.flicker {
+  animation: flicker 0.9s ease-out 1;
+}
+
+.streak-flame[data-tier='legend'] {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+  60% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  50% {
+    filter: hue-rotate(28deg) brightness(1.1);
+  }
 }

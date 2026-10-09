@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { ConfirmInput, DateArg, LogText, ProfileInput } from '@shared/schemas'
 import { getStatus } from './ai/llm'
 import { parseLog } from './ai/parse'
-import { confirmLog, deleteEntry, getDay, getEntries, getHistory } from './confirm'
+import { confirmLog, deleteEntry, getDay, getEntries, getHistory, getStreak } from './confirm'
 import { seedDemoHistory } from './dev/seed'
 import { getMeta } from './meta'
 import { getProfile, saveProfile } from './profile'
@@ -32,6 +32,7 @@ export function registerIpc(): void {
   handle('day:get', z.tuple([DateArg]), (date) => getDay(date))
   handle('history:range', z.tuple([DateArg, DateArg]), (from, to) => getHistory(from, to))
   handle('day:entries', z.tuple([DateArg]), (date) => getEntries(date))
+  handle('streak:get', none, () => getStreak())
   handle('entry:delete', z.tuple([z.string().min(1).max(100)]), (id) => deleteEntry(id))
 
   // Demo history is a dev tool only; packaged builds never seed.

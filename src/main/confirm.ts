@@ -6,11 +6,12 @@ import { explain } from './ai/explain'
 import { computeItems, currentWeightKg, removeEntry, summarizeDay } from './facts'
 import { matcher } from './matching/match'
 import { checkSafety } from './safety/rules'
+import { computeStreak, type Streak } from '@shared/insights/streak'
 import { db } from './store/db'
 
 const age = (): number => {
   const p = db().get().profile
-  return p ? ageYears(p.birthDate) : 0
+  return p ? ageYears(p.birthDate, new Date()) : 0
 }
 
 // Builds facts with the calc functions, runs explain, saves the entry.
@@ -92,4 +93,15 @@ export function deleteEntry(id: string): { deleted: boolean } {
     return { ...d, entries: out.entries }
   })
   return { deleted }
+}
+
+// The logging streak, from every saved entry. Date and hour are read here, not in the pure rule.
+export function getStreak(): Streak {
+  const { entries } = db().get()
+  return computeStreak(
+    entries.map((e) => e.date),
+    localDate(),
+    new Date().getHours(),
+    entries.filter((e) => e.safety === 'eating').map((e) => e.date)
+  )
 }

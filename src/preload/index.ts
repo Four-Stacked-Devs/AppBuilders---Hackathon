@@ -26,6 +26,7 @@ const api: VoxApi = {
     entries: (d) => ipcRenderer.invoke('day:entries', d)
   },
   entry: { delete: (id) => ipcRenderer.invoke('entry:delete', id) },
+  streak: { get: () => ipcRenderer.invoke('streak:get') },
   history: { range: (f, t) => ipcRenderer.invoke('history:range', f, t) },
   dev: { seed: () => ipcRenderer.invoke('dev:seed') }
 }
