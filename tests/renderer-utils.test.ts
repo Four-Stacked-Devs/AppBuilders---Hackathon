@@ -25,3 +25,14 @@ describe('greeting', () => {
     expect(greeting(0)).toBe('Good evening')
   })
 })
+
+describe('working steps', () => {
+  it('advances by elapsed time and stays on the last step', async () => {
+    const { stepAt, STEPS } = await import('../src/renderer/src/tips')
+    expect(stepAt('parse', 0)).toBe(0)
+    expect(stepAt('parse', 1999)).toBe(0)
+    expect(stepAt('parse', 2000)).toBe(1)
+    expect(stepAt('parse', 60_000)).toBe(STEPS.parse.length - 1)
+    expect(stepAt('confirm', 1000)).toBe(1)
+  })
+})

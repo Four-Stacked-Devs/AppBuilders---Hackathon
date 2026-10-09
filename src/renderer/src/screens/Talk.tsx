@@ -4,6 +4,7 @@ import type { ConfirmInput, ConfirmResult } from '@shared/schemas'
 import { useVox, type Turn } from '../store'
 import { ConfirmCard } from '../components/ConfirmCard'
 import { MicButton } from '../components/MicButton'
+import { WorkingSteps } from '../components/WorkingSteps'
 import mark from '../assets/logo-mark.png'
 
 const EXAMPLES = [
@@ -156,7 +157,7 @@ function TurnView({
       <div className="you">{turn.text}</div>
       {turn.state === 'parsing' && (
         <VoxMsg>
-          <div className="vox thinking">Thinking on this computer…</div>
+          <WorkingSteps kind="parse" />
         </VoxMsg>
       )}
       {turn.state === 'crisis' && r && !r.ok && (
@@ -189,6 +190,11 @@ function TurnView({
             onConfirm={onConfirm}
             onCancel={onDiscard}
           />
+        </VoxMsg>
+      )}
+      {turn.state === 'confirming' && (
+        <VoxMsg>
+          <WorkingSteps kind="confirm" />
         </VoxMsg>
       )}
       {turn.state === 'skipped' && (
