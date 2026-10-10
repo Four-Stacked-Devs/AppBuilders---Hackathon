@@ -110,6 +110,7 @@ export interface VoxApi {
     range(from: string, to: string): Promise<DaySummary[]> // inclusive, oldest first
   }
   dev: {
+    clear(): Promise<{ entries: number }>
     seed(): Promise<{ entries: number }> // demo history, every entry marked seeded (Phase 5.3)
   }
 }

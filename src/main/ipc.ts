@@ -14,7 +14,7 @@ import { assist } from './assist'
 import { speakText, stopSpeaking } from './tts'
 import { parseLog } from './ai/parse'
 import { confirmLog, deleteEntry, getDay, getEntries, getHistory, getStreak, getStreakRun } from './confirm'
-import { seedDemoHistory } from './dev/seed'
+import { clearDemoHistory, seedDemoHistory } from './dev/seed'
 import { dismissInsight, getInsights } from './insights'
 import { ChatText, ChatTitle, ConversationId } from '@shared/chat'
 import { confirmLogMessage, discardLogMessage, sendMessage } from './chat/coach'
@@ -155,5 +155,9 @@ export function registerIpc(): void {
   handle('dev:seed', none, () => {
     if (app.isPackaged) throw new Error('dev:seed is not available in packaged builds')
     return seedDemoHistory()
+  })
+  handle('dev:clear', none, () => {
+    if (app.isPackaged) throw new Error('dev:clear is not available in packaged builds')
+    return clearDemoHistory()
   })
 }

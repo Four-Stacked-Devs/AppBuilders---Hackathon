@@ -83,7 +83,7 @@ const api: VoxApi = {
     run: () => ipcRenderer.invoke('streak:run')
   },
   history: { range: (f, t) => ipcRenderer.invoke('history:range', f, t) },
-  dev: { seed: () => ipcRenderer.invoke('dev:seed') }
+  dev: { seed: () => ipcRenderer.invoke('dev:seed'), clear: () => ipcRenderer.invoke('dev:clear') }
 }
 
 contextBridge.exposeInMainWorld('vox', api)
