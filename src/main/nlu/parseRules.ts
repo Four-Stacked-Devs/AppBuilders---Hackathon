@@ -1,5 +1,5 @@
 import type { ParsedLog } from '@shared/schemas'
-import { ACTIVITIES, COMBOS, FOODS, matcher } from '../matching/match'
+import { ACTIVITIES, COMBOS, FOODS, matcher, taught } from '../matching/match'
 import {
   CLAUSE_SPLIT,
   DISTANCE_UNITS,
@@ -54,7 +54,8 @@ export function buildIndex(extra: { alias: string; kind: 'food' | 'activity' }[]
 }
 
 let defaultIndex: Index | null = null
-const getIndex = (): Index => (defaultIndex ??= buildIndex())
+const getIndex = (): Index =>
+  (defaultIndex ??= buildIndex([...taught.entries()].map(([alias, t]) => ({ alias, kind: t.kind }))))
 export const resetNluIndex = (): void => {
   defaultIndex = null
 }
