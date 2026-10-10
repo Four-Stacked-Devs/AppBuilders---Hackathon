@@ -3,7 +3,7 @@ import { z } from 'zod'
 // Row shapes for data/*.json. Every number is copied from a cited source (data/SOURCES.md);
 // tests/data.test.ts fails the build on any incomplete or unsourced row.
 
-export const PortionUnit = z.enum(['cup', 'piece', 'glass', 'bowl', 'plate', 'can', 'serving'])
+export const PortionUnit = z.enum(['cup', 'piece', 'glass', 'bowl', 'plate', 'can', 'serving', 'gram'])
 export type PortionUnit = z.infer<typeof PortionUnit>
 
 export const FoodRow = z.object({
@@ -11,6 +11,10 @@ export const FoodRow = z.object({
   name: z.string().min(1),
   aliases: z.array(z.string().min(1)).min(1),
   kcalPer100g: z.number().min(0), // 0 only for water and zero-calorie drinks
+  proteinG: z.number().min(0).optional(), // per 100 g, PhilFCT
+  fatG: z.number().min(0).optional(),
+  carbG: z.number().min(0).optional(),
+  fiberG: z.number().min(0).optional(),
   portions: z.partialRecord(PortionUnit, z.number().positive()), // grams per unit
   defaultUnit: PortionUnit,
   foodGroup: z.string().min(1),
@@ -19,6 +23,7 @@ export const FoodRow = z.object({
     .trim()
     .min(11)
     .refine((s) => !/TODO|</.test(s), 'placeholder source'),
+  portionEstimated: z.boolean().optional(), // true: grams per portion is a team estimate, not sourced
   portionSource: z
     .string()
     .trim()

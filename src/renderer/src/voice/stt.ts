@@ -5,7 +5,23 @@ export type SttState = 'loading' | 'ready' | 'error'
 type Pending = { resolve: (t: string) => void; reject: (e: Error) => void }
 
 // Whisper language for Taglish; undefined = auto-detect. See docs/bench.md before changing.
-export const STT_LANGUAGE: string | undefined = undefined
+export type VoiceLang = 'tagalog' | 'english' | 'auto'
+const LANG_KEY = 'vox.voiceLang'
+export function getVoiceLang(): VoiceLang {
+  try {
+    const v = localStorage.getItem(LANG_KEY)
+    return v === 'english' || v === 'auto' ? v : 'tagalog'
+  } catch {
+    return 'tagalog'
+  }
+}
+export function setVoiceLang(v: VoiceLang): void {
+  try {
+    localStorage.setItem(LANG_KEY, v)
+  } catch {
+    /* ignore: the choice just won't be remembered */
+  }
+}
 
 let worker: Worker | null = null
 let state: SttState = 'loading'
@@ -51,6 +67,6 @@ export function transcribe(audio: Float32Array): Promise<string> {
   const id = nextId++
   return new Promise((resolve, reject) => {
     pending.set(id, { resolve, reject })
-    w.postMessage({ id, audio, language: STT_LANGUAGE }, [audio.buffer])
+    w.postMessage({ id, audio, language: getVoiceLang() === 'auto' ? undefined : getVoiceLang() }, [audio.buffer])
   })
 }

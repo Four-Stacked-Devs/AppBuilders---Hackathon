@@ -1,3 +1,27 @@
 {
-  "tapsilog": ["tapa_beef", "rice_garlic", "egg_fried"]
+  "tapsilog": [
+    "f243",
+    "a021",
+    "r102"
+  ],
+  "tosilog": [
+    "f245",
+    "a021",
+    "r102"
+  ],
+  "longsilog": [
+    "f257",
+    "a021",
+    "r102"
+  ],
+  "bangsilog": [
+    "g076",
+    "a021",
+    "r102"
+  ],
+  "silog": [
+    "f243",
+    "a021",
+    "r102"
+  ]
 }

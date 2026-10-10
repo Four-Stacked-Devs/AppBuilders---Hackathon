@@ -18,7 +18,7 @@ export function getMeta(): {
   return {
     modelFile: MODEL_FILE,
     gpu: getGpu(),
-    whisperModel: 'onnx-community/whisper-base (8-bit)',
+    whisperModel: 'onnx-community/whisper-small (8-bit)',
     dataFile: dataFilePath(),
     ...requests.snapshot(),
     since

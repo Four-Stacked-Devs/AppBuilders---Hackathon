@@ -21,7 +21,7 @@ export async function confirmLog(input: ConfirmInput): Promise<ConfirmResult> {
 
   const { profile, entries } = db().get()
   const mode = profile?.mode ?? 'adult'
-  const date = localDate()
+  const date = addDays(localDate(), input.dayOffset ?? 0)
   // 'eating' hides every calorie number for this entry.
   const caloriesEnabled = (profile?.caloriesEnabled ?? false) && input.safety !== 'eating'
   const bodyWeightKg = mode === 'teen' ? 0 : input.bodyWeightKg

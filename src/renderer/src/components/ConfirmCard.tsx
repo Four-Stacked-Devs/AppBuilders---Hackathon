@@ -59,7 +59,7 @@ export function ConfirmCard({
             effort: r.effort
           }
     )
-    onConfirm({ rawText, items, ...extras, safety: result.safety })
+    onConfirm({ rawText, items, ...extras, safety: result.safety, dayOffset: result.dayOffset ?? 0 })
   }
 
   return (
@@ -99,9 +99,9 @@ export function ConfirmCard({
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               <Stepper
                 value={r.quantity}
-                step={0.5}
+                step={r.unit === 'gram' ? 10 : 0.5}
                 min={0.5}
-                max={20}
+                max={r.unit === 'gram' ? 5000 : 20}
                 label={`${r.displayName} quantity`}
                 onChange={(quantity) => update(r.key, { quantity })}
               />

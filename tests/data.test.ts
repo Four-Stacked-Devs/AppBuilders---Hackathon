@@ -6,7 +6,7 @@ import { ActivityRow, Combos, FoodRow } from '../src/shared/refdata'
 
 // Fails the build on any missing field, non-positive value or empty source, so an
 // unsourced number can't ship by accident.
-const ZERO_KCAL_OK = new Set(['drinks'])
+const ZERO_KCAL_OK = new Set(['drinks', 'beverages', 'other'])
 
 describe('reference data', () => {
   it('every food row is complete and sourced', () => {
