@@ -92,6 +92,18 @@ export function createMealPlan(input: MealInput): MealPlanView {
   return view(plan)
 }
 
+// A one-day plan made by hand from the recipe list.
+export function createCustomMealPlan(input: { meals: { slot: Slot; recipeIds: string[] }[]; people: number }): MealPlanView {
+  const plan: MealPlan = {
+    id: randomUUID(),
+    createdAt: new Date().toISOString(),
+    input: { days: 1, slots: input.meals.map((m) => m.slot), people: input.people, avoid: [] },
+    days: [{ meals: input.meals.map((m) => ({ slot: m.slot, recipeIds: m.recipeIds.filter((id) => byId.has(id)) })) }]
+  }
+  save(plan, true)
+  return view(plan)
+}
+
 export function activeMealPlan(): MealPlanView | null {
   const row = db()
     .sql.prepare('SELECT json FROM meal_plans WHERE active = 1 ORDER BY created_at DESC LIMIT 1')

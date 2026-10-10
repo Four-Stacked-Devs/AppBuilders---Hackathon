@@ -3,7 +3,13 @@ import f1 from '../assets/loader/panther-1.png'
 import f2 from '../assets/loader/panther-2.png'
 import f3 from '../assets/loader/panther-3.png'
 
-const FRAMES = [f1, f2, f3, f2]
+import f4 from '../assets/loader/panther-4.png'
+import f5 from '../assets/loader/panther-5.png'
+import f6 from '../assets/loader/panther-6.png'
+import f7 from '../assets/loader/panther-7.png'
+import f8 from '../assets/loader/panther-8.png'
+
+const FRAMES = [f1, f4, f2, f5, f3, f6, f7, f8]
 
 // The running panther from the VOX icon sheet, cycling its frames over a progress bar. Pass
 // `progress` (0..1) for a real value; leave it out for an endless sweep. Reduced motion holds
@@ -18,7 +24,7 @@ export function PantherLoader(props: {
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const timer = window.setInterval(() => setFrame((n) => (n + 1) % FRAMES.length), 140)
+    const timer = window.setInterval(() => setFrame((n) => (n + 1) % FRAMES.length), 90)
     return () => window.clearInterval(timer)
   }, [])
 

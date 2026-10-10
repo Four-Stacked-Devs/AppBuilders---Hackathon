@@ -1,4 +1,7 @@
-import { localDate } from '@shared/dates'
+import { addDays, localDate } from '@shared/dates'
+import { createMealPlan } from '../meals'
+import { addPlan } from '../plans'
+import { createPlan } from '../workouts'
 import type { ChatMessage, MsgBody } from '@shared/chat'
 import type { ConfirmInput, Facts } from '@shared/schemas'
 import { generate } from '../ai/llm'
@@ -76,6 +79,66 @@ function chitchat(raw: string): MsgBody[] {
   ])]
 }
 
+// Reads plan options from a sentence: "workout plan 4 days with dumbbells for strength".
+const daysIn = (t: string, fallback: number): number => {
+  const m = /(\d)\s*(days?|araw|x)/i.exec(t)
+  return m ? Math.min(7, Math.max(1, Number(m[1]))) : fallback
+}
+
+function workoutFromText(raw: string): MsgBody[] {
+  const t = raw.toLowerCase()
+  const plan = createPlan({
+    goal: /stronger|lakas|strength|buhat/.test(t) ? 'stronger' : /fitter|cardio|stamina|endurance/.test(t) ? 'fitter' : 'habit',
+    daysPerWeek: Math.min(6, Math.max(2, daysIn(t, 3))),
+    equipment: /gym/.test(t) ? 'gym' : /dumbbell|weights/.test(t) ? 'dumbbell' : 'none',
+    level: /intermediate|advanced|sanay/.test(t) ? 'intermediate' : 'beginner',
+    rest: []
+  })
+  const first = plan.days[0]
+  return [
+    text(`Nagawa ko na ang plan mo: ${plan.title}. Unang araw, ${first.name}: ${first.exercises.map((e) => e.name).join(', ')}. Nasa Plans > Workouts na ito.`),
+    chips('', [{ label: 'Open workout', screen: 'plans' }, { label: 'Plan meals too', send: 'Gawan mo ako ng meal plan' }])
+  ]
+}
+
+function mealsFromText(raw: string): MsgBody[] {
+  const t = raw.toLowerCase()
+  const no = /(no |walang|avoid|hindi)/.test(t)
+  const avoid = [
+    /pork|baboy/.test(t) && no ? 'pork' : null,
+    /chicken|manok/.test(t) && no ? 'chicken' : null,
+    /fish|isda/.test(t) && no ? 'fish' : null,
+    /vegetarian|gulay lang/.test(t) ? 'vegetarian' : null
+  ].filter((x): x is 'pork' | 'chicken' | 'fish' | 'vegetarian' => x !== null)
+  const view = createMealPlan({ days: daysIn(t, 5), slots: ['breakfast', 'lunch', 'dinner'], people: 2, avoid })
+  return [
+    text(`Meal plan na para sa ${view.plan.days.length} araw, kasama ang grocery list at prep schedule. Nasa Plans > Meal prep na.`),
+    chips('', [{ label: 'Open meal plan', screen: 'plans' }, { label: 'Plan a workout', send: 'Gawan mo ako ng workout plan' }])
+  ]
+}
+
+// "bukas mag-jog ako ng 20 minutes": saved as a plan for tomorrow instead of a log.
+function futurePlans(raw: string, exercises: { activity: string; durationMin: number }[]): MsgBody[] {
+  const t = raw.toLowerCase()
+  const date = /(mamaya|later|tonight)/.test(t) && !/(bukas|tomorrow)/.test(t) ? localDate() : addDays(localDate(), 1)
+  const made: string[] = []
+  for (const e of exercises) {
+    const hit = matcher.matchActivity(e.activity)
+    if (!hit.matched || !hit.ref) continue
+    try {
+      addPlan({ date, activityRefId: hit.ref.id, minutes: Math.max(5, Math.round(e.durationMin)) })
+      made.push(`${Math.round(e.durationMin)} minutong ${hit.ref.name.split(',')[0].toLowerCase()}`)
+    } catch {
+      /* limit reached or unknown: skip */
+    }
+  }
+  if (!made.length) return []
+  return [
+    text(`Sige, naka-plano na: ${made.join(', ')} ${date === localDate() ? 'mamaya' : 'bukas'}. Sasabihin ko kapag natupad mo!`),
+    chips('', [{ label: 'See my plans', screen: 'plans' }])
+  ]
+}
+
 async function respond(raw: string): Promise<MsgBody[]> {
   const profile = db().get().profile
   const teen = profile?.mode === 'teen'
@@ -88,6 +151,10 @@ async function respond(raw: string): Promise<MsgBody[]> {
     case 'log': {
       const result = await parseLog(raw)
       if (!result.ok) return [text(result.reason), chips('', [{ label: 'Try again', send: raw }, { label: 'What can you do?', send: 'Ano kaya mo gawin?' }])]
+      if (result.future && result.parsed.exercises.length) {
+        const planned = futurePlans(raw, result.parsed.exercises)
+        if (planned.length) return planned
+      }
       const body: MsgBody[] = []
       if (result.future)
         body.push(text('Mukhang hindi pa nangyayari iyan. Pwede mo pa ring i-log kung tapos na, o gumawa ng plano sa Plans.'))
@@ -123,9 +190,9 @@ async function respond(raw: string): Promise<MsgBody[]> {
     case 'chitchat':
       return chitchat(raw)
     case 'workout_plan':
-      return [chips('Gagawa tayo ng workout plan na swak sa iyo. Pumunta sa Plans para piliin ang goal, araw at gamit.', [{ label: 'Open Plans', screen: 'plans' }])]
+      return workoutFromText(raw)
     case 'meal_plan':
-      return [chips('Meal prep time! Sa Plans, makakagawa ka ng weekly plate plan at grocery list gamit ang Pinggang Pinoy.', [{ label: 'Open Plans', screen: 'plans' }])]
+      return mealsFromText(raw)
     case 'advice':
       return advice(raw, teen)
     default:

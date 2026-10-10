@@ -11,6 +11,7 @@ import {
 import { useVox } from '../store'
 import { MuscleMap } from './effects'
 import { SessionPlayer } from './SessionPlayer'
+import { CustomWorkout } from './CustomBuilders'
 import { SkeletonCard } from './Skeleton'
 
 const GOALS: { id: Goal; label: string; sub: string }[] = [
@@ -40,16 +41,20 @@ export function WorkoutsTab(): React.JSX.Element {
   const [busy, setBusy] = useState(false)
   const [playing, setPlaying] = useState<number | null>(null)
   const [creating, setCreating] = useState(false)
+  const [custom, setCustom] = useState(false)
+  const [all, setAll] = useState<WorkoutPlan[]>([])
 
   const load = useCallback(() => {
     void window.vox.workout.active().then(setPlan)
     void window.vox.workout.muscles().then(setSets)
+    void window.vox.workout.list().then(setAll)
   }, [])
 
   useEffect(() => {
     let alive = true
     window.vox.workout.active().then((p) => alive && setPlan(p))
     window.vox.workout.muscles().then((m) => alive && setSets(m))
+    window.vox.workout.list().then((l) => alive && setAll(l))
     return () => {
       alive = false
     }
@@ -81,6 +86,18 @@ export function WorkoutsTab(): React.JSX.Element {
       {sub && <span>{sub}</span>}
     </button>
   )
+
+  if (custom)
+    return (
+      <CustomWorkout
+        onCancel={() => setCustom(false)}
+        onDone={(p) => {
+          setPlan(p)
+          setCustom(false)
+          load()
+        }}
+      />
+    )
 
   if (!plan || creating)
     return (
@@ -123,6 +140,7 @@ export function WorkoutsTab(): React.JSX.Element {
         </details>
         {teen && <p className="note">Teen plans use no equipment and three days a week.</p>}
         <div className="form-actions">
+          <button className="btn" onClick={() => setCustom(true)}>Build my own instead</button>
           <button className="btn primary" disabled={busy} onClick={() => void create()}>
             {busy ? 'Building…' : 'Create my plan'}
           </button>
@@ -142,9 +160,19 @@ export function WorkoutsTab(): React.JSX.Element {
           <h3 className="panel-title">
             <Dumbbell size={18} aria-hidden="true" /> {plan.title}
           </h3>
-          <button className="btn sm" onClick={() => setCreating(true)}>
-            <RefreshCw size={14} aria-hidden="true" /> New plan
-          </button>
+          <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+            {all.length > 1 && (
+              <select className="unit-select" aria-label="Switch plan" value={plan.id} onChange={(e) => void window.vox.workout.setActive(e.target.value).then((x) => { setPlan(x); load() })}>
+                {all.map((a) => (
+                  <option key={a.id} value={a.id}>{a.title}</option>
+                ))}
+              </select>
+            )}
+            <button className="btn sm" onClick={() => setCustom(true)}>Build my own</button>
+            <button className="btn sm" onClick={() => setCreating(true)}>
+              <RefreshCw size={14} aria-hidden="true" /> New plan
+            </button>
+          </div>
         </div>
         <ul className="plan-notes">
           {plan.notes.map((n) => (
