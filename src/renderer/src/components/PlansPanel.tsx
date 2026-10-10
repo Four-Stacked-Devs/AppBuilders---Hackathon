@@ -116,7 +116,7 @@ export function PlansPanel(props: { plans: PlanList; onChanged: () => void }): R
         </h3>
 
         {upcoming.length === 0 ? (
-          <p className="empty">No plans yet. Pick something small to do.</p>
+          <p className="empty">Wala pang plano. Pumili ng maliit na gagawin, kaya mo yan.</p>
         ) : (
           <div className="logged">
             {upcoming.map((p) => (

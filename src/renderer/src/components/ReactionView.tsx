@@ -25,9 +25,7 @@ export function ReactionView({ result }: { result: ConfirmResult }): React.JSX.E
             </ul>
           </details>
         )}
-        {reaction.source === 'ai' ? (
-          <div>Written by the AI on this computer, numbers checked against the facts.</div>
-        ) : (
+        {reaction.source !== 'ai' && (
           <details>
             <summary>Template reply</summary>
             {reaction.rejectedReason

@@ -85,7 +85,7 @@ export function ConfirmCard({
   return (
     <div className="card" aria-label="What Vox understood">
       <h3>Tama ba ’to?</h3>
-      {live.length === 0 && <p className="row muted">No food or activity found in this note.</p>}
+      {live.length === 0 && <p className="row muted">Wala akong makitang pagkain o galaw dito. Subukan: kumain ako ng 2 itlog.</p>}
       {live.map((r) => (
         <div className="row" key={r.key} data-unmatched={r.refId === null}>
           <div>

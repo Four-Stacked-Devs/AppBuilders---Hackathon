@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { startRecording } from '../voice/recorder'
-import { onSttState, sttState, transcribe } from '../voice/stt'
+import { onSttState, sttError, sttState, transcribe } from '../voice/stt'
 import { Mic } from 'lucide-react'
 
 const MAX_MS = 30_000
@@ -29,10 +29,10 @@ export function MicButton({
     setPhase('transcribing')
     try {
       const audio = await stopFn()
-      if (audio.length < 16_000 * 0.4) throw new Error('Too short. Hold the mic while you talk.')
+      if (audio.length < 16_000 * 0.4) throw new Error('Ang ikli. Hawakan ang mic habang nagsasalita.')
       const text = await transcribe(audio)
       if (text) onTranscript(text)
-      else setError('No speech heard. Try again, a bit closer to the mic.')
+      else setError('Wala akong narinig. Ulitin mo, medyo mas malapit sa mic.')
     } catch (err) {
       setError(String(err).replace(/^Error: /, ''))
     } finally {
@@ -85,14 +85,14 @@ export function MicButton({
 
   const label =
     stt === 'loading'
-      ? 'Loading speech model…'
+      ? 'Inihahanda ang tenga ni VOX…'
       : stt === 'error'
-        ? 'Voice unavailable, type instead'
+        ? `Voice did not load${sttError() ? ': ' + sttError() : ''}. Type for now.`
         : phase === 'recording'
           ? `Listening ${Math.floor(elapsed / 1000)}s, release to stop`
           : phase === 'transcribing'
-            ? 'Transcribing on this computer…'
-            : 'Hold to talk'
+            ? 'Pinakikinggan ka ni VOX…'
+            : 'Pindutin at magsalita'
 
   return (
     <div className="mic-wrap">

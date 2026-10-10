@@ -2800,3 +2800,30 @@ p {
 .workout-form .choice-pill b { font-weight: 600; font-size: 1.15rem; }
 .workout-form .plan-form { display: flex; gap: 1rem; margin-top: 1.2rem; align-items: center; }
 .workout-form .metric { display: flex; align-items: center; gap: 1rem; margin-top: 0.8rem; }
+
+/* ---------- v2.2: roomier retract, calmer calendar, a bit of character ---------- */
+.talk-head, .thread-inner, .composer { max-width: none; }
+.thread-inner, .composer { width: 100%; margin: 0 auto; max-width: 110rem; }
+.coach[data-closed='true'] { gap: 0; }
+.vox .speak { width: 2.4rem; height: 2.4rem; margin-left: 0.8rem; vertical-align: middle; display: inline-grid; }
+.cal-cell { min-height: 4rem; margin: 0 0.2rem; font-size: 1.1rem; gap: 0; }
+.cal-cell em { font-size: 0.85rem; }
+.cal-grid { gap: 0.3rem 0; }
+.cal-dow { padding: 0 0 0.4rem; font-size: 0.95rem; }
+.cal-head { margin-bottom: 0.6rem; }
+.heat-panel .heat i { width: 1.1rem; height: 1.1rem; }
+.heat-panel, .cal-panel { padding: 1.2rem 1.6rem; }
+.page .page-head { margin-bottom: 1rem; }
+::selection { background: var(--primary-soft); color: var(--primary); }
+.panel { transition: box-shadow var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out); }
+.panel:hover { box-shadow: 0 0.6rem 2rem rgba(120, 20, 30, 0.07); }
+.panel-title::before { content: ''; display: inline-block; width: 0.5rem; height: 1.3rem; margin-right: 0.8rem; border-radius: 0.3rem; background: var(--primary); vertical-align: -0.2rem; }
+.page-head h1 { letter-spacing: -0.02em; }
+.page-head h1::after { content: ''; display: block; width: 3.2rem; height: 0.3rem; margin-top: 0.6rem; border-radius: 0.3rem; background: linear-gradient(90deg, var(--primary), transparent); }
+.banner { background-image: radial-gradient(circle at 100% 0, var(--primary-soft), transparent 55%); }
+.vox { border-left: 0.3rem solid var(--primary-soft); }
+.example:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
+.you { background: var(--primary-soft); border-color: transparent; }
+*::-webkit-scrollbar { width: 0.9rem; height: 0.9rem; }
+*::-webkit-scrollbar-thumb { background: var(--line); border-radius: 1rem; border: 0.2rem solid transparent; background-clip: padding-box; }
+:focus-visible { outline: 0.2rem solid var(--primary); outline-offset: 0.2rem; }

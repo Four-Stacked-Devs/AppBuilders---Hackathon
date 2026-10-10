@@ -299,7 +299,7 @@ export function Coach(): React.JSX.Element {
               </button>
             </div>
             <p className="composer-hint">
-              Enter to send. Hold the mic (or Space) to talk. Nothing leaves this computer.
+              Enter para i-send. Hawakan ang mic (o Space) para magsalita. Dito lang sa computer mo ang lahat.
             </p>
           </div>
         </div>
@@ -321,28 +321,30 @@ function MessageView(props: {
   if (msg.role === 'user' && b.type === 'text') return <div className="you">{b.text}</div>
 
   let body: React.JSX.Element | null = null
+  const speaker = (t: string): React.JSX.Element | null =>
+    canSpeak() && t ? (
+      <button
+        className="icon-btn speak"
+        aria-label={talking ? 'Stop reading' : 'Read aloud'}
+        title={talking ? 'Stop' : 'Read aloud'}
+        onClick={() => {
+          if (talking) {
+            stopSpeaking()
+            setTalking(false)
+          } else {
+            setTalking(true)
+            speak(t, () => setTalking(false))
+          }
+        }}
+      >
+        {talking ? <Square size={12} /> : <Volume2 size={14} />}
+      </button>
+    ) : null
   if (b.type === 'text')
     body = (
       <div className="vox">
-        {b.text}
-        {canSpeak() && (
-          <button
-            className="icon-btn"
-            style={{ marginLeft: '0.8rem', width: '2.6rem', height: '2.6rem' }}
-            aria-label={talking ? 'Stop reading' : 'Read aloud'}
-            onClick={() => {
-              if (talking) {
-                stopSpeaking()
-                setTalking(false)
-              } else {
-                setTalking(true)
-                speak(b.text, () => setTalking(false))
-              }
-            }}
-          >
-            {talking ? <Square size={12} /> : <Volume2 size={13} />}
-          </button>
-        )}
+        <span>{b.text}</span>
+        {speaker(b.text)}
       </div>
     )
   else if (b.type === 'notice')
@@ -354,7 +356,11 @@ function MessageView(props: {
   else if (b.type === 'chips')
     body = (
       <div className="vox">
-        {b.text && <p>{b.text}</p>}
+        {b.text && (
+          <p>
+            {b.text} {speaker(b.text)}
+          </p>
+        )}
         <div className="chip-row">
           {b.chips.map((c) => (
             <button key={c.label} className="example" onClick={() => onChip(c)}>
@@ -369,7 +375,7 @@ function MessageView(props: {
     const r = b.result
     if (b.state === 'done' && b.confirmed) body = <ReactionView result={b.confirmed} />
     else if (b.state === 'skipped')
-      body = <div className="vox muted">Discarded. Nothing was saved.</div>
+      body = <div className="vox muted">Sige, hindi ko na isinama. Walang nasave.</div>
     else if (r.ok)
       body = (
         <>

@@ -51,7 +51,7 @@ export function ChatSessions(props: {
       </label>
       <div className="session-list">
         {groups.length === 0 && (
-          <p className="muted small session-empty">No chats yet. Say hi to VOX.</p>
+          <p className="muted small session-empty">Wala pang kwentuhan. Kumustahin mo si VOX.</p>
         )}
         {groups.map(({ g, rows }) => (
           <div key={g}>

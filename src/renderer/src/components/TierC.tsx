@@ -244,7 +244,7 @@ export function LiftsTab(): React.JSX.Element {
       </section>
       <section className="panel" style={{ marginTop: '1rem' }}>
         <h3 className="panel-title">Personal bests</h3>
-        {data && Object.keys(data.best).length === 0 && <p className="empty">No sets yet.</p>}
+        {data && Object.keys(data.best).length === 0 && <p className="empty">Wala pang set. Buhatin na yan.</p>}
         {data &&
           Object.entries(data.best).map(([k, v]) => (
             <div className="metric" key={k}>
