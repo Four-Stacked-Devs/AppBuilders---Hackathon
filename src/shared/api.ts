@@ -14,6 +14,7 @@ import type {
   ProfileInput
 } from './schemas'
 import type { AiStatus } from './status'
+import type { MealInput, MealPlanView, RecipeView, Slot } from './meals/types'
 import type { FinishInput, WorkoutInput, WorkoutPlan } from './workouts/types'
 import type { ChatMessage, ConversationSummary } from './chat'
 import type { Streak } from './insights/streak'
@@ -58,6 +59,12 @@ export interface VoxApi {
     send(id: string, text: string): Promise<ChatMessage[]> // the person's message plus VOX's replies
     confirm(messageId: number, input: ConfirmInput): Promise<ChatMessage>
     discard(messageId: number): Promise<ChatMessage>
+  }
+  meals: {
+    generate(input: MealInput): Promise<MealPlanView> // becomes the active plan
+    active(): Promise<MealPlanView | null>
+    recipes(): Promise<RecipeView[]>
+    swap(id: string, day: number, slot: Slot): Promise<MealPlanView>
   }
   workout: {
     generate(input: WorkoutInput): Promise<WorkoutPlan> // becomes the active plan

@@ -45,6 +45,9 @@ CREATE TABLE IF NOT EXISTS workout_sessions (
   id INTEGER PRIMARY KEY AUTOINCREMENT, plan_id TEXT NOT NULL, day_index INTEGER NOT NULL,
   date TEXT NOT NULL, minutes INTEGER NOT NULL, muscles TEXT NOT NULL, created_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS meal_plans (
+  id TEXT PRIMARY KEY, json TEXT NOT NULL, created_at TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 0
+);
 CREATE INDEX IF NOT EXISTS workout_sessions_date ON workout_sessions (date);
 `
 
