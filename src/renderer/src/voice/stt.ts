@@ -25,6 +25,8 @@ export function setVoiceLang(v: VoiceLang): void {
 
 let worker: Worker | null = null
 let state: SttState = 'loading'
+let lastError = ''
+export const sttError = (): string => lastError
 let nextId = 1
 const pending = new Map<number, Pending>()
 const listeners = new Set<(s: SttState) => void>()
@@ -42,6 +44,7 @@ export function startStt(): Worker {
     if (m.type === 'ready') setState('ready')
     else if (m.type === 'load-error') {
       console.error('Whisper failed to load:', m.error)
+      lastError = String(m.error).slice(0, 160)
       setState('error')
     } else if (m.type === 'result') {
       console.info(`[vox stt] transcribed ${m.text.length} chars in ${m.ms} ms`)

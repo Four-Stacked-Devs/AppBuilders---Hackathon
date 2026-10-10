@@ -2,7 +2,7 @@ import { Cpu } from 'lucide-react'
 import type { AiStatus } from '@shared/status'
 
 const LABEL: Record<AiStatus['state'], string> = {
-  loading: 'Loading AI on this computer…',
+  loading: 'Ginigising si VOX…',
   ready: 'AI running on this computer',
   error: 'AI not loaded'
 }

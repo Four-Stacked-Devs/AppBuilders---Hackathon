@@ -20,7 +20,7 @@ export function Splash(props: { status: AiStatus; onSkip: () => void }): React.J
       <PantherLoader size="lg" progress={status.progress} />
       <h1>VOX</h1>
       <p className="muted">
-        Loading the AI on this computer{pct !== null ? `, ${pct}%` : '…'}
+        Ginigising si VOX sa computer mo{pct !== null ? `, ${pct}%` : '…'}
         <br />
         Nothing leaves your device.
       </p>

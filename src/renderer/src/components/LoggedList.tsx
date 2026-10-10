@@ -52,7 +52,7 @@ export function LoggedList(props: {
       {entries === null ? (
         <SkeletonRows n={2} />
       ) : entries.length === 0 ? (
-        <p className="empty">Nothing logged yet.</p>
+        <p className="empty">Wala pang tala ngayon. Sabihin mo kay VOX ang ginawa mo.</p>
       ) : (
         <div className="logged">
           {entries.map((e) => (

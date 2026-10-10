@@ -76,7 +76,7 @@ export function Home(): React.JSX.Element {
           ? COMEBACK_TEXT
           : (today?.entryCount ?? 0) > 0 || range !== 'day'
             ? `Here is your ${WORD[range]}.`
-            : 'Nothing logged yet today. Tell VOX what you did.'}
+            : 'Wala pang tala ngayon. Ikwento mo kay VOX ang araw mo.'}
       </Banner>
 
       {!loaded ? (
@@ -152,7 +152,7 @@ export function Home(): React.JSX.Element {
                   </p>
                 </>
               ) : (
-                <p className="muted">No plan yet. Pick something small to do.</p>
+                <p className="muted">Wala pang plano. Pumili ng maliit na gagawin.</p>
               )}
               <button className="btn sm" onClick={() => setScreen('plans')}>
                 {upcoming ? 'Open plans' : 'Make a plan'}
