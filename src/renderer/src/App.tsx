@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useVox, type Screen } from './store'
 import { Sidebar } from './components/Sidebar'
 import { Splash } from './components/Splash'
-import { Setup } from './screens/Setup'
 import { Onboarding } from './screens/Onboarding'
 import { Calendar } from './screens/Calendar'
 import { Coach } from './screens/Coach'
@@ -27,14 +26,6 @@ function App(): React.JSX.Element {
     }
   }, [setAi, setProfile])
 
-  if (ai.state === 'error')
-    return (
-      <div className="app bare">
-        <main className="main">
-          <Setup status={ai} />
-        </main>
-      </div>
-    )
   if (ai.state === 'loading' && !skipSplash)
     return <Splash status={ai} onSkip={() => setSkipSplash(true)} />
   if (!profileLoaded) return <div className="app bare" />

@@ -31,7 +31,8 @@ function baseDir(): string {
 const pick = (env: string | undefined, candidates: string[]): string | null =>
   env ?? candidates.find((f) => existsSync(path.join(baseDir(), f))) ?? null
 
-export const MODEL_FILE = pick(process.env.VOX_MODEL_FILE, MAIN_CANDIDATES) ?? MAIN_CANDIDATES[1]
+let MODEL_FILE_ACTIVE = pick(process.env.VOX_MODEL_FILE, MAIN_CANDIDATES) ?? MAIN_CANDIDATES[1]
+export const MODEL_FILE = MODEL_FILE_ACTIVE
 const FAST_FILE = LITE ? null : pick(process.env.VOX_FAST_MODEL_FILE, FAST_CANDIDATES)
 
 export type Role = 'parse' | 'explain' | 'coach'
@@ -87,35 +88,53 @@ export async function initLlm(
     llama = await nlc.getLlama() // picks Metal / Vulkan / CUDA / CPU
     gpu = llama.gpu || 'cpu'
     let lastPct = -1
-    main = await llama.loadModel({
-      modelPath: modelPath(),
-      onLoadProgress: (p) => {
-        const pct = Math.round(p * (FAST_FILE ? 85 : 100))
-        if (pct === lastPct) return // at most one update per percent
-        lastPct = pct
-        set({
-          state: 'loading',
-          message: 'Loading AI model on this computer…',
-          progress: pct / 100
-        })
-      }
-    })
-    const mainCtx = await main.createContext({
-      contextSize: 6144,
-      sequences: FAST_FILE ? 1 : 3,
-      flashAttention: true
-    })
-    if (FAST_FILE && existsSync(modelPath(FAST_FILE))) {
-      fast = await llama.loadModel({ modelPath: modelPath(FAST_FILE) })
-      const fastCtx = await fast.createContext({ contextSize: 4096, sequences: 2, flashAttention: true })
-      slots.set('parse', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
-      slots.set('explain', { seq: fastCtx.getSequence(), queue: Promise.resolve() })
-      slots.set('coach', { seq: fastCtx.getSequence(), queue: Promise.resolve() })
-    } else {
-      slots.set('parse', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
-      slots.set('explain', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
-      slots.set('coach', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
+    const onLoadProgress = (p: number): void => {
+      const pct = Math.round(p * 100)
+      if (pct === lastPct) return // at most one update per percent
+      lastPct = pct
+      set({ state: 'loading', message: 'Loading AI model on this computer…', progress: p })
     }
+    // Try every model file that exists (best first); a failed load falls through to the next.
+    const files = [...new Set([MODEL_FILE_ACTIVE, ...MAIN_CANDIDATES])].filter((f) => existsSync(modelPath(f)))
+    let lastErr: unknown = new Error('No model file found. Run npm run models:download.')
+    let mainCtx: Awaited<ReturnType<LlamaModel['createContext']>> | null = null
+    for (const file of files) {
+      try {
+        main = await llama.loadModel({ modelPath: modelPath(file), onLoadProgress })
+        // Context: full size first, then smaller and without flash attention if memory is tight.
+        for (const [size, flash] of [[6144, true], [3072, true], [2048, false]] as const) {
+          try {
+            mainCtx = await main.createContext({ contextSize: size, sequences: 3, flashAttention: flash })
+            break
+          } catch (e) {
+            lastErr = e
+          }
+        }
+        if (mainCtx) {
+          MODEL_FILE_ACTIVE = file
+          break
+        }
+        await main.dispose()
+      } catch (e) {
+        lastErr = e
+      }
+    }
+    if (!mainCtx) throw lastErr
+    // One small fast model is a bonus: if it does not fit, everything shares the main one.
+    if (FAST_FILE && existsSync(modelPath(FAST_FILE))) {
+      try {
+        fast = await llama.loadModel({ modelPath: modelPath(FAST_FILE) })
+        const fastCtx = await fast.createContext({ contextSize: 3072, sequences: 2, flashAttention: true })
+        slots.set('explain', { seq: fastCtx.getSequence(), queue: Promise.resolve() })
+        slots.set('coach', { seq: fastCtx.getSequence(), queue: Promise.resolve() })
+      } catch (e) {
+        console.warn('fast model skipped:', e)
+        fast = null
+      }
+    }
+    slots.set('parse', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
+    if (!slots.has('explain')) slots.set('explain', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
+    if (!slots.has('coach')) slots.set('coach', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
     for (const s of schemas) await grammarFor(s) // compile once, up front
     await generate({
       system: 'Reply with OK.',
@@ -125,7 +144,7 @@ export async function initLlm(
       timeoutMs: 60_000,
       role: 'explain'
     })
-    set({ state: 'ready', message: fast ? `${MODEL_FILE} + ${FAST_FILE}` : MODEL_FILE })
+    set({ state: 'ready', message: fast ? `${MODEL_FILE_ACTIVE} + ${FAST_FILE}` : MODEL_FILE_ACTIVE })
   } catch (err) {
     console.error('LLM load failed:', err)
     set({ state: 'error', message: String(err) })
