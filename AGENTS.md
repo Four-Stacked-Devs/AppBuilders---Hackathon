@@ -20,6 +20,11 @@ These rules apply to every AI tool used on this repo (Claude Code reads them via
 - Never add or edit a value in `data/*.json` without a source from PhilFCT, the
   2024 Adult Compendium, or a product label. Never invent values. Incomplete rows go
   in `data/foods.draft.json`.
+- Exception, agreed by the team for the MVP: **portion sizes** (grams per cup, piece, glass,
+  serving) may be team estimates from `data/portions.estimates.json`. They must carry
+  `portionEstimated: true`, and the UI and the calculation breakdown must say "estimated
+  portion". Energy and macros per 100 g still come only from PhilFCT, METs only from the
+  Compendium. `scripts/import-philfct.py` regenerates `data/foods.ph.json`.
 - Parse output and every IPC payload are validated with Zod.
 - Explain output always passes `validateReaction()`; on failure use `templateReaction()`.
 - Never report a speed or benchmark that wasn't measured; record real numbers in `docs/bench.md`.

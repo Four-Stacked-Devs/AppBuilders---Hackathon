@@ -26,3 +26,20 @@ promote a row:
 3. Move the row into `foods.ph.json` and run `npm test`.
 
 `combos.json` (`tapsilog`) is checked against `foods.ph.json` once that file has rows.
+
+## Update: bulk import (2026-10-10)
+
+- **PhilFCT:** `data/foods.ph.json` now holds all 1,539 foods in the public PhilFCT reports
+  (report ids 2963-5013), imported by `scripts/import-philfct.py`. Each row carries energy,
+  protein, fat, carbohydrate and fibre per 100 g edible portion, copied from the report, with its
+  Food ID and report URL. Rows whose energy disagrees with 4P+9F+4C by a wide margin would go to
+  `data/foods.flagged.json` (none did). PhilFCT publishes no redistribution terms; each row cites
+  its source, and the team should ask FNRI for written permission.
+- **Portions are estimates.** PhilFCT has no household measures. `data/portions.estimates.json`
+  holds team estimates by food group and name pattern; every row is flagged `portionEstimated`.
+- **Taglish names:** `data/aliases.tl.json` maps Filipino and Taglish names to the nearest PhilFCT
+  entry. Names are not numbers, so they need no source. Some are approximate (for example
+  "adobong manok" uses the pork and chicken adobo entry); the card shows the real entry name.
+- **Activities:** `data/activities.json` has 42 rows from the 2024 Adult Compendium, each citing
+  its code and description from pacompendium.com. Sipa, sepak takraw, arnis and jeepney commuting
+  have no Compendium entry; they are aliased to the nearest code.
