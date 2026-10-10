@@ -15,6 +15,28 @@
 
 ---
 
+## Run it: copy and paste this into your terminal
+
+Needs [Node.js 22 LTS](https://nodejs.org) and git. The first run downloads the local AI models
+(a few GB, one time only). After that, VOX needs no internet.
+
+**macOS, Linux, or Windows with Git Bash / PowerShell 7:**
+
+```bash
+git clone https://github.com/Four-Stacked-Devs/Vox-Fitness.git && cd Vox-Fitness && npm install && npm run models:download && npm run dev
+```
+
+**Windows PowerShell (the blue one):**
+
+```powershell
+git clone https://github.com/Four-Stacked-Devs/Vox-Fitness.git; cd Vox-Fitness; npm install; npm run models:download; npm run dev
+```
+
+When the app opens, go to **Settings → Load demo month (dev)** to fill it with sample history. On
+macOS, run `xcode-select --install` first if it asks for developer tools.
+
+---
+
 ## Why VOX
 
 Most fitness apps are built for English speakers, don't know sinigang from sinangag, and send
