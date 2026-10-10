@@ -6,6 +6,7 @@ import COACH_PROMPT from '../ai/prompts/coach.md?raw'
 import { parseLog } from '../ai/parse'
 import { validateReaction } from '../ai/validator'
 import { confirmLog, getDay } from '../confirm'
+import { matcher } from '../matching/match'
 import { checkSafety } from '../safety/rules'
 import { SAFETY_MESSAGES } from '../safety/responses'
 import { db } from '../store/db'
@@ -95,6 +96,28 @@ async function respond(raw: string): Promise<MsgBody[]> {
     }
     case 'stats':
       return answerStats(raw)
+    case 'food': {
+      if (teen)
+        return [text('Sa teen mode, hindi ko pinag-uusapan ang calories. Pwede kitang tulungan sa Go, Grow at Glow na pagkain!')]
+      const words = raw
+        .toLowerCase()
+        .replace(/[^a-z0-9 ]+/g, ' ')
+        .replace(/\b(ilang|ilan|na|calories?|kcal|protein|carbs?|macros?|sa|ng|ang|in|of|per|how|many|what|is|the|ba|ito|yung)\b/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+      const m = words ? matcher.matchFood(words) : null
+      if (!m?.matched || !m.ref)
+        return [text('Hindi ko mahanap ang pagkaing iyon sa food table. Subukan ang ibang pangalan.')]
+      const f = m.ref
+      return [
+        {
+          type: 'stats',
+          title: `${f.name} (per 100 g)`,
+          value: `${f.kcalPer100g} kcal`,
+          sub: `Protein ${f.proteinG ?? '-'} g, fat ${f.fatG ?? '-'} g, carbs ${f.carbG ?? '-'} g. PhilFCT ${f.id.toUpperCase()}`
+        }
+      ]
+    }
     case 'help':
       return [HELP]
     case 'chitchat':

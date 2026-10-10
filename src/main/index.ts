@@ -2,6 +2,7 @@ import {
   app,
   shell,
   BrowserWindow,
+  globalShortcut,
   Menu,
   nativeImage,
   session,
@@ -118,6 +119,15 @@ app.whenReady().then(() => {
 
   registerIpc()
   createWindow()
+  // Quick capture: Ctrl+Shift+V brings VOX forward on the Coach chat, ready to talk or type.
+  globalShortcut.register('CommandOrControl+Shift+V', () => {
+    const w = BrowserWindow.getAllWindows()[0]
+    if (!w) return
+    if (w.isMinimized()) w.restore()
+    w.show()
+    w.focus()
+    w.webContents.send('vox:quick-capture')
+  })
   createTray()
 
   // Load the model in the background; never block startup on it.

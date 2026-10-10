@@ -60,6 +60,12 @@ export interface VoxApi {
     confirm(messageId: number, input: ConfirmInput): Promise<ChatMessage>
     discard(messageId: number): Promise<ChatMessage>
   }
+  lifts: {
+    add(i: { exercise: string; reps: number; weightKg: number }): Promise<{ pr: boolean; est1rm: number }>
+    list(): Promise<{ recent: { id: number; date: string; exercise: string; reps: number; weightKg: number; est1rm: number }[]; best: Record<string, number> }>
+  }
+  data: { export(): Promise<{ path: string } | null> }
+  app: { onQuickCapture(cb: () => void): () => void }
   meals: {
     generate(input: MealInput): Promise<MealPlanView> // becomes the active plan
     active(): Promise<MealPlanView | null>

@@ -36,6 +36,15 @@ const api: VoxApi = {
     confirm: (messageId, input) => ipcRenderer.invoke('chat:confirm', messageId, input),
     discard: (messageId) => ipcRenderer.invoke('chat:discard', messageId)
   },
+  lifts: { add: (i) => ipcRenderer.invoke('lifts:add', i), list: () => ipcRenderer.invoke('lifts:list') },
+  data: { export: () => ipcRenderer.invoke('data:export') },
+  app: {
+    onQuickCapture: (cb) => {
+      const h = (): void => cb()
+      ipcRenderer.on('vox:quick-capture', h)
+      return () => ipcRenderer.removeListener('vox:quick-capture', h)
+    }
+  },
   meals: {
     generate: (input) => ipcRenderer.invoke('meals:generate', input),
     active: () => ipcRenderer.invoke('meals:active'),
