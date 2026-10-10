@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useVox } from './store'
+import { useVox, type Screen } from './store'
 import { Sidebar } from './components/Sidebar'
 import { Splash } from './components/Splash'
 import { Setup } from './screens/Setup'
 import { Onboarding } from './screens/Onboarding'
-import { Talk } from './screens/Talk'
-import { Dashboard } from './screens/Dashboard'
+import { Calendar } from './screens/Calendar'
+import { Coach } from './screens/Coach'
+import { Diary } from './screens/Diary'
+import { Home } from './screens/Home'
+import { Plans } from './screens/Plans'
 import { Progress } from './screens/Progress'
 import { Settings } from './screens/Settings'
 
@@ -40,17 +43,22 @@ function App(): React.JSX.Element {
       </div>
     )
 
-  let body: React.JSX.Element
-  if (screen === 'today' || screen === 'weekly' || screen === 'monthly')
-    body = <Dashboard key={screen} tab={screen} />
-  else if (screen === 'progress') body = <Progress />
-  else if (screen === 'settings') body = <Settings />
-  else body = <Talk />
+  const body: Record<Exclude<Screen, 'onboarding'>, React.JSX.Element> = {
+    home: <Home />,
+    coach: <Coach />,
+    diary: <Diary />,
+    calendar: <Calendar />,
+    progress: <Progress />,
+    plans: <Plans />,
+    settings: <Settings />
+  }
 
   return (
     <div className="app">
       <Sidebar />
-      <main className="main">{body}</main>
+      <main className="main" key={screen}>
+        {body[screen as Exclude<Screen, 'onboarding'>]}
+      </main>
     </div>
   )
 }

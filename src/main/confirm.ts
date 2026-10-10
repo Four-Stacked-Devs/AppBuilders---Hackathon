@@ -6,7 +6,7 @@ import { explain } from './ai/explain'
 import { computeItems, currentWeightKg, removeEntry, summarizeDay } from './facts'
 import { matcher } from './matching/match'
 import { checkSafety } from './safety/rules'
-import { computeStreak, type Streak } from '@shared/insights/streak'
+import { computeStreak, streakRun, type Streak } from '@shared/insights/streak'
 import { saveTaught } from './nlu/taught'
 import { db } from './store/db'
 
@@ -124,3 +124,10 @@ export function getStreak(): Streak {
     entries.filter((e) => e.safety === 'eating').map((e) => e.date)
   )
 }
+
+// Dates in the current streak and the day a rest pass covered, for the calendar.
+export const getStreakRun = (): { run: string[]; passes: string[] } =>
+  streakRun(
+    db().get().entries.map((e) => e.date),
+    localDate()
+  )

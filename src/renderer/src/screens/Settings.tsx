@@ -1,6 +1,9 @@
 import { Cpu, Monitor, Moon, ShieldCheck, Sun, User, CircleCheck } from 'lucide-react'
 import { ageYears } from '@shared/calc'
+import { useState } from 'react'
+import { Mic } from 'lucide-react'
 import { useVox } from '../store'
+import { getVoiceLang, setVoiceLang, type VoiceLang } from '../voice/stt'
 import type { ThemePref } from '../theme'
 import { AiChip } from '../components/AiChip'
 import { OnDeviceFacts } from '../components/OnDeviceFacts'
@@ -15,6 +18,7 @@ const SEX_LABEL = { male: 'Male', female: 'Female', unspecified: 'Prefer not to 
 
 export function Settings(): React.JSX.Element {
   const { profile, setScreen, themePref, setThemePref, ai } = useVox()
+  const [voice, setVoice] = useState<VoiceLang>(getVoiceLang())
   if (!profile) return <div className="page" />
   const teen = profile.mode === 'teen'
   const initials = profile.nickname.slice(0, 2).toUpperCase()
@@ -93,6 +97,31 @@ export function Settings(): React.JSX.Element {
             ))}
           </div>
           <p className="note">Choose how VOX looks on this computer.</p>
+        </section>
+
+        <section className="panel">
+          <h3 className="panel-title">
+            <Mic size={18} aria-hidden="true" /> Voice language
+          </h3>
+          <p className="sub">What VOX listens for when you talk</p>
+          <div className="theme-opts">
+            {(['tagalog', 'english', 'auto'] as VoiceLang[]).map((v) => (
+              <button
+                key={v}
+                className="theme-opt"
+                aria-pressed={voice === v}
+                onClick={() => {
+                  setVoiceLang(v)
+                  setVoice(v)
+                }}
+              >
+                {v === 'tagalog' ? 'Tagalog' : v === 'english' ? 'English' : 'Auto'}
+              </button>
+            ))}
+          </div>
+          <p className="note">
+            Taglish works best with Tagalog. Switch to English if most of your words are English.
+          </p>
         </section>
 
         <section className="panel">

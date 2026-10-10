@@ -38,7 +38,7 @@ export function BarCard(props: {
               tick={{ fontSize: 11, fill: t.muted }}
             />
           )}
-          <Bar dataKey="value" fill={color} radius={[4, 4, 0, 0]} isAnimationActive={false} />
+          <Bar dataKey="value" fill={color} radius={[4, 4, 0, 0]} isAnimationActive />
         </BarChart>
       </ResponsiveContainer>
     </section>

@@ -108,7 +108,7 @@ export function Onboarding(): React.JSX.Element {
     setSaving(true)
     try {
       setProfile(await window.vox.profile.save(input.data))
-      setScreen('talk')
+      setScreen('home')
     } catch (err) {
       setError(cleanError(err))
     } finally {

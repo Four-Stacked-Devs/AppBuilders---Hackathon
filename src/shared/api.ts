@@ -69,6 +69,7 @@ export interface VoxApi {
     resolve(id: string, action: PlanAction): Promise<{ ok: true }> // for a missed plan
   }
   streak: {
+    run(): Promise<{ run: string[]; passes: string[] }> // current streak days and rest-pass days
     get(): Promise<Streak> // logging streak for the flame; see src/shared/insights/streak.ts
   }
   entry: {
