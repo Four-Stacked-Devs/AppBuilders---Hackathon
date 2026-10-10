@@ -73,6 +73,8 @@ export const FUTURE_WORDS = new Set([
 // Words that carry no food, activity or number meaning. Leftover words that are not here are
 // reported as "not understood" instead of being silently dropped.
 export const STOP = new Set(`
+hello hi hey salamat thanks thank kumusta kamusta sige okay ok vox boss po opo ayos nice wow haha hehe
+
   ako ko ka kami kayo sila siya niya namin natin nila mo mong kong kaming ako ay at t ng nang na
   ang sa si ni yung yun iyon itong ito lang po ho pala daw raw kasi kaya naman din rin ba eh so
   tapos tsaka saka pati pero then and plus the a an of for in on to my i we me today ngayon
