@@ -111,6 +111,9 @@ export type Matcher = {
   activity: (id: string) => ActivityRow | undefined
 }
 
+// Words the person taught VOX: normalised alias -> row. Filled from the database at startup.
+export const taught = new Map<string, { kind: 'food' | 'activity'; refId: string }>()
+
 const withGrams = (f: FoodRow): FoodRow => ({ ...f, portions: { ...f.portions, gram: 1 } })
 
 export function createMatcher(
@@ -118,8 +121,18 @@ export function createMatcher(
   activities: ActivityRow[],
   combos: Combos
 ): Matcher {
-  const matchFood = index(foods)
-  const matchActivity = index(activities)
+  const foodIndex = index(foods)
+  const activityIndex = index(activities)
+  const matchFood = (name: string): Match<FoodRow> => {
+    const t = taught.get(norm(name))
+    const ref = t?.kind === 'food' ? foods.find((f) => f.id === t.refId) : undefined
+    return ref ? { matched: true, ref, candidates: [] } : foodIndex(name)
+  }
+  const matchActivity = (name: string): Match<ActivityRow> => {
+    const t = taught.get(norm(name))
+    const ref = t?.kind === 'activity' ? activities.find((a) => a.id === t.refId) : undefined
+    return ref ? { matched: true, ref, candidates: [] } : activityIndex(name)
+  }
   foods = foods.map(withGrams)
   const foodById = new Map(foods.map((f) => [f.id, f]))
   const comboByName = new Map(

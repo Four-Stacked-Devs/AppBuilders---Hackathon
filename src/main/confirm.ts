@@ -7,6 +7,7 @@ import { computeItems, currentWeightKg, removeEntry, summarizeDay } from './fact
 import { matcher } from './matching/match'
 import { checkSafety } from './safety/rules'
 import { computeStreak, type Streak } from '@shared/insights/streak'
+import { saveTaught } from './nlu/taught'
 import { db } from './store/db'
 
 const age = (): number => {
@@ -19,6 +20,7 @@ export async function confirmLog(input: ConfirmInput): Promise<ConfirmResult> {
   // The text may have been edited after parsing: crisis text is still never logged.
   if (checkSafety(input.rawText) === 'crisis') throw new Error('crisis text is not logged')
 
+  if (input.taught?.length) saveTaught(input.taught)
   const { profile, entries } = db().get()
   const mode = profile?.mode ?? 'adult'
   const date = addDays(localDate(), input.dayOffset ?? 0)
@@ -71,11 +73,28 @@ export const getDay = (date: string): DaySummary => {
 }
 
 export function getHistory(from: string, to: string): DaySummary[] {
+  const { entries, profile } = db().get()
+  const a = age()
+  // Group once, and walk the weigh-ins in order, instead of re-scanning every entry per day.
+  const byDate = new Map<string, LogEntry[]>()
+  for (const e of entries) {
+    const list = byDate.get(e.date)
+    if (list) list.push(e)
+    else byDate.set(e.date, [e])
+  }
+  const weighIns = entries
+    .filter((e) => e.bodyWeightKg > 0)
+    .sort((x, y) => (x.date + x.createdAt < y.date + y.createdAt ? -1 : 1))
+  let wi = 0
+  let weight = profile?.weightKg ?? 0
+  while (wi < weighIns.length && weighIns[wi].date < from) weight = weighIns[wi++].bodyWeightKg
   const out: DaySummary[] = []
-  for (let d = from; d <= to && out.length < 366; d = addDays(d, 1)) out.push(getDay(d))
+  for (let d = from; d <= to && out.length < 366; d = addDays(d, 1)) {
+    while (wi < weighIns.length && weighIns[wi].date <= d) weight = weighIns[wi++].bodyWeightKg
+    out.push(summarizeDay(d, byDate.get(d) ?? [], profile, a, weight))
+  }
   return out
 }
-
 // One day's entries, oldest first, for the "Logged today" list.
 export const getEntries = (date: string): LogEntry[] =>
   db()

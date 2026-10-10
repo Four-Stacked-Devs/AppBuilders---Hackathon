@@ -115,7 +115,8 @@ export function summarizeDay(
   date: string,
   entries: LogEntry[],
   profile: Profile | null,
-  age: number
+  age: number,
+  weightKg?: number
 ): DaySummary {
   const day = entries.filter((e) => e.date === date)
   const calories = profile?.caloriesEnabled ?? false
@@ -133,7 +134,7 @@ export function summarizeDay(
   const latest = [...day].sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1)).at(-1)
   const t =
     profile && calories
-      ? profileTdee(profile, currentWeightKg(entries, profile, date), age)
+      ? profileTdee(profile, weightKg ?? currentWeightKg(entries, profile, date), age)
       : undefined
   return {
     date,

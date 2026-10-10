@@ -14,6 +14,16 @@ import { parseLog } from './ai/parse'
 import { confirmLog, deleteEntry, getDay, getEntries, getHistory, getStreak } from './confirm'
 import { seedDemoHistory } from './dev/seed'
 import { dismissInsight, getInsights } from './insights'
+import { ChatText, ChatTitle, ConversationId } from '@shared/chat'
+import { confirmLogMessage, discardLogMessage, sendMessage } from './chat/coach'
+import {
+  createConversation,
+  deleteConversation,
+  getMessages,
+  listConversations,
+  renameConversation
+} from './chat/repo'
+import { loadTaught } from './nlu/taught'
 import { getMeta } from './meta'
 import { addPlan, listActivities, listPlans, resolvePlan } from './plans'
 import { getProfile, saveProfile } from './profile'
@@ -30,6 +40,7 @@ function handle<S extends z.ZodType<unknown[]>>(
 const none = z.tuple([])
 
 export function registerIpc(): void {
+  loadTaught() // words the person taught VOX
   handle('ai:status', none, () => getStatus())
   handle('meta:get', none, () => getMeta())
 
@@ -43,6 +54,23 @@ export function registerIpc(): void {
   handle('history:range', z.tuple([DateArg, DateArg]), (from, to) => getHistory(from, to))
   handle('day:entries', z.tuple([DateArg]), (date) => getEntries(date))
   handle('streak:get', none, () => getStreak())
+
+  handle('chat:list', none, () => listConversations())
+  handle('chat:create', none, () => ({ id: createConversation() }))
+  handle('chat:rename', z.tuple([ConversationId, ChatTitle]), (id, title) => {
+    renameConversation(id, title)
+    return { ok: true }
+  })
+  handle('chat:delete', z.tuple([ConversationId]), (id) => {
+    deleteConversation(id)
+    return { ok: true }
+  })
+  handle('chat:history', z.tuple([ConversationId]), (id) => getMessages(id))
+  handle('chat:send', z.tuple([ConversationId, ChatText]), (id, text) => sendMessage(id, text))
+  handle('chat:confirm', z.tuple([z.number().int(), ConfirmInput]), (id, input) =>
+    confirmLogMessage(id, input)
+  )
+  handle('chat:discard', z.tuple([z.number().int()]), (id) => discardLogMessage(id))
 
   handle('insights:get', none, () => getInsights())
   handle('insights:dismiss', z.tuple([FindingId]), (id) => dismissInsight(id))

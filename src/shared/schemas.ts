@@ -143,7 +143,18 @@ export const ConfirmInput = z.object({
   waterGlasses: z.number().min(0).max(30),
   bodyWeightKg: z.number().min(0).max(300),
   safety: SafetyHit.exclude(['crisis']).nullable(), // 'eating' hides calories for this entry
-  dayOffset: z.number().int().min(-7).max(0).optional() // log for an earlier day
+  dayOffset: z.number().int().min(-7).max(0).optional(), // log for an earlier day
+  // Words the person matched by hand; VOX remembers them (alias -> food or activity).
+  taught: z
+    .array(
+      z.object({
+        alias: z.string().min(1).max(60),
+        kind: z.enum(['food', 'activity']),
+        refId: z.string().min(1).max(60)
+      })
+    )
+    .max(25)
+    .optional()
 })
 export type ConfirmInput = z.infer<typeof ConfirmInput>
 

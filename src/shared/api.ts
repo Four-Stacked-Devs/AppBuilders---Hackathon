@@ -14,6 +14,7 @@ import type {
   ProfileInput
 } from './schemas'
 import type { AiStatus } from './status'
+import type { ChatMessage, ConversationSummary } from './chat'
 import type { Streak } from './insights/streak'
 
 // The only API the renderer can call. Exposed by the preload as window.vox.
@@ -46,6 +47,16 @@ export interface VoxApi {
   day: {
     get(date: string): Promise<DaySummary>
     entries(date: string): Promise<LogEntry[]> // oldest first
+  }
+  chat: {
+    list(): Promise<ConversationSummary[]>
+    create(): Promise<{ id: string }>
+    rename(id: string, title: string): Promise<{ ok: true }>
+    delete(id: string): Promise<{ ok: true }>
+    history(id: string): Promise<ChatMessage[]>
+    send(id: string, text: string): Promise<ChatMessage[]> // the person's message plus VOX's replies
+    confirm(messageId: number, input: ConfirmInput): Promise<ChatMessage>
+    discard(messageId: number): Promise<ChatMessage>
   }
   insights: {
     get(): Promise<InsightList> // habit patterns with the logs behind them
