@@ -1,0 +1,801 @@
+[
+ {
+  "id": "adobong_manok",
+  "name": "Adobong manok",
+  "course": "main",
+  "tags": [
+   "chicken"
+  ],
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 35,
+  "ingredients": [
+   {
+    "foodId": "f107",
+    "grams": 600
+   },
+   {
+    "foodId": "d084",
+    "grams": 20
+   },
+   {
+    "foodId": "d143",
+    "grams": 80
+   },
+   {
+    "foodId": "n023",
+    "grams": 45
+   },
+   {
+    "foodId": "n027",
+    "grams": 45
+   },
+   {
+    "foodId": "k009",
+    "grams": 10
+   }
+  ],
+  "steps": [
+   "Saute garlic and onion in a little oil.",
+   "Add the chicken and brown it for 5 minutes.",
+   "Pour in soy sauce, vinegar and half a cup of water. Simmer for 25 to 30 minutes until tender."
+  ]
+ },
+ {
+  "id": "tinolang_manok",
+  "name": "Tinolang manok",
+  "course": "main",
+  "tags": [
+   "chicken"
+  ],
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 35,
+  "ingredients": [
+   {
+    "foodId": "f102",
+    "grams": 500
+   },
+   {
+    "foodId": "d304",
+    "grams": 20
+   },
+   {
+    "foodId": "d143",
+    "grams": 60
+   },
+   {
+    "foodId": "d050",
+    "grams": 300
+   },
+   {
+    "foodId": "d094",
+    "grams": 60
+   },
+   {
+    "foodId": "n011",
+    "grams": 15
+   }
+  ],
+  "steps": [
+   "Saute ginger and onion.",
+   "Add the chicken and fish sauce, then water. Simmer for 25 minutes.",
+   "Add sayote for 5 minutes, then malunggay leaves for 1 minute."
+  ]
+ },
+ {
+  "id": "sinigang_baboy",
+  "name": "Sinigang na baboy",
+  "course": "main",
+  "tags": [
+   "pork"
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 45,
+  "ingredients": [
+   {
+    "foodId": "f173",
+    "grams": 500
+   },
+   {
+    "foodId": "d257",
+    "grams": 200
+   },
+   {
+    "foodId": "d143",
+    "grams": 80
+   },
+   {
+    "foodId": "d173",
+    "grams": 150
+   },
+   {
+    "foodId": "d232",
+    "grams": 120
+   },
+   {
+    "foodId": "d139",
+    "grams": 100
+   }
+  ],
+  "steps": [
+   "Boil the pork with onion and tomato until tender, about 40 minutes.",
+   "Add the souring base you like (tamarind or a sinigang mix).",
+   "Add okra and string beans for 5 minutes, then kangkong for 1 minute."
+  ]
+ },
+ {
+  "id": "ginisang_munggo",
+  "name": "Ginisang munggo",
+  "course": "main",
+  "tags": [
+   "pork",
+   "legume"
+  ],
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 50,
+  "ingredients": [
+   {
+    "foodId": "c027",
+    "grams": 150
+   },
+   {
+    "foodId": "f173",
+    "grams": 100
+   },
+   {
+    "foodId": "d094",
+    "grams": 60
+   },
+   {
+    "foodId": "d084",
+    "grams": 15
+   },
+   {
+    "foodId": "d143",
+    "grams": 60
+   },
+   {
+    "foodId": "k009",
+    "grams": 10
+   }
+  ],
+  "steps": [
+   "Boil the mung beans until soft, about 35 minutes.",
+   "Saute garlic, onion and the pork, then add the beans with their broth.",
+   "Simmer for 10 minutes, add malunggay leaves for the last minute."
+  ]
+ },
+ {
+  "id": "pinakbet",
+  "name": "Pinakbet",
+  "course": "main",
+  "tags": [
+   "pork",
+   "veg"
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 30,
+  "ingredients": [
+   {
+    "foodId": "d073",
+    "grams": 150
+   },
+   {
+    "foodId": "d018",
+    "grams": 120
+   },
+   {
+    "foodId": "d225",
+    "grams": 200
+   },
+   {
+    "foodId": "d139",
+    "grams": 100
+   },
+   {
+    "foodId": "d232",
+    "grams": 100
+   },
+   {
+    "foodId": "d257",
+    "grams": 100
+   },
+   {
+    "foodId": "f173",
+    "grams": 100
+   },
+   {
+    "foodId": "n011",
+    "grams": 20
+   }
+  ],
+  "steps": [
+   "Saute the pork with tomato until the tomato breaks down.",
+   "Add the firm vegetables first (squash), then the rest.",
+   "Season with fish sauce, cover and cook for 15 minutes without stirring too much."
+  ]
+ },
+ {
+  "id": "inihaw_bangus",
+  "name": "Inihaw na bangus with kamatis",
+  "course": "main",
+  "tags": [
+   "fish"
+  ],
+  "servings": 3,
+  "prepMin": 10,
+  "cookMin": 20,
+  "ingredients": [
+   {
+    "foodId": "g075",
+    "grams": 500
+   },
+   {
+    "foodId": "d257",
+    "grams": 200
+   },
+   {
+    "foodId": "d143",
+    "grams": 80
+   }
+  ],
+  "steps": [
+   "Grill or pan-roast the bangus until cooked through.",
+   "Chop tomato and onion for the side.",
+   "Serve together."
+  ]
+ },
+ {
+  "id": "tortang_talong",
+  "name": "Tortang talong",
+  "course": "main",
+  "tags": [
+   "egg",
+   "veg"
+  ],
+  "servings": 3,
+  "prepMin": 10,
+  "cookMin": 15,
+  "ingredients": [
+   {
+    "foodId": "d074",
+    "grams": 300
+   },
+   {
+    "foodId": "h003",
+    "grams": 200
+   },
+   {
+    "foodId": "k009",
+    "grams": 20
+   }
+  ],
+  "steps": [
+   "Grill or boil the eggplant until soft, peel the skin.",
+   "Flatten with a fork, dip in beaten egg.",
+   "Pan-fry in a little oil until golden on both sides."
+  ]
+ },
+ {
+  "id": "ginataang_kalabasa",
+  "name": "Ginataang kalabasa at sitaw",
+  "course": "main",
+  "tags": [
+   "shrimp",
+   "seafood",
+   "veg"
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 25,
+  "ingredients": [
+   {
+    "foodId": "d225",
+    "grams": 400
+   },
+   {
+    "foodId": "d232",
+    "grams": 150
+   },
+   {
+    "foodId": "k002",
+    "grams": 150
+   },
+   {
+    "foodId": "g113",
+    "grams": 150
+   }
+  ],
+  "steps": [
+   "Simmer squash in coconut milk and a little water for 10 minutes.",
+   "Add string beans and shrimp.",
+   "Cook for 5 more minutes until the shrimp turns pink."
+  ]
+ },
+ {
+  "id": "chicken_afritada",
+  "name": "Chicken afritada",
+  "course": "main",
+  "tags": [
+   "chicken"
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 40,
+  "ingredients": [
+   {
+    "foodId": "f108",
+    "grams": 600
+   },
+   {
+    "foodId": "b007",
+    "grams": 250
+   },
+   {
+    "foodId": "d039",
+    "grams": 120
+   },
+   {
+    "foodId": "d257",
+    "grams": 150
+   },
+   {
+    "foodId": "d143",
+    "grams": 60
+   },
+   {
+    "foodId": "d084",
+    "grams": 15
+   },
+   {
+    "foodId": "k009",
+    "grams": 10
+   }
+  ],
+  "steps": [
+   "Saute garlic and onion, brown the chicken.",
+   "Add tomato and a cup of water, simmer for 15 minutes.",
+   "Add potato and carrots and cook for 15 more minutes."
+  ]
+ },
+ {
+  "id": "nilagang_baka",
+  "name": "Nilagang baka",
+  "course": "main",
+  "tags": [
+   "beef"
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 90,
+  "ingredients": [
+   {
+    "foodId": "f006",
+    "grams": 500
+   },
+   {
+    "foodId": "b007",
+    "grams": 250
+   },
+   {
+    "foodId": "d035",
+    "grams": 250
+   },
+   {
+    "foodId": "d160",
+    "grams": 150
+   },
+   {
+    "foodId": "a003",
+    "grams": 200
+   },
+   {
+    "foodId": "d143",
+    "grams": 60
+   }
+  ],
+  "steps": [
+   "Boil the beef with onion for about 70 minutes until tender.",
+   "Add corn and potato for 10 minutes.",
+   "Add cabbage and pechay for the last 5 minutes."
+  ]
+ },
+ {
+  "id": "pritong_galunggong",
+  "name": "Pritong galunggong at ensalada",
+  "course": "main",
+  "tags": [
+   "fish"
+  ],
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 15,
+  "ingredients": [
+   {
+    "foodId": "g105",
+    "grams": 400
+   },
+   {
+    "foodId": "k009",
+    "grams": 20
+   },
+   {
+    "foodId": "d257",
+    "grams": 200
+   },
+   {
+    "foodId": "d143",
+    "grams": 60
+   }
+  ],
+  "steps": [
+   "Pat the fish dry and fry in a little oil until crisp, about 4 minutes per side.",
+   "Slice tomato and onion into a quick salad."
+  ]
+ },
+ {
+  "id": "sardinas_guisado",
+  "name": "Guisadong sardinas na may itlog",
+  "course": "main",
+  "tags": [
+   "fish",
+   "egg"
+  ],
+  "servings": 3,
+  "prepMin": 10,
+  "cookMin": 15,
+  "ingredients": [
+   {
+    "foodId": "g100",
+    "grams": 250
+   },
+   {
+    "foodId": "d257",
+    "grams": 150
+   },
+   {
+    "foodId": "d143",
+    "grams": 60
+   },
+   {
+    "foodId": "d084",
+    "grams": 10
+   },
+   {
+    "foodId": "h003",
+    "grams": 100
+   }
+  ],
+  "steps": [
+   "Saute garlic, onion and tomato.",
+   "Add the fresh sardines and cook for 6 minutes.",
+   "Stir in beaten egg at the end."
+  ]
+ },
+ {
+  "id": "ginisang_kangkong",
+  "name": "Ginisang kangkong",
+  "course": "side",
+  "tags": [
+   "veg"
+  ],
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": 8,
+  "ingredients": [
+   {
+    "foodId": "d173",
+    "grams": 400
+   },
+   {
+    "foodId": "d084",
+    "grams": 15
+   },
+   {
+    "foodId": "d143",
+    "grams": 60
+   },
+   {
+    "foodId": "d257",
+    "grams": 100
+   },
+   {
+    "foodId": "k009",
+    "grams": 10
+   }
+  ],
+  "steps": [
+   "Saute garlic, onion and tomato.",
+   "Add kangkong and cook for 2 to 3 minutes. Season lightly."
+  ]
+ },
+ {
+  "id": "ensaladang_pipino",
+  "name": "Ensaladang pipino at kamatis",
+  "course": "side",
+  "tags": [
+   "veg"
+  ],
+  "servings": 4,
+  "prepMin": 8,
+  "cookMin": 0,
+  "ingredients": [
+   {
+    "foodId": "d069",
+    "grams": 300
+   },
+   {
+    "foodId": "d257",
+    "grams": 200
+   },
+   {
+    "foodId": "d143",
+    "grams": 50
+   },
+   {
+    "foodId": "n027",
+    "grams": 20
+   }
+  ],
+  "steps": [
+   "Slice cucumber, tomato and onion.",
+   "Toss with a little vinegar and serve cold."
+  ]
+ },
+ {
+  "id": "pancit_bihon",
+  "name": "Pancit bihon guisado",
+  "course": "main",
+  "tags": [
+   "chicken",
+   "veg"
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 20,
+  "ingredients": [
+   {
+    "foodId": "a138",
+    "grams": 600
+   },
+   {
+    "foodId": "f093",
+    "grams": 200
+   },
+   {
+    "foodId": "d035",
+    "grams": 200
+   },
+   {
+    "foodId": "d039",
+    "grams": 100
+   },
+   {
+    "foodId": "n023",
+    "grams": 30
+   },
+   {
+    "foodId": "k009",
+    "grams": 15
+   },
+   {
+    "foodId": "d084",
+    "grams": 15
+   }
+  ],
+  "steps": [
+   "Boil or soak the noodles. Saute garlic and the chicken.",
+   "Add carrots and cabbage, then soy sauce and a little water.",
+   "Toss in the noodles until well coated."
+  ]
+ },
+ {
+  "id": "arroz_caldo",
+  "name": "Arroz caldo",
+  "course": "breakfast",
+  "tags": [
+   "chicken"
+  ],
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 30,
+  "ingredients": [
+   {
+    "foodId": "a183",
+    "grams": 800
+   },
+   {
+    "foodId": "f107",
+    "grams": 200
+   },
+   {
+    "foodId": "d304",
+    "grams": 15
+   },
+   {
+    "foodId": "h004",
+    "grams": 100
+   }
+  ],
+  "steps": [
+   "Simmer the lugaw with ginger and the chicken until the chicken is cooked.",
+   "Shred the chicken back in, top with halved boiled egg."
+  ]
+ },
+ {
+  "id": "oatmeal_saging",
+  "name": "Oatmeal with saging",
+  "course": "breakfast",
+  "tags": [
+   "veg"
+  ],
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": 8,
+  "ingredients": [
+   {
+    "foodId": "a149",
+    "grams": 160
+   },
+   {
+    "foodId": "j014",
+    "grams": 400
+   },
+   {
+    "foodId": "e011",
+    "grams": 200
+   }
+  ],
+  "steps": [
+   "Simmer the oats in milk and a little water for 5 minutes.",
+   "Top with sliced saging."
+  ]
+ },
+ {
+  "id": "camote_itlog",
+  "name": "Nilagang camote, itlog at papaya",
+  "course": "breakfast",
+  "tags": [
+   "egg"
+  ],
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": 25,
+  "ingredients": [
+   {
+    "foodId": "b012",
+    "grams": 400
+   },
+   {
+    "foodId": "h004",
+    "grams": 200
+   },
+   {
+    "foodId": "e069",
+    "grams": 200
+   }
+  ],
+  "steps": [
+   "Boil the camote until soft and the eggs until firm.",
+   "Serve with sliced papaya."
+  ]
+ },
+ {
+  "id": "tuna_rice_bowl",
+  "name": "Tuna and veggie rice bowl",
+  "course": "main",
+  "tags": [
+   "fish"
+  ],
+  "servings": 3,
+  "prepMin": 10,
+  "cookMin": 10,
+  "ingredients": [
+   {
+    "foodId": "g147",
+    "grams": 300
+   },
+   {
+    "foodId": "a020",
+    "grams": 600
+   },
+   {
+    "foodId": "d069",
+    "grams": 150
+   },
+   {
+    "foodId": "d257",
+    "grams": 150
+   }
+  ],
+  "steps": [
+   "Pan-sear or grill the tuna for 2 to 3 minutes per side.",
+   "Serve over rice with cucumber and tomato."
+  ]
+ },
+ {
+  "id": "tomato_omelet",
+  "name": "Tomato omelet",
+  "course": "breakfast",
+  "tags": [
+   "egg"
+  ],
+  "servings": 3,
+  "prepMin": 5,
+  "cookMin": 8,
+  "ingredients": [
+   {
+    "foodId": "h003",
+    "grams": 250
+   },
+   {
+    "foodId": "d257",
+    "grams": 150
+   },
+   {
+    "foodId": "d143",
+    "grams": 50
+   },
+   {
+    "foodId": "k009",
+    "grams": 10
+   }
+  ],
+  "steps": [
+   "Saute onion and tomato briefly.",
+   "Pour in beaten eggs and cook until set."
+  ]
+ },
+ {
+  "id": "fruit_plate",
+  "name": "Fruit plate (mangga, papaya, saging)",
+  "course": "snack",
+  "tags": [
+   "veg"
+  ],
+  "servings": 2,
+  "prepMin": 5,
+  "cookMin": 0,
+  "ingredients": [
+   {
+    "foodId": "e051",
+    "grams": 200
+   },
+   {
+    "foodId": "e069",
+    "grams": 200
+   },
+   {
+    "foodId": "e011",
+    "grams": 90
+   }
+  ],
+  "steps": [
+   "Slice and serve fresh."
+  ]
+ },
+ {
+  "id": "kanin",
+  "name": "Kanin (steamed rice)",
+  "course": "side",
+  "tags": [
+   "carb"
+  ],
+  "servings": 4,
+  "prepMin": 2,
+  "cookMin": 20,
+  "ingredients": [
+   {
+    "foodId": "a020",
+    "grams": 640
+   }
+  ],
+  "steps": [
+   "Rinse the rice and cook as usual. About 160 g cooked rice per person."
+  ]
+ }
+]

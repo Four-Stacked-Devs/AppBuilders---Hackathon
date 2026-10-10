@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { PlansPanel } from '../components/PlansPanel'
+import { MealsTab } from '../components/MealsTab'
 import { SkeletonCard } from '../components/Skeleton'
 import { WorkoutsTab } from '../components/WorkoutsTab'
 import { usePlans } from '../usePlans'
@@ -24,6 +25,7 @@ export function Plans(props: { extraTabs?: PlanTab[] }): React.JSX.Element {
         )
     },
     { id: 'workouts', label: 'Workouts', render: () => <WorkoutsTab /> },
+    { id: 'meals', label: 'Meal prep', render: () => <MealsTab /> },
     ...(props.extraTabs ?? [])
   ]
   const active = tabs.find((t) => t.id === tab) ?? tabs[0]

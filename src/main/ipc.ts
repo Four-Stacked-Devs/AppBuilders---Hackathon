@@ -23,6 +23,8 @@ import {
   listConversations,
   renameConversation
 } from './chat/repo'
+import { MealInput, PlanRef } from '@shared/meals/types'
+import { activeMealPlan, createMealPlan, recipes as allRecipes, swapMealInPlan } from './meals'
 import { loadTaught } from './nlu/taught'
 import { FinishInput, WorkoutInput } from '@shared/workouts/types'
 import { activePlan, createPlan, deletePlan, finishSession, listPlans as listWorkouts, muscleWeek } from './workouts'
@@ -74,6 +76,11 @@ export function registerIpc(): void {
     confirmLogMessage(id, input)
   )
   handle('chat:discard', z.tuple([z.number().int()]), (id) => discardLogMessage(id))
+
+  handle('meals:generate', z.tuple([MealInput]), (input) => createMealPlan(input))
+  handle('meals:active', none, () => activeMealPlan())
+  handle('meals:recipes', none, () => allRecipes)
+  handle('meals:swap', PlanRef, (id, day, slot) => swapMealInPlan(id, day, slot))
 
   handle('workout:generate', z.tuple([WorkoutInput]), (input) => createPlan(input))
   handle('workout:active', none, () => activePlan())
