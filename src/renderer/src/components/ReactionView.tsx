@@ -1,5 +1,6 @@
 import type { ConfirmResult } from '@shared/schemas'
 import { calcLine } from '../format'
+import { LiveText, Speaker } from './LiveText'
 
 // The saved result of a log: VOX's reply, what was counted, how each number was calculated, and
 // whether the reply came from the AI or a fixed template.
@@ -12,7 +13,13 @@ export function ReactionView({ result }: { result: ConfirmResult }): React.JSX.E
   })
   return (
     <div className="vox">
-      <p>{reaction.text}</p>
+      <LiveText text={reaction.text} />
+      <div className="reaction-chips">
+        {entry.facts.dayTotals.kcalIn !== undefined && <span className="stat-chip">{Math.round(entry.facts.dayTotals.kcalIn)} kcal in today</span>}
+        {entry.facts.dayTotals.activeMinutes > 0 && <span className="stat-chip hot">{entry.facts.dayTotals.activeMinutes} active min</span>}
+        {entry.facts.dayTotals.waterGlasses > 0 && <span className="stat-chip">{entry.facts.dayTotals.waterGlasses} glasses</span>}
+        <Speaker text={reaction.text} />
+      </div>
       <div className="meta">
         {lines.length > 0 && <div>Saved: {lines.join('; ')}.</div>}
         {entry.calc && entry.calc.length > 0 && (

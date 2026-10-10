@@ -5,7 +5,9 @@ import { env, pipeline, type AutomaticSpeechRecognitionPipeline } from '@hugging
 // would load the runtime from cdn.jsdelivr.net.
 env.allowRemoteModels = false
 env.allowLocalModels = true
-env.localModelPath = `${self.location.origin}/models/`
+env.localModelPath = '/models/'
+env.useFS = false // read the model over the app's own server, never from a disk path
+env.useFSCache = false
 env.useBrowserCache = false
 const ort = `${self.location.origin}/ort/`
 env.backends.onnx.wasm!.wasmPaths = {
