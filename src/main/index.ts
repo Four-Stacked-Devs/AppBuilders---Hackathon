@@ -113,6 +113,7 @@ app.whenReady().then(() => {
   session.defaultSession.setPermissionRequestHandler((_wc, permission, cb) =>
     cb(permission === 'media')
   )
+  session.defaultSession.setPermissionCheckHandler((_wc, permission) => permission === 'media')
   if (process.platform === 'darwin') systemPreferences.askForMediaAccess('microphone')
 
   if (process.platform === 'darwin') app.dock?.setIcon(nativeImage.createFromPath(icon))
