@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Gift, Target, Trophy } from 'lucide-react'
+import { createPortal } from 'react-dom'
+import { Gift, Target, X } from 'lucide-react'
 import { summarizeRange } from '@shared/calc'
 import { addDays, localDate } from '@shared/dates'
 import type { DaySummary } from '@shared/schemas'
@@ -125,7 +126,7 @@ function Wrapped({ onClose }: { onClose: () => void }): React.JSX.Element {
       alive = false
     }
   }, [])
-  if (!days) return <div className="player" />
+  if (!days) return createPortal(<div className="player" />, document.body)
   const sum = summarizeRange(days)
   const top = [...days].sort((a, b) => b.activeMinutes - a.activeMinutes)[0]
   const water = days.reduce((n, d) => n + d.waterGlasses, 0)
@@ -143,7 +144,7 @@ function Wrapped({ onClose }: { onClose: () => void }): React.JSX.Element {
     { big: `${best}`, text: best === 1 ? 'day streak. Tuloy lang!' : 'day streak. Tuloy lang!' }
   ]
   const s = slides[i]
-  return (
+  return createPortal(
     <div
       className="player wrapped"
       role="dialog"
@@ -158,7 +159,7 @@ function Wrapped({ onClose }: { onClose: () => void }): React.JSX.Element {
           onClose()
         }}
       >
-        <Trophy size={20} />
+        <X size={20} />
       </button>
       {i === slides.length - 1 && <Confetti />}
       <div className="player-body" key={i}>
@@ -172,7 +173,8 @@ function Wrapped({ onClose }: { onClose: () => void }): React.JSX.Element {
         </div>
         <p className="muted small">Click to continue</p>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 

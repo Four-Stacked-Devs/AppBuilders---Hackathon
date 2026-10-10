@@ -29,7 +29,9 @@ const HELP = chips(
   [
     { label: 'Log something', send: 'Nag-jog ako ng 30 minutes kanina' },
     { label: 'My week', send: 'Ilang minuto ako gumalaw this week?' },
-    { label: 'Plan a workout', send: 'Gawan mo ako ng workout plan' }
+    { label: 'Plan a workout', send: 'Gawan mo ako ng workout plan' },
+    { label: 'Plan my meals', send: 'Gawan mo ako ng meal plan' },
+    { label: 'Open calendar', screen: 'calendar', go: true }
   ]
 )
 
@@ -139,7 +141,30 @@ function futurePlans(raw: string, exercises: { activity: string; durationMin: nu
   ]
 }
 
+const PAGES: [RegExp, string, string][] = [
+  [/calendar|kalendaryo/i, 'calendar', 'Calendar'],
+  [/diary|talaarawan|kasaysayan|history/i, 'diary', 'Diary'],
+  [/progress|trend|chart/i, 'progress', 'Progress'],
+  [/plans?\b|plano|workout|meal prep|meal plan/i, 'plans', 'Plans'],
+  [/settings|setting|ayos|privacy/i, 'settings', 'Settings'],
+  [/home|bahay|dashboard/i, 'home', 'Home']
+]
+
+// "open my calendar", "punta tayo sa progress": the coach takes you there.
+function goTo(raw: string): MsgBody[] | null {
+  if (!/\b(open|buksan|bukas ang|punta|pumunta|go to|show me|ipakita|dalhin|tingnan|check)\b/i.test(raw)) return null
+  if (/\b(plan|gawan|create|gumawa|make)\b.*\b(workout|meal)/i.test(raw)) return null
+  const hit = PAGES.find(([re]) => re.test(raw))
+  if (!hit) return null
+  return [
+    text(`Sige, dadalhin kita sa ${hit[2]}.`),
+    { type: 'chips', chips: [{ label: `Open ${hit[2]}`, screen: hit[1], go: true }] }
+  ]
+}
+
 async function respond(raw: string): Promise<MsgBody[]> {
+  const nav = goTo(raw)
+  if (nav) return nav
   const profile = db().get().profile
   const teen = profile?.mode === 'teen'
   const { intent } = classifyIntent(raw)

@@ -18,7 +18,12 @@ const EXAMPLES = [
   'Nag-jog ako ng 30 minutes kanina',
   'Kumain ako ng 2 cups kanin at adobo',
   'Ilang minuto ako gumalaw this week?',
-  '7 hrs tulog ko kagabi'
+  '7 hrs tulog ko kagabi',
+  'Gawan mo ako ng 4-day workout plan',
+  'Gumawa ng meal plan, walang baboy',
+  'Bukas mag-jog ako ng 20 minutes',
+  'Buksan ang calendar ko',
+  'Ilang calories ang sinigang?'
 ]
 
 const cleanError = (err: unknown): string =>
@@ -137,6 +142,8 @@ export function Coach(): React.JSX.Element {
         }
         const out = await window.vox.chat.send(id, note)
         setMessages((m) => [...m, ...out])
+        const go = out.flatMap((m) => (m.body.type === 'chips' ? m.body.chips : [])).find((c) => c.go && c.screen)
+        if (go?.screen) window.setTimeout(() => setScreen(go.screen as Screen), 900)
         void refresh()
       } catch (err) {
         setError(cleanError(err))

@@ -2827,3 +2827,17 @@ p {
 *::-webkit-scrollbar { width: 0.9rem; height: 0.9rem; }
 *::-webkit-scrollbar-thumb { background: var(--line); border-radius: 1rem; border: 0.2rem solid transparent; background-clip: padding-box; }
 :focus-visible { outline: 0.2rem solid var(--primary); outline-offset: 0.2rem; }
+
+.insight { margin-top: 1.6rem; }
+.page > section + section, .page > .insight { margin-top: 1.6rem; }
+
+/* retract handles: small tabs that sit on the panel edge instead of crowding the headers */
+.sidebar { position: relative; overflow: visible; z-index: 5; }
+.brand-row .icon-btn { position: absolute; top: 2.6rem; right: -1.3rem; width: 2.6rem; height: 2.6rem; z-index: 6; box-shadow: 0 0.2rem 0.8rem rgba(0,0,0,0.08); opacity: 0.55; transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease-out); }
+.sidebar:hover .brand-row .icon-btn, .brand-row .icon-btn:focus-visible { opacity: 1; }
+.app[data-collapsed='true'] .brand-row { flex-direction: row; justify-content: center; }
+.talk { position: relative; }
+.talk-title .icon-btn { position: absolute; top: 2.8rem; left: -1.3rem; width: 2.6rem; height: 2.6rem; z-index: 6; box-shadow: 0 0.2rem 0.8rem rgba(0,0,0,0.08); opacity: 0.55; transition: opacity var(--dur-fast); }
+.talk:hover .talk-title .icon-btn, .talk-title .icon-btn:focus-visible { opacity: 1; }
+.coach[data-closed='true'] .talk-title .icon-btn { left: 0.8rem; }
+.coach[data-closed='true'] .talk-head { padding-left: 4.4rem; }
