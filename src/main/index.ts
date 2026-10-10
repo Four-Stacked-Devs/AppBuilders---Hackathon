@@ -4,12 +4,15 @@ import {
   BrowserWindow,
   globalShortcut,
   Menu,
+  net,
+  protocol,
   nativeImage,
   session,
   systemPreferences,
   Tray
 } from 'electron'
-import { join } from 'path'
+import { join, normalize, sep } from 'path'
+import { pathToFileURL } from 'url'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import winIcon from '../../build/icon.ico?asset'
@@ -59,7 +62,9 @@ function createWindow(): void {
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    // Served from vox://app so the page has a real origin: fetch() and Web Workers (Whisper) need
+    // one, and file:// pages cannot load their models. Only files inside the renderer folder are served.
+    mainWindow.loadURL('vox://app/index.html')
   }
 }
 
@@ -93,8 +98,19 @@ const broadcastStatus = (s: AiStatus): void => {
   for (const w of BrowserWindow.getAllWindows()) w.webContents.send('ai:status-changed', s)
 }
 
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'vox', privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true, stream: true } }
+])
+
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.vox.app')
+  const root = normalize(join(__dirname, '../renderer'))
+  protocol.handle('vox', (req) => {
+    const path = decodeURIComponent(new URL(req.url).pathname)
+    const file = normalize(join(root, path === '/' ? 'index.html' : path))
+    if (!file.startsWith(root + sep)) return new Response('Not found', { status: 404 })
+    return net.fetch(pathToFileURL(file).toString())
+  })
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.

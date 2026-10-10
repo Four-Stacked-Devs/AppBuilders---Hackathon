@@ -87,7 +87,7 @@ export function MicButton({
     stt === 'loading'
       ? 'Inihahanda ang tenga ni VOX…'
       : stt === 'error'
-        ? `Voice did not load${sttError() ? ': ' + sttError() : ''}. Type for now.`
+        ? 'Hindi pa gumagana ang boses. Mag-type muna tayo.'
         : phase === 'recording'
           ? `Listening ${Math.floor(elapsed / 1000)}s, release to stop`
           : phase === 'transcribing'
@@ -100,7 +100,7 @@ export function MicButton({
         className="round mic"
         data-recording={phase === 'recording'}
         aria-label={label}
-        title={error || label}
+        title={error || (stt === 'error' ? sttError() : label)}
         disabled={disabled || stt !== 'ready' || phase === 'transcribing'}
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId)

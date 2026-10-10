@@ -1,7 +1,7 @@
 // Counts every request this app makes to the internet, for the "0 requests" proof in Settings.
 // Local dev-server traffic and in-app URLs are not the internet, so they don't count.
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]', '::1'])
-const IN_APP = new Set(['file:', 'devtools:', 'data:', 'blob:', 'chrome-extension:', 'chrome:'])
+const IN_APP = new Set(['file:', 'vox:', 'devtools:', 'data:', 'blob:', 'chrome-extension:', 'chrome:'])
 
 export function isOutsideRequest(url: string): boolean {
   let u: URL
