@@ -101,3 +101,26 @@ export function computeStreak(
     hidden
   }
 }
+
+// The days that make up the current streak, and the missed day a rest pass covered (if any).
+// Same walk as computeStreak, but it records the dates, for the streak calendar.
+export function streakRun(dates: string[], today: string): { run: string[]; passes: string[] } {
+  const t = dayNum(today)
+  const has = new Set(dates.map(dayNum).filter((n) => n <= t))
+  const fromNum = (n: number): string => new Date(n * 86_400_000).toISOString().slice(0, 10)
+  let cur = has.has(t) ? t : t - 1
+  const run: string[] = []
+  const passes: string[] = []
+  let lastPass: number | null = null
+  for (;;) {
+    if (has.has(cur)) {
+      run.push(fromNum(cur))
+      cur--
+    } else if (has.has(cur - 1) && (lastPass === null || lastPass - cur >= PASS_EVERY_DAYS)) {
+      lastPass = cur
+      passes.push(fromNum(cur))
+      cur--
+    } else break
+  }
+  return { run, passes }
+}

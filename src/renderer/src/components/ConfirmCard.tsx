@@ -62,7 +62,15 @@ export function ConfirmCard({
     // A word matched by hand (it had no match, or the person swapped it) is remembered.
     const taught: NonNullable<ConfirmInput['taught']> = toSend.flatMap((r) => {
       const was = result.items[r.key]
-      return was && was.refId !== r.refId && r.refId ? [{ alias: r.rawName, kind: r.kind === 'exercise' ? ('activity' as const) : ('food' as const), refId: r.refId }] : []
+      return was && was.refId !== r.refId && r.refId
+        ? [
+            {
+              alias: r.rawName,
+              kind: r.kind === 'exercise' ? ('activity' as const) : ('food' as const),
+              refId: r.refId
+            }
+          ]
+        : []
     })
     onConfirm({
       rawText,

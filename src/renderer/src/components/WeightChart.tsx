@@ -80,7 +80,7 @@ export function WeightChart({ days }: { days: DaySummary[] }): React.JSX.Element
               strokeWidth={2}
               fill="url(#wfill)"
               dot={false}
-              isAnimationActive={false}
+              isAnimationActive
             />
             <Line
               dataKey="kg"
@@ -88,7 +88,7 @@ export function WeightChart({ days }: { days: DaySummary[] }): React.JSX.Element
               stroke={t.primary}
               strokeWidth={0}
               dot={{ r: 3, fill: t.primary }}
-              isAnimationActive={false}
+              isAnimationActive
             />
           </ComposedChart>
         </ResponsiveContainer>

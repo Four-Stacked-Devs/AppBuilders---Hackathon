@@ -11,7 +11,7 @@ import {
 } from '@shared/schemas'
 import { getStatus } from './ai/llm'
 import { parseLog } from './ai/parse'
-import { confirmLog, deleteEntry, getDay, getEntries, getHistory, getStreak } from './confirm'
+import { confirmLog, deleteEntry, getDay, getEntries, getHistory, getStreak, getStreakRun } from './confirm'
 import { seedDemoHistory } from './dev/seed'
 import { dismissInsight, getInsights } from './insights'
 import { ChatText, ChatTitle, ConversationId } from '@shared/chat'
@@ -54,6 +54,7 @@ export function registerIpc(): void {
   handle('history:range', z.tuple([DateArg, DateArg]), (from, to) => getHistory(from, to))
   handle('day:entries', z.tuple([DateArg]), (date) => getEntries(date))
   handle('streak:get', none, () => getStreak())
+  handle('streak:run', none, () => getStreakRun())
 
   handle('chat:list', none, () => listConversations())
   handle('chat:create', none, () => ({ id: createConversation() }))

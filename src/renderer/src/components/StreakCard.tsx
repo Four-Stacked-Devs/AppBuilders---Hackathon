@@ -37,7 +37,7 @@ export function StreakCard({ refreshKey }: { refreshKey: unknown }): React.JSX.E
       {atRisk && <div className="streak-note">Log anything today to keep it going.</div>}
       {ended && (
         <div className="streak-note">
-          <button className="link" onClick={() => setScreen('talk')}>
+          <button className="link" onClick={() => setScreen('coach')}>
             {best > 0 ? 'Start again today' : 'Log anything to start a streak'}
           </button>
           {best > 0 && ` · Best: ${best} days`}
@@ -50,8 +50,7 @@ export function StreakCard({ refreshKey }: { refreshKey: unknown }): React.JSX.E
 // Compact sidebar version, same box as the AI status chip. Shown only while a streak is alive.
 export function StreakChip(): React.JSX.Element | null {
   const screen = useVox((s) => s.screen)
-  const saved = useVox((s) => s.turns.filter((t) => t.state === 'done').length)
-  const { streak } = useStreak(`${screen}:${saved}`)
+  const { streak } = useStreak(screen)
   if (!streak || streak.hidden || streak.days === 0) return null
   return (
     <div className="ai-chip streak-chip" title={`Best: ${streak.best} days`}>

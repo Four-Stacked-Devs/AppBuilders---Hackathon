@@ -46,7 +46,10 @@ const api: VoxApi = {
     add: (input) => ipcRenderer.invoke('plan:add', input),
     resolve: (id, action) => ipcRenderer.invoke('plan:resolve', id, action)
   },
-  streak: { get: () => ipcRenderer.invoke('streak:get') },
+  streak: {
+    get: () => ipcRenderer.invoke('streak:get'),
+    run: () => ipcRenderer.invoke('streak:run')
+  },
   history: { range: (f, t) => ipcRenderer.invoke('history:range', f, t) },
   dev: { seed: () => ipcRenderer.invoke('dev:seed') }
 }
