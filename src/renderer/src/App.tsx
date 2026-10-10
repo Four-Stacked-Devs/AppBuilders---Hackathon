@@ -7,6 +7,7 @@ import { Calendar } from './screens/Calendar'
 import { Coach } from './screens/Coach'
 import { Diary } from './screens/Diary'
 import { Home } from './screens/Home'
+import { DevSeed } from './components/DevSeed'
 import { Plans } from './screens/Plans'
 import { Progress } from './screens/Progress'
 import { Settings } from './screens/Settings'
@@ -36,6 +37,7 @@ function App(): React.JSX.Element {
         <main className="main">
           <Onboarding />
         </main>
+        <DevSeed />
       </div>
     )
 
@@ -55,6 +57,7 @@ function App(): React.JSX.Element {
       <main className="main" key={screen}>
         {body[screen as Exclude<Screen, 'onboarding'>]}
       </main>
+      <DevSeed />
     </div>
   )
 }

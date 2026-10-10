@@ -32,7 +32,7 @@ git clone https://github.com/Four-Stacked-Devs/Vox-Fitness.git && cd Vox-Fitness
 git clone https://github.com/Four-Stacked-Devs/Vox-Fitness.git; cd Vox-Fitness; npm install; npm run models:download; npm run dev
 ```
 
-When the app opens, go to **Settings → Load demo month (dev)** to fill it with sample history. On
+When the app opens, click the small round **database button in the bottom-right corner** and choose **Seed 6 weeks of data** to fill it with sample history, lifts, plans and chats. On
 macOS, run `xcode-select --install` first if it asks for developer tools.
 
 ---
