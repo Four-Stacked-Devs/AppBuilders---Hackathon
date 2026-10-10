@@ -20,6 +20,7 @@ const SEX_LABEL = { male: 'Male', female: 'Female', unspecified: 'Prefer not to 
 export function Settings(): React.JSX.Element {
   const { profile, setScreen, themePref, setThemePref, ai } = useVox()
   const [voice, setVoice] = useState<VoiceLang>(getVoiceLang())
+  const [demo, setDemo] = useState<'idle' | 'busy' | 'done' | 'error'>('idle')
   if (!profile) return <div className="page" />
   const teen = profile.mode === 'teen'
   const initials = profile.nickname.slice(0, 2).toUpperCase()
@@ -155,6 +156,20 @@ export function Settings(): React.JSX.Element {
               <CircleCheck size={18} aria-hidden="true" /> The AI runs inside this app
             </li>
           </ul>
+          <button
+            className="btn sm"
+            style={{ marginTop: '1.2rem' }}
+            disabled={demo === 'busy'}
+            onClick={() => {
+              setDemo('busy')
+              window.vox.dev.seed().then(
+                () => setDemo('done'),
+                () => setDemo('error')
+              )
+            }}
+          >
+            {demo === 'busy' ? 'Loading…' : demo === 'done' ? 'Demo month loaded. Reopen pages.' : demo === 'error' ? 'Demo is dev only' : 'Load demo month (dev)'}
+          </button>
         </section>
 
         <section className="panel">
