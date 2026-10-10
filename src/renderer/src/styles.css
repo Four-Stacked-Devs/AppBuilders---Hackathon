@@ -2484,3 +2484,236 @@ p {
 .tab-body {
   animation: none;
 }
+
+/* ---------- workouts ---------- */
+
+.workout-form .form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.workout-form .label {
+  font-weight: 600;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.choice-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 9rem;
+  padding: 1rem 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  text-align: left;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.choice-pill span {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.choice-pill:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.choice-pill:active {
+  transform: scale(0.96);
+}
+
+.choice-pill[aria-pressed='true'] {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.plan-notes {
+  margin: 1rem 0 0;
+  padding-left: 1.8rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.plan-notes li + li {
+  margin-top: 0.6rem;
+}
+
+.day-card .review-head h3 {
+  font-size: 1.5rem;
+}
+
+.ex-list {
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ex-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.ex-list em {
+  display: block;
+  color: var(--muted);
+  font-size: 1rem;
+  font-style: normal;
+}
+
+.ex-list b {
+  white-space: nowrap;
+}
+
+.muscle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.muscle-map {
+  width: 26rem;
+  flex: none;
+}
+
+.muscle {
+  transition: opacity var(--dur-med) var(--ease-out);
+}
+
+.player {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  animation: pop 0.3s var(--ease-out) both;
+}
+
+.player-close {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+}
+
+.player-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  width: min(56rem, 90vw);
+  text-align: center;
+}
+
+.player-body h1 {
+  font-size: 4rem;
+}
+
+.player-progress {
+  width: 100%;
+  height: 0.6rem;
+  overflow: hidden;
+  border-radius: 99rem;
+  background: var(--line);
+}
+
+.player-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+  transition: width var(--dur-med) var(--ease-out);
+}
+
+.player-set {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.6rem;
+}
+
+.player-tip {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--muted);
+}
+
+.player-reps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-reps b {
+  font-size: 9rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.player-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.ring-timer {
+  position: relative;
+}
+
+.ring-timer svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-center b {
+  font-size: 5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ring-center span {
+  color: var(--muted);
+}
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti i {
+  position: absolute;
+  top: -2rem;
+  width: 0.9rem;
+  height: 1.6rem;
+  border-radius: 0.2rem;
+  animation: confetti 2.6s var(--ease-out) forwards;
+}
+
+@keyframes confetti {
+  to {
+    transform: translate(var(--dx), 105vh) rotate(calc(var(--rot) + 540deg));
+    opacity: 0.2;
+  }
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { PlansPanel } from '../components/PlansPanel'
 import { SkeletonCard } from '../components/Skeleton'
+import { WorkoutsTab } from '../components/WorkoutsTab'
 import { usePlans } from '../usePlans'
 
 // Everything about what you plan to do next. "Plano ko bukas" keeps small if-then plans; more
@@ -22,6 +23,7 @@ export function Plans(props: { extraTabs?: PlanTab[] }): React.JSX.Element {
           <SkeletonCard lines={4} />
         )
     },
+    { id: 'workouts', label: 'Workouts', render: () => <WorkoutsTab /> },
     ...(props.extraTabs ?? [])
   ]
   const active = tabs.find((t) => t.id === tab) ?? tabs[0]

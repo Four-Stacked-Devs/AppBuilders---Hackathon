@@ -14,6 +14,7 @@ import type {
   ProfileInput
 } from './schemas'
 import type { AiStatus } from './status'
+import type { FinishInput, WorkoutInput, WorkoutPlan } from './workouts/types'
 import type { ChatMessage, ConversationSummary } from './chat'
 import type { Streak } from './insights/streak'
 
@@ -57,6 +58,14 @@ export interface VoxApi {
     send(id: string, text: string): Promise<ChatMessage[]> // the person's message plus VOX's replies
     confirm(messageId: number, input: ConfirmInput): Promise<ChatMessage>
     discard(messageId: number): Promise<ChatMessage>
+  }
+  workout: {
+    generate(input: WorkoutInput): Promise<WorkoutPlan> // becomes the active plan
+    active(): Promise<WorkoutPlan | null>
+    list(): Promise<WorkoutPlan[]>
+    delete(id: string): Promise<{ ok: true }>
+    finish(input: FinishInput): Promise<ConfirmResult> // logs the session
+    muscles(): Promise<Record<string, number>> // sets per muscle, last 7 days
   }
   insights: {
     get(): Promise<InsightList> // habit patterns with the logs behind them
