@@ -1,0 +1,134 @@
+[
+  {
+    "match": "^Rice.*(boiled|fried|gruel)|^Rice-corn.*boiled|^Corn.*boiled",
+    "groups": "AB",
+    "portions": { "cup": 160, "bowl": 200, "plate": 250, "serving": 160 },
+    "default": "cup",
+    "note": "typical cup of cooked rice, about 160 g"
+  },
+  {
+    "match": "pan de sal|pandesal",
+    "portions": { "piece": 30, "serving": 60 },
+    "default": "piece",
+    "note": "one pandesal roll, about 30 g"
+  },
+  {
+    "match": "^Bread|^Biscuit|^Cracker|^Cookie",
+    "groups": "A",
+    "portions": { "piece": 30, "serving": 60 },
+    "default": "piece",
+    "note": "one slice or piece, about 30 g"
+  },
+  {
+    "match": "^Banana",
+    "portions": { "piece": 90, "serving": 90 },
+    "default": "piece",
+    "note": "one medium banana, about 90 g edible"
+  },
+  {
+    "match": "^Egg, chicken",
+    "portions": { "piece": 50, "serving": 100 },
+    "default": "piece",
+    "note": "one medium chicken egg, about 50 g"
+  },
+  {
+    "match": "^Egg, duck",
+    "portions": { "piece": 70, "serving": 70 },
+    "default": "piece",
+    "note": "one duck egg, about 70 g"
+  },
+  {
+    "match": "^Egg, quail",
+    "portions": { "piece": 10, "serving": 50 },
+    "default": "piece",
+    "note": "one quail egg, about 10 g"
+  },
+  {
+    "match": "sausage|longganisa|tocino|hotdog|hot dog|embutido|jerky|tapa",
+    "groups": "FR",
+    "portions": { "piece": 40, "serving": 100 },
+    "default": "serving",
+    "note": "one piece about 40 g, a serving about 100 g"
+  },
+  {
+    "match": "lumpia|spring roll|siomai|dumpling",
+    "portions": { "piece": 30, "serving": 120 },
+    "default": "piece",
+    "note": "one piece about 30 g"
+  },
+  {
+    "match": "soup|broth|sinigang|tinola|nilaga|bulalo|sopas|lugaw",
+    "portions": { "bowl": 250, "cup": 240, "serving": 250 },
+    "default": "bowl",
+    "note": "one bowl of soup, about 250 g"
+  },
+  {
+    "match": "softdrink|soft drink|cola|soda",
+    "portions": { "can": 330, "glass": 240, "serving": 330 },
+    "default": "can",
+    "note": "one can, about 330 g"
+  },
+  {
+    "match": "coffee|3 in 1|3-in-1",
+    "groups": "Q",
+    "portions": { "serving": 20, "cup": 20 },
+    "default": "serving",
+    "note": "one sachet of powder, about 20 g (the drink is made with water)"
+  },
+  {
+    "match": "milk|juice|drink|tea|beverage",
+    "groups": "JQ",
+    "portions": { "glass": 240, "cup": 240, "serving": 240 },
+    "default": "glass",
+    "note": "one glass, about 240 g"
+  },
+  {
+    "groups": "Q",
+    "match": ".",
+    "portions": { "glass": 240, "cup": 240, "serving": 240 },
+    "default": "glass",
+    "note": "one glass of a drink, about 240 g"
+  },
+  {
+    "groups": "E",
+    "match": ".",
+    "portions": { "piece": 100, "cup": 150, "serving": 100 },
+    "default": "serving",
+    "note": "one fruit serving, about 100 g"
+  },
+  {
+    "groups": "D",
+    "match": ".",
+    "portions": { "cup": 80, "bowl": 150, "serving": 80 },
+    "default": "serving",
+    "note": "one vegetable serving, about 80 g"
+  },
+  {
+    "groups": "BC",
+    "match": ".",
+    "portions": { "cup": 150, "serving": 100 },
+    "default": "serving",
+    "note": "one rootcrop or legume serving, about 100 g"
+  },
+  {
+    "groups": "FG",
+    "match": ".",
+    "portions": { "piece": 80, "serving": 100 },
+    "default": "serving",
+    "note": "one cooked meat or fish serving, about 100 g"
+  },
+  {
+    "groups": "R",
+    "match": ".",
+    "portions": { "plate": 250, "bowl": 250, "serving": 150 },
+    "default": "serving",
+    "note": "one serving of a prepared dish, about 150 g"
+  },
+  {
+    "groups": "A",
+    "match": ".",
+    "portions": { "cup": 160, "piece": 30, "serving": 100 },
+    "default": "serving",
+    "note": "one grain-food serving, about 100 g"
+  }
+]

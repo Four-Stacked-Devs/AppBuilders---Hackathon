@@ -40,7 +40,7 @@ export const ParsedLog = z.object({
     .array(
       z.object({
         name: z.string().min(1).max(60),
-        quantity: z.number().positive().max(20),
+        quantity: z.number().positive().max(5000),
         unit: z.string().max(20)
       })
     )
@@ -74,7 +74,7 @@ export const MatchedItem = z.discriminatedUnion('kind', [
     rawName: z.string(),
     refId: z.string().nullable(),
     displayName: z.string(),
-    quantity: z.number().positive().max(20),
+    quantity: z.number().positive().max(5000),
     unit: z.string(), // canonical unit, e.g. 'cup', 'piece', 'serving'
     units: z.array(z.string()), // portion keys of the matched food, for the unit dropdown
     unitAssumed: z.boolean(), // true: card shows "assumed 1 serving, tap to change"
@@ -104,7 +104,9 @@ export const ParseResult = z.discriminatedUnion('ok', [
     items: z.array(MatchedItem),
     // 'medical' and 'eating' still parse; the renderer shows safetyMessage first.
     safety: SafetyHit.exclude(['crisis']).nullable(),
-    safetyMessage: z.string().nullable()
+    safetyMessage: z.string().nullable(),
+    dayOffset: z.number().int().min(-7).max(0).optional(), // kahapon, kagabi: log for an earlier day
+    future: z.boolean().optional() // mamaya, bukas: it has not happened yet
   }),
   z.object({
     ok: z.literal(false),
@@ -122,7 +124,7 @@ export const ConfirmItem = z.discriminatedUnion('kind', [
   z.object({
     kind: z.literal('food'),
     refId: z.string().min(1),
-    quantity: z.number().positive().max(20),
+    quantity: z.number().positive().max(5000),
     unit: z.string().min(1).max(20)
   }),
   z.object({
@@ -140,7 +142,8 @@ export const ConfirmInput = z.object({
   sleepHours: z.number().min(0).max(24),
   waterGlasses: z.number().min(0).max(30),
   bodyWeightKg: z.number().min(0).max(300),
-  safety: SafetyHit.exclude(['crisis']).nullable() // 'eating' hides calories for this entry
+  safety: SafetyHit.exclude(['crisis']).nullable(), // 'eating' hides calories for this entry
+  dayOffset: z.number().int().min(-7).max(0).optional() // log for an earlier day
 })
 export type ConfirmInput = z.infer<typeof ConfirmInput>
 

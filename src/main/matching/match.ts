@@ -24,7 +24,15 @@ const UNIT_WORDS: Record<string, PortionUnit> = {
   pc: 'piece',
   pcs: 'piece',
   piraso: 'piece',
-  isa: 'piece',
+  slice: 'piece',
+  hiwa: 'piece',
+  balot: 'piece',
+  bote: 'can',
+  bottle: 'can',
+  gram: 'gram',
+  grams: 'gram',
+  gramo: 'gram',
+  g: 'gram',
   glass: 'glass',
   glasses: 'glass',
   baso: 'glass',
@@ -103,6 +111,8 @@ export type Matcher = {
   activity: (id: string) => ActivityRow | undefined
 }
 
+const withGrams = (f: FoodRow): FoodRow => ({ ...f, portions: { ...f.portions, gram: 1 } })
+
 export function createMatcher(
   foods: FoodRow[],
   activities: ActivityRow[],
@@ -110,6 +120,7 @@ export function createMatcher(
 ): Matcher {
   const matchFood = index(foods)
   const matchActivity = index(activities)
+  foods = foods.map(withGrams)
   const foodById = new Map(foods.map((f) => [f.id, f]))
   const comboByName = new Map(
     Object.entries(combos).map(([k, v]) => [norm(k), { name: k, parts: v }])
@@ -123,7 +134,8 @@ export function createMatcher(
     candidates: FoodRow[],
     fromCombo?: string
   ): MatchedItem {
-    const unit = normalizeUnit(rawUnit)
+    // No unit said: use the food's usual one (2 itlog = 2 pieces), without flagging it.
+    const unit = rawUnit.trim() === '' ? (ref?.defaultUnit ?? 'serving') : normalizeUnit(rawUnit)
     const units = ref ? (Object.keys(ref.portions) as PortionUnit[]) : []
     const hasUnit = ref ? ref.portions[unit] !== undefined : true
     return {
@@ -182,4 +194,5 @@ export function createMatcher(
 // bad row fails at startup instead of producing a wrong number later.
 export const FOODS = (foodsJson as unknown[]).map((r) => FoodRow.parse(r))
 export const ACTIVITIES = activitiesJson.map((r) => ActivityRow.parse(r))
-export const matcher = createMatcher(FOODS, ACTIVITIES, Combos.parse(combosJson))
+export const COMBOS = Combos.parse(combosJson)
+export const matcher = createMatcher(FOODS, ACTIVITIES, COMBOS)

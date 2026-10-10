@@ -2,15 +2,66 @@
   {
     "id": "jogging_general",
     "name": "Jogging, general",
-    "aliases": ["jog", "jogging", "nag-jog", "nag jog", "takbo", "tumakbo"],
+    "aliases": [
+      "jog",
+      "jogging",
+      "nag-jog",
+      "nag jog",
+      "nagjog",
+      "jumojog",
+      "takbo",
+      "tumakbo",
+      "tumatakbo",
+      "nagtakbo",
+      "jog-jog"
+    ],
     "compendiumCode": "12020",
     "met": 7.5,
     "source": "2024 Adult Compendium, 12020 \"Jogging, general, self-selected pace\", pacompendium.com/running, accessed 2026-10-10"
   },
   {
+    "id": "running_fast",
+    "name": "Running, 5.5 to 5.8 mph",
+    "aliases": [
+      "run",
+      "running",
+      "nag run",
+      "nag-run",
+      "tumakbo ng mabilis",
+      "takbo ng mabilis",
+      "sprint"
+    ],
+    "compendiumCode": "12045",
+    "met": 9.0,
+    "source": "2024 Adult Compendium, 12045 \"Running, 5.5 -5.8 mph\", pacompendium.com/running, accessed 2026-10-10"
+  },
+  {
+    "id": "jogging_in_place",
+    "name": "Jogging, in place",
+    "aliases": [
+      "jog in place",
+      "jogging in place",
+      "takbo sa lugar",
+      "takbo sa bahay"
+    ],
+    "compendiumCode": "12025",
+    "met": 4.8,
+    "source": "2024 Adult Compendium, 12025 \"Jogging, in place\", pacompendium.com/running, accessed 2026-10-10"
+  },
+  {
     "id": "walking_moderate",
     "name": "Walking, moderate pace",
-    "aliases": ["walk", "walking", "lakad", "naglakad", "nag-walk", "nag walk"],
+    "aliases": [
+      "walk",
+      "walking",
+      "lakad",
+      "naglakad",
+      "nag-walk",
+      "nag walk",
+      "maglakad",
+      "namasyal",
+      "jalan"
+    ],
     "compendiumCode": "17190",
     "met": 3.8,
     "source": "2024 Adult Compendium, 17190 \"Walking, 2.8 to 3.4 mph, level, moderate pace, firm surface\", pacompendium.com/walking, accessed 2026-10-10"
@@ -18,39 +69,115 @@
   {
     "id": "walking_brisk",
     "name": "Walking, brisk",
-    "aliases": ["brisk walk", "brisk walking", "mabilis na lakad", "power walk"],
+    "aliases": [
+      "brisk walk",
+      "brisk walking",
+      "mabilis na lakad",
+      "power walk",
+      "power walking",
+      "mabilis maglakad"
+    ],
     "compendiumCode": "17200",
     "met": 4.8,
     "source": "2024 Adult Compendium, 17200 \"Walking, 3.5 to 3.9 mph, level, brisk, firm surface, walking for exercise\", pacompendium.com/walking, accessed 2026-10-10"
   },
   {
-    "id": "basketball_general",
-    "name": "Basketball, general",
-    "aliases": ["basketball", "nag-basketball", "nag basketball", "basket"],
-    "compendiumCode": "15055",
-    "met": 7.5,
-    "source": "2024 Adult Compendium, 15055 \"Basketball, general\", pacompendium.com/sports, accessed 2026-10-10"
+    "id": "stairs_general",
+    "name": "Stair climbing, general",
+    "aliases": [
+      "stairs",
+      "stair climbing",
+      "hagdan",
+      "umakyat ng hagdan",
+      "nag-hagdan"
+    ],
+    "compendiumCode": "17131",
+    "met": 6.8,
+    "source": "2024 Adult Compendium, 17131 \"Stair climbing, general\", pacompendium.com/walking, accessed 2026-10-10"
+  },
+  {
+    "id": "stairs_slow",
+    "name": "Stair climbing, slow pace",
+    "aliases": [
+      "slow stairs",
+      "dahan-dahang hagdan"
+    ],
+    "compendiumCode": "17133",
+    "met": 4.5,
+    "source": "2024 Adult Compendium, 17133 \"Stair climbing, slow pace\", pacompendium.com/walking, accessed 2026-10-10"
   },
   {
     "id": "bicycling_general",
     "name": "Bicycling, general",
-    "aliases": ["bike", "biking", "bicycle", "cycling", "nag-bike", "nag bike", "bisikleta"],
+    "aliases": [
+      "bike",
+      "biking",
+      "bicycle",
+      "cycling",
+      "nag-bike",
+      "nag bike",
+      "nagbike",
+      "bisikleta",
+      "nagbisikleta",
+      "nag-cycling"
+    ],
     "compendiumCode": "01014",
     "met": 7.0,
     "source": "2024 Adult Compendium, 01014 \"Bicycling, general\", pacompendium.com/bicycling, accessed 2026-10-10"
   },
   {
-    "id": "weight_training_general",
-    "name": "Weight training",
-    "aliases": ["buhat", "nagbuhat", "nag-buhat", "buhat sa gym", "gym", "weights", "weight training", "lifting", "lift"],
-    "compendiumCode": "02054",
-    "met": 3.5,
-    "source": "2024 Adult Compendium, 02054 \"Resistance (weight) training, multiple exercises, 8-15 reps at varied resistance\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+    "id": "cycling_transport",
+    "name": "Bicycling for transportation",
+    "aliases": [
+      "bike to work",
+      "nag-bike papasok",
+      "commute by bike",
+      "bike papunta sa trabaho"
+    ],
+    "compendiumCode": "16002",
+    "met": 6.8,
+    "source": "2024 Adult Compendium, 16002 \"Bicycling for transportation, moderate effort\", pacompendium.com/transportation, accessed 2026-10-10"
+  },
+  {
+    "id": "basketball_general",
+    "name": "Basketball, general",
+    "aliases": [
+      "basketball",
+      "nag-basketball",
+      "nag basketball",
+      "nagbasketball",
+      "basket",
+      "laro ng basketball",
+      "tira",
+      "hoops"
+    ],
+    "compendiumCode": "15055",
+    "met": 7.5,
+    "source": "2024 Adult Compendium, 15055 \"Basketball, general\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "basketball_game",
+    "name": "Basketball, game",
+    "aliases": [
+      "basketball game",
+      "laro ng basketball game",
+      "liga",
+      "full court"
+    ],
+    "compendiumCode": "15040",
+    "met": 8.0,
+    "source": "2024 Adult Compendium, 15040 \"Basketball, game (Taylor Code 490)\", pacompendium.com/sports, accessed 2026-10-10"
   },
   {
     "id": "badminton_social",
     "name": "Badminton, social",
-    "aliases": ["badminton", "nag-badminton", "nag badminton", "shuttlecock"],
+    "aliases": [
+      "badminton",
+      "nag-badminton",
+      "nag badminton",
+      "shuttlecock",
+      "nagbadminton"
+    ],
     "compendiumCode": "15030",
     "met": 5.5,
     "source": "2024 Adult Compendium, 15030 \"Badminton, social singles and doubles, general\", pacompendium.com/sports, accessed 2026-10-10"
@@ -58,17 +185,486 @@
   {
     "id": "volleyball_general",
     "name": "Volleyball",
-    "aliases": ["volleyball", "nag-volleyball", "nag volleyball", "volley"],
+    "aliases": [
+      "volleyball",
+      "nag-volleyball",
+      "nag volleyball",
+      "volley",
+      "nagvolleyball"
+    ],
     "compendiumCode": "15710",
     "met": 4.0,
     "source": "2024 Adult Compendium, 15710 \"Volleyball (Taylor Code 400)\", pacompendium.com/sports, accessed 2026-10-10"
   },
   {
+    "id": "volleyball_casual",
+    "name": "Volleyball, non-competitive",
+    "aliases": [
+      "casual volleyball",
+      "volleyball sa beach",
+      "volleyball for fun"
+    ],
+    "compendiumCode": "15720",
+    "met": 3.0,
+    "source": "2024 Adult Compendium, 15720 \"Volleyball, non-competitive, 6 - 9 member team, general\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "soccer_casual",
+    "name": "Soccer, casual",
+    "aliases": [
+      "soccer",
+      "football",
+      "nag-soccer",
+      "nag football",
+      "futsal"
+    ],
+    "compendiumCode": "15610",
+    "met": 7.0,
+    "source": "2024 Adult Compendium, 15610 \"Soccer, casual, general (Taylor Code 540)\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "table_tennis",
+    "name": "Table tennis",
+    "aliases": [
+      "table tennis",
+      "ping pong",
+      "nag-ping pong",
+      "pingpong"
+    ],
+    "compendiumCode": "15660",
+    "met": 4.0,
+    "source": "2024 Adult Compendium, 15660 \"Table tennis, ping pong (Taylor Code 410)\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "martial_arts",
+    "name": "Martial arts",
+    "aliases": [
+      "martial arts",
+      "karate",
+      "taekwondo",
+      "muay thai",
+      "boxing",
+      "kickboxing",
+      "judo",
+      "arnis",
+      "sipa",
+      "sepak takraw",
+      "nag-karate",
+      "nag boxing",
+      "nagboxing"
+    ],
+    "compendiumCode": "15430",
+    "met": 10.3,
+    "source": "2024 Adult Compendium, 15430 \"Martial Arts, different types, moderate pace (e.g., judo, jujitsu, karate, kick boxing, tae kwon do, tai-bo, Muay Thai boxing)\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "weight_training_general",
+    "name": "Weight training",
+    "aliases": [
+      "buhat",
+      "nagbuhat",
+      "nag-buhat",
+      "buhat sa gym",
+      "gym",
+      "weights",
+      "weight training",
+      "lifting",
+      "lift",
+      "nag-gym",
+      "nag gym",
+      "nag lift",
+      "nag-lift",
+      "nagbubuhat",
+      "pumunta sa gym",
+      "pagbubuhat",
+      "dumbbell",
+      "barbell"
+    ],
+    "compendiumCode": "02054",
+    "met": 3.5,
+    "source": "2024 Adult Compendium, 02054 \"Resistance (weight) training, multiple exercises, 8-15 reps at varied resistance\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "squats_deadlift",
+    "name": "Squats and deadlifts",
+    "aliases": [
+      "squat",
+      "squats",
+      "deadlift",
+      "nag-squat",
+      "nag squat",
+      "nagsquat",
+      "powerlifting"
+    ],
+    "compendiumCode": "02052",
+    "met": 5.0,
+    "source": "2024 Adult Compendium, 02052 \"Resistance (weight) training, squats, deadlift, slow or explosive effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "calisthenics_vigorous",
+    "name": "Calisthenics, vigorous",
+    "aliases": [
+      "burpees",
+      "burpee",
+      "jumping jacks",
+      "jumping jack",
+      "nag-burpees",
+      "calisthenics",
+      "calisthenics na mabigat",
+      "battle ropes"
+    ],
+    "compendiumCode": "02020",
+    "met": 7.5,
+    "source": "2024 Adult Compendium, 02020 \"Calisthenics (e.g., pushups, sit ups, pull-ups, jumping jacks, burpees, battling ropes), vigorous effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "calisthenics_moderate",
+    "name": "Calisthenics, moderate",
+    "aliases": [
+      "push up",
+      "push-up",
+      "pushup",
+      "push ups",
+      "push-ups",
+      "pushups",
+      "nag-push up",
+      "nag push up",
+      "nagpush-up",
+      "sit up",
+      "sit-up",
+      "situps",
+      "sit ups",
+      "pull up",
+      "pull-up",
+      "pullup",
+      "pull ups",
+      "lunges",
+      "lunge",
+      "nag-sit up"
+    ],
+    "compendiumCode": "02022",
+    "met": 3.8,
+    "source": "2024 Adult Compendium, 02022 \"Calisthenics (e.g., pushups, sit ups, pull-ups, lunges), moderate effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "calisthenics_light",
+    "name": "Calisthenics, light",
+    "aliases": [
+      "plank",
+      "planks",
+      "nag-plank",
+      "crunch",
+      "crunches",
+      "abs",
+      "abs workout",
+      "curl up",
+      "core"
+    ],
+    "compendiumCode": "02024",
+    "met": 2.8,
+    "source": "2024 Adult Compendium, 02024 \"Calisthenics (e.g., curl ups, abdominal crunches, plank), light effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "bodyweight_general",
+    "name": "Body weight resistance exercises",
+    "aliases": [
+      "bodyweight",
+      "body weight",
+      "bodyweight workout",
+      "walang gamit na workout",
+      "workout sa bahay na walang gamit"
+    ],
+    "compendiumCode": "02056",
+    "met": 3.0,
+    "source": "2024 Adult Compendium, 02056 \"Body weight resistance exercises (e.g., squat, lunge, push-up, crunch), general\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "bodyweight_high",
+    "name": "Body weight resistance, high intensity",
+    "aliases": [
+      "intense bodyweight",
+      "mabigat na bodyweight",
+      "bodyweight na mabilis"
+    ],
+    "compendiumCode": "02057",
+    "met": 6.5,
+    "source": "2024 Adult Compendium, 02057 \"Body weight resistance exercises (e.g., squat, lunge, push-up, crunch), high intensity\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "circuit_bodyweight",
+    "name": "Circuit training, body weight",
+    "aliases": [
+      "circuit",
+      "circuit training",
+      "circuit workout",
+      "nag-circuit"
+    ],
+    "compendiumCode": "02032",
+    "met": 6.0,
+    "source": "2024 Adult Compendium, 02032 \"Circuit training, body weight exercises\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "home_exercise",
+    "name": "Home exercise, general",
+    "aliases": [
+      "home workout",
+      "exercise sa bahay",
+      "nag-exercise",
+      "nag exercise",
+      "nag-ehersisyo",
+      "ehersisyo",
+      "workout",
+      "nag-workout",
+      "nag workout",
+      "nagworkout",
+      "exercise"
+    ],
+    "compendiumCode": "02064",
+    "met": 3.8,
+    "source": "2024 Adult Compendium, 02064 \"Home exercise, general\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "rope_skipping",
+    "name": "Rope skipping, general",
+    "aliases": [
+      "jump rope",
+      "skipping",
+      "skipping rope",
+      "rope skipping",
+      "talon-talon",
+      "tumalon ng lubid",
+      "lubid",
+      "nag-jump rope"
+    ],
+    "compendiumCode": "02068",
+    "met": 11.0,
+    "source": "2024 Adult Compendium, 02068 \"Rope skipping exercise, general\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "rope_jumping_moderate",
+    "name": "Rope jumping, moderate pace",
+    "aliases": [
+      "rope jumping moderate",
+      "jump rope na moderate"
+    ],
+    "compendiumCode": "15551",
+    "met": 11.8,
+    "source": "2024 Adult Compendium, 15551 \"Rope jumping, moderate pace, general, 100 to 120 skips/min, 2 foot skip, plain bounce\", pacompendium.com/sports, accessed 2026-10-10"
+  },
+  {
+    "id": "stretching",
+    "name": "Stretching, mild",
+    "aliases": [
+      "stretch",
+      "stretching",
+      "nag-stretch",
+      "nag stretch",
+      "nagstretch",
+      "unat",
+      "nag-unat",
+      "warm up",
+      "warm-up",
+      "cool down",
+      "cooldown",
+      "mobility"
+    ],
+    "compendiumCode": "02101",
+    "met": 2.3,
+    "source": "2024 Adult Compendium, 02101 \"Stretching, mild\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "yoga_hatha",
+    "name": "Yoga, Hatha",
+    "aliases": [
+      "yoga",
+      "hatha yoga",
+      "nag-yoga",
+      "nag yoga",
+      "nagyoga",
+      "pilates"
+    ],
+    "compendiumCode": "02150",
+    "met": 2.3,
+    "source": "2024 Adult Compendium, 02150 \"Yoga, Hatha\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "yoga_general",
+    "name": "Yoga, general",
+    "aliases": [
+      "yoga class",
+      "yoga session",
+      "vinyasa",
+      "meditation yoga"
+    ],
+    "compendiumCode": "02175",
+    "met": 2.3,
+    "source": "2024 Adult Compendium, 02175 \"Yoga, General\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "hiit_moderate",
+    "name": "High intensity interval exercise, moderate",
+    "aliases": [
+      "hiit",
+      "interval training",
+      "intervals",
+      "nag-hiit",
+      "tabata na moderate"
+    ],
+    "compendiumCode": "02210",
+    "met": 7.0,
+    "source": "2024 Adult Compendium, 02210 \"High intensity interval exercise, moderate effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "hiit_vigorous",
+    "name": "High intensity interval exercise, vigorous",
+    "aliases": [
+      "tabata",
+      "mountain climbers",
+      "squat jumps",
+      "nag-tabata",
+      "hiit na mabigat"
+    ],
+    "compendiumCode": "02214",
+    "met": 11.0,
+    "source": "2024 Adult Compendium, 02214 \"High intensity interval exercise, burpees, mountain climbers, squat jumps, Tabata, vigorous effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "zumba_group",
+    "name": "Zumba, group class",
+    "aliases": [
+      "zumba",
+      "nag-zumba",
+      "nag zumba",
+      "nagzumba",
+      "zumba class",
+      "dance class",
+      "sayaw na zumba"
+    ],
+    "compendiumCode": "02310",
+    "met": 6.5,
+    "source": "2024 Adult Compendium, 02310 \"Zumba, group class\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "zumba_home",
+    "name": "Zumba, home video",
+    "aliases": [
+      "zumba sa bahay",
+      "zumba video",
+      "zumba sa youtube",
+      "nag-zumba sa bahay"
+    ],
+    "compendiumCode": "02315",
+    "met": 5.5,
+    "source": "2024 Adult Compendium, 02315 \"Zumba, home video\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
     "id": "aerobic_dance_low",
     "name": "Aerobic dance, low impact",
-    "aliases": ["aerobics", "aerobic dance", "zumba", "dance workout", "nag-zumba", "nag zumba"],
+    "aliases": [
+      "aerobics",
+      "aerobic dance",
+      "aerobic",
+      "dance workout",
+      "nag-aerobics",
+      "nag aerobics",
+      "nagaerobics",
+      "sayaw",
+      "nag-sayaw",
+      "nagsayaw"
+    ],
     "compendiumCode": "02005",
     "met": 4.8,
     "source": "2024 Adult Compendium, 02005 \"Aerobic dance, low impact, moderate effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "aerobic_dance_high",
+    "name": "Aerobic dance, high impact",
+    "aliases": [
+      "high impact aerobics",
+      "mabilis na aerobics",
+      "aerobics na mabigat"
+    ],
+    "compendiumCode": "02006",
+    "met": 8.0,
+    "source": "2024 Adult Compendium, 02006 \"Aerobic dance, high impact, vigorous effort\", pacompendium.com/conditioning-exercise, accessed 2026-10-10"
+  },
+  {
+    "id": "folk_dance_vigorous",
+    "name": "Folk or nightclub dancing, vigorous",
+    "aliases": [
+      "party",
+      "nag-party",
+      "disco",
+      "line dance",
+      "line dancing",
+      "sayaw sa party",
+      "nightclub",
+      "tinikling",
+      "folk dance na mabilis"
+    ],
+    "compendiumCode": "03031",
+    "met": 9.8,
+    "source": "2024 Adult Compendium, 03031 \"Nightclub or folk dancing, vigorous effort (e.g., nightclub, disco, folk, line dancing, Irish step dancing, polka, contra)\", pacompendium.com/dancing, accessed 2026-10-10"
+  },
+  {
+    "id": "folk_dance_moderate",
+    "name": "Folk dancing, moderate",
+    "aliases": [
+      "folk dance",
+      "folk dancing",
+      "katutubong sayaw",
+      "cultural dance",
+      "cariñosa",
+      "carinosa",
+      "pandanggo"
+    ],
+    "compendiumCode": "03033",
+    "met": 5.0,
+    "source": "2024 Adult Compendium, 03033 \"Folk dancing, moderate effort\", pacompendium.com/dancing, accessed 2026-10-10"
+  },
+  {
+    "id": "swimming_leisure",
+    "name": "Swimming, leisurely",
+    "aliases": [
+      "swimming",
+      "swim",
+      "nag-swimming",
+      "nag swimming",
+      "nagswimming",
+      "languy",
+      "lumangoy",
+      "naligo sa pool",
+      "swimming sa beach",
+      "beach swimming"
+    ],
+    "compendiumCode": "18310",
+    "met": 6.0,
+    "source": "2024 Adult Compendium, 18310 \"Swimming, leisurely, not lap swimming, general\", pacompendium.com/water-activities, accessed 2026-10-10"
+  },
+  {
+    "id": "swimming_slow",
+    "name": "Swimming laps, slow",
+    "aliases": [
+      "laps",
+      "swim laps",
+      "slow laps",
+      "lap swimming"
+    ],
+    "compendiumCode": "18240",
+    "met": 5.8,
+    "source": "2024 Adult Compendium, 18240 \"Swimming laps, freestyle, slow, recreational\", pacompendium.com/water-activities, accessed 2026-10-10"
+  },
+  {
+    "id": "swimming_fast",
+    "name": "Swimming laps, fast",
+    "aliases": [
+      "fast laps",
+      "swim fast",
+      "mabilis na languy",
+      "competitive swimming"
+    ],
+    "compendiumCode": "18230",
+    "met": 9.8,
+    "source": "2024 Adult Compendium, 18230 \"Swimming laps, freestyle, fast, vigorous effort\", pacompendium.com/water-activities, accessed 2026-10-10"
   }
 ]
