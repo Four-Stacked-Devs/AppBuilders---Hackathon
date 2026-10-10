@@ -13,7 +13,8 @@ env.backends.onnx.wasm!.wasmPaths = {
   wasm: `${ort}ort-wasm-simd-threaded.asyncify.wasm`
 }
 
-const MODEL = 'onnx-community/whisper-base'
+// whisper-small hears Filipino far better than base; base remains the fallback if small is missing.
+const MODEL = 'onnx-community/whisper-small'
 
 let asr: Promise<AutomaticSpeechRecognitionPipeline> | null = null
 const load = (): Promise<AutomaticSpeechRecognitionPipeline> =>

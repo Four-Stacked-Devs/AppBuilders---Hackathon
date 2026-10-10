@@ -13,8 +13,8 @@ const LLMS = {
   // Apache-2.0, ~2.5 GB; verified on huggingface.co on 2026-10-10 (the file name is case-sensitive)
   qwen3_4b: { repo: 'unsloth/Qwen3-4B-Instruct-2507-GGUF', file: 'Qwen3-4B-Instruct-2507-Q4_K_M.gguf' }
 }
+const WHISPER_REPOS = ['onnx-community/whisper-base', 'onnx-community/whisper-small']
 const WHISPER = {
-  repo: 'onnx-community/whisper-base',
   files: [
     'config.json',
     'generation_config.json',
@@ -66,7 +66,8 @@ for (const key of wanted) {
   if (!m) throw new Error(`unknown model key ${key} (expected one of ${Object.keys(LLMS).join(', ')})`)
   await get(m.repo, m.file, join('models', 'llm', m.file))
 }
-for (const f of WHISPER.files) {
-  await get(WHISPER.repo, f, join('src/renderer/public/models', WHISPER.repo, f))
-}
+for (const repo of WHISPER_REPOS)
+  for (const f of WHISPER.files) {
+    await get(repo, f, join('src/renderer/public/models', repo, f))
+  }
 console.log('done')

@@ -18,7 +18,8 @@ export async function explain(facts: Facts, mode: 'adult' | 'teen'): Promise<Rea
         user,
         temperature: 0.6,
         maxTokens: 160,
-        timeoutMs: EXPLAIN_TIMEOUT_MS
+        timeoutMs: EXPLAIN_TIMEOUT_MS,
+        role: 'explain'
       })
     ).trim()
     const check = validateReaction(text, facts, mode)

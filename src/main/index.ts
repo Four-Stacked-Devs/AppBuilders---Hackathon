@@ -14,6 +14,7 @@ import icon from '../../resources/icon.png?asset'
 import winIcon from '../../build/icon.ico?asset'
 import type { AiStatus } from '@shared/status'
 import { initLlm } from './ai/llm'
+import parseSchema from './ai/parse.schema.json'
 import { registerIpc } from './ipc'
 import { requests } from './meta'
 
@@ -120,7 +121,7 @@ app.whenReady().then(() => {
   createTray()
 
   // Load the model in the background; never block startup on it.
-  void initLlm(broadcastStatus)
+  void initLlm(broadcastStatus, [parseSchema])
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
