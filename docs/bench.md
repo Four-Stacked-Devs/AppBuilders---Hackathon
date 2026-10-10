@@ -64,3 +64,34 @@ prompt returned in 0.7 s.
 
 Whisper was only tested with a synthetic English clip. Taglish speech and the `language`
 setting (auto, english, tagalog) still need testing with a real voice on the demo laptop.
+
+## Rule-based Taglish layer (no language model)
+
+- **Date:** 2026-10-10, ~09:27 PHT
+- **Machine:** Windows 11 laptop, 12 logical cores, Node 24.11.1, run through Vitest
+- **What ran:** `parseRules` and `classifyIntent` from `src/main`, no model loaded
+- **Sentences:** 20 hand-written Taglish log sentences and 10 chat messages with known intents,
+  in `tests/bench.app.golden.test.ts` (a small set, so treat percentages as indicative only)
+- **Command:** `npx vitest run tests/bench.app.golden.test.ts` (needs a config that does not
+  exclude `.golden` tests; it writes `bench.app.out.json`)
+- **Speed:** averaged over 2,000 calls after the index was built
+
+| Measure | Result |
+| --- | --- |
+| Log sentences parsed correctly (foods, minutes, sleep, water) | 20/20 |
+| Sentences fully understood without calling the model | 20/20 |
+| Chat intents classified correctly | 10/10 |
+| `parseRules`, average per sentence | 0.82 ms |
+| `classifyIntent`, average per message | 10.8 ms |
+
+### What this benchmark found and fixed
+
+The first run scored 19/20 on parsing and 8/10 on intents. Two real bugs came out of it:
+
+- "hello" and "salamat" were logged as foods, because the fuzzy fallback matched them to a food
+  name. Greetings are now ignored words.
+- "lumpia" was logged as an exercise (30 minutes) because no plain "lumpia" alias existed. It now
+  maps to the nearest PhilFCT entry, "Spring roll, Shanghai" (r064), an approximation.
+
+These numbers cover only the rule layer. Model speed and accuracy are in the sections above, and
+speech-to-text speed has not been measured for the current build.
