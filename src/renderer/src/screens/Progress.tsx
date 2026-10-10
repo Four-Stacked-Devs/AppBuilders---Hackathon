@@ -1,3 +1,4 @@
+import { AiAssist } from '../components/LiveText'
 import { useEffect, useState } from 'react'
 import { Activity, Droplet, Moon, Ruler, Scale, Utensils } from 'lucide-react'
 import { addDays, localDate } from '@shared/dates'
@@ -58,6 +59,14 @@ export function Progress(): React.JSX.Element {
           <h1>Progress</h1>
           <p className="sub">A longer view of your health and fitness journey.</p>
         </div>
+        <AiAssist
+          title="Read my trends"
+          context={`Last ${n} days. Active minutes: ${slice.reduce((a, d) => a + d.activeMinutes, 0)}. Days with activity: ${slice.filter((d) => d.activeMinutes > 0).length}.`}
+          options={[
+            { label: 'What do my trends say?', task: 'Describe my activity trend kindly and point out one good thing.' },
+            { label: 'One small next step', task: 'Suggest one small, realistic next step for next week.' }
+          ]}
+        />
         {tab === 'activity' && (
           <RangeChips
             value={range === 'day' ? 'week' : range}

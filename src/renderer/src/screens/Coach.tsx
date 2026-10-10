@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { PanelLeftClose, PanelLeftOpen, SendHorizontal, Square, Volume2 } from 'lucide-react'
-import { canSpeak, speak, stopSpeaking } from '../voice/speak'
+import { PanelLeftClose, PanelLeftOpen, SendHorizontal, Volume2, VolumeX } from 'lucide-react'
+import { getAutoRead, setAutoRead, speak } from '../voice/speak'
+import { LiveText, Speaker } from '../components/LiveText'
 import type { ChatMessage, Chip, ConversationSummary, MsgBody } from '@shared/chat'
 import type { ConfirmInput } from '@shared/schemas'
 import { useVox, type Screen } from '../store'
@@ -67,6 +68,7 @@ export function Coach(): React.JSX.Element {
   const [auto, setAuto] = useState(false)
   const [error, setError] = useState('')
   const [sessionsOpen, setSessionsOpen] = useState(true)
+  const [autoRead, setAutoReadState] = useState(getAutoRead())
   const end = useRef<HTMLDivElement>(null)
   const timer = useRef<number | undefined>(undefined)
 
@@ -142,6 +144,11 @@ export function Coach(): React.JSX.Element {
         }
         const out = await window.vox.chat.send(id, note)
         setMessages((m) => [...m, ...out])
+        if (getAutoRead()) {
+          const first = out.find((m) => m.role === 'vox' && (m.body.type === 'text' || m.body.type === 'chips'))
+          const t = first && 'text' in first.body ? first.body.text : ''
+          if (t) speak(t)
+        }
         const go = out.flatMap((m) => (m.body.type === 'chips' ? m.body.chips : [])).find((c) => c.go && c.screen)
         if (go?.screen) window.setTimeout(() => setScreen(go.screen as Screen), 900)
         void refresh()
@@ -219,6 +226,17 @@ export function Coach(): React.JSX.Element {
               {sessionsOpen ? <PanelLeftClose size={17} /> : <PanelLeftOpen size={17} />}
             </button>
             <h1>Coach</h1>
+            <button
+              className="btn sm"
+              aria-pressed={autoRead}
+              title="Read VOX replies out loud"
+              onClick={() => {
+                setAutoRead(!autoRead)
+                setAutoReadState(!autoRead)
+              }}
+            >
+              {autoRead ? <Volume2 size={14} /> : <VolumeX size={14} />} {autoRead ? 'Reading aloud' : 'Read replies aloud'}
+            </button>
           </div>
           <p className="sub">
             Say or type what you ate, how you moved or slept, or ask about your progress.
@@ -323,34 +341,15 @@ function MessageView(props: {
 }): React.JSX.Element {
   const { msg, onChip, onConfirm, onDiscard } = props
   const [busy, setBusy] = useState(false)
-  const [talking, setTalking] = useState(false)
   const b: MsgBody = msg.body
   if (msg.role === 'user' && b.type === 'text') return <div className="you">{b.text}</div>
 
   let body: React.JSX.Element | null = null
-  const speaker = (t: string): React.JSX.Element | null =>
-    canSpeak() && t ? (
-      <button
-        className="icon-btn speak"
-        aria-label={talking ? 'Stop reading' : 'Read aloud'}
-        title={talking ? 'Stop' : 'Read aloud'}
-        onClick={() => {
-          if (talking) {
-            stopSpeaking()
-            setTalking(false)
-          } else {
-            setTalking(true)
-            speak(t, () => setTalking(false))
-          }
-        }}
-      >
-        {talking ? <Square size={12} /> : <Volume2 size={14} />}
-      </button>
-    ) : null
+  const speaker = (t: string): React.JSX.Element | null => (t ? <Speaker text={t} /> : null)
   if (b.type === 'text')
     body = (
       <div className="vox">
-        <span>{b.text}</span>
+        <LiveText text={b.text} />
         {speaker(b.text)}
       </div>
     )

@@ -10,6 +10,8 @@ import {
   ProfileInput
 } from '@shared/schemas'
 import { getStatus } from './ai/llm'
+import { assist } from './assist'
+import { speakText, stopSpeaking } from './tts'
 import { parseLog } from './ai/parse'
 import { confirmLog, deleteEntry, getDay, getEntries, getHistory, getStreak, getStreakRun } from './confirm'
 import { seedDemoHistory } from './dev/seed'
@@ -44,6 +46,12 @@ function handle<S extends z.ZodType<unknown[]>>(
 }
 
 const none = z.tuple([])
+
+function registerExtraIpc(): void {
+  handle('ai:assist', z.tuple([z.string().max(300), z.string().max(2000)]), (task, ctx) => assist(task, ctx))
+  handle('tts:speak', z.tuple([z.string().min(1).max(3000)]), (t) => speakText(t))
+  handle('tts:stop', none, () => stopSpeaking())
+}
 
 export function registerIpc(): void {
   loadTaught() // words the person taught VOX
@@ -89,6 +97,7 @@ export function registerIpc(): void {
   handle('meals:swap', PlanRef, (id, day, slot) => swapMealInPlan(id, day, slot))
 
   handle('workout:generate', z.tuple([WorkoutInput]), (input) => createPlan(input))
+  registerExtraIpc()
   handle('workout:active', none, () => activePlan())
   handle('workout:library', none, () => workoutLibrary())
   handle('workout:setActive', z.tuple([z.string().min(1).max(100)]), (id) => setActivePlan(id))

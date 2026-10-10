@@ -1,3 +1,4 @@
+import { AiAssist } from './LiveText'
 import { useEffect, useState } from 'react'
 import { CalendarCheck } from 'lucide-react'
 import { shrink } from '@shared/insights/plans'
@@ -114,6 +115,14 @@ export function PlansPanel(props: { plans: PlanList; onChanged: () => void }): R
           <CalendarCheck size={18} aria-hidden="true" />
           Plano ko bukas
         </h3>
+        <AiAssist
+          title="Need an idea?"
+          context={`Plans already set: ${upcoming.length}.`}
+          options={[
+            { label: 'Suggest something small', task: 'Suggest one easy, small physical activity I can plan for tomorrow, with a friendly reason.' },
+            { label: 'Make it a habit', task: 'Give one tip to make tomorrow plan stick, such as a cue after waking up.' }
+          ]}
+        />
 
         {upcoming.length === 0 ? (
           <p className="empty">Wala pang plano. Pumili ng maliit na gagawin, kaya mo yan.</p>

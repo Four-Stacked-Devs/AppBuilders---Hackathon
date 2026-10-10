@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { RefreshCw, ShoppingBasket, Soup } from 'lucide-react'
 import type { AvoidTag, MealPlanView, PlateGroup, Slot } from '@shared/meals/types'
 import { useVox } from '../store'
+import { AiAssist } from './LiveText'
 import { CustomMeal } from './CustomBuilders'
 import { SkeletonCard } from './Skeleton'
 
@@ -219,6 +220,15 @@ export function MealsTab(): React.JSX.Element {
           <RefreshCw size={14} aria-hidden="true" /> New plan
         </button>
       </div>
+
+      <AiAssist
+        context={`Meal plan for ${plan.days.length} days.`}
+        options={[
+          { label: 'Explain this plan', task: 'Explain this meal plan in simple words and how to prep it.' },
+          { label: 'Prep tips', task: 'Give two practical meal prep tips for a Filipino home kitchen.' },
+          { label: 'Budget tips', task: 'Give two tips to keep this meal plan affordable.' }
+        ]}
+      />
 
       {tab === 'plan' && (
         <div className="stack tab-body">

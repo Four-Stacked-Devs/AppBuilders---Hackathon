@@ -11,6 +11,7 @@ import {
 import { useVox } from '../store'
 import { MuscleMap } from './effects'
 import { SessionPlayer } from './SessionPlayer'
+import { AiAssist } from './LiveText'
 import { CustomWorkout } from './CustomBuilders'
 import { SkeletonCard } from './Skeleton'
 
@@ -179,6 +180,14 @@ export function WorkoutsTab(): React.JSX.Element {
             <li key={n}>{n}</li>
           ))}
         </ul>
+        <AiAssist
+          context={`Plan: ${plan.title}. Days: ${plan.days.map((d) => `${d.name} (${d.exercises.map((e) => e.name).join(', ')})`).join('; ')}`}
+          options={[
+            { label: 'Explain this plan', task: 'Explain this workout plan simply and say what to expect.' },
+            { label: 'Hype me up', task: 'Give me a short, playful pep talk for starting this plan.' },
+            { label: 'Form tips', task: 'Give two beginner form tips for the first day of this plan.' }
+          ]}
+        />
       </section>
 
       <div className="grid-2">

@@ -1,8 +1,9 @@
-// Read-aloud with the operating system's own voices (works offline, nothing is sent anywhere).
-export const canSpeak = (): boolean => typeof speechSynthesis !== 'undefined'
+// Read-aloud, all on this computer. First choice is the operating system's speech engine run by the
+// main process (Windows SAPI, macOS say); the browser's own voices are the backup.
+export const canSpeak = (): boolean => true
 
-export function speak(text: string, onEnd?: () => void): void {
-  if (!canSpeak()) return
+function webSpeak(text: string, onEnd?: () => void): void {
+  if (typeof speechSynthesis === 'undefined') return onEnd?.()
   speechSynthesis.cancel()
   const u = new SpeechSynthesisUtterance(text)
   const voices = speechSynthesis.getVoices()
@@ -11,12 +12,35 @@ export function speak(text: string, onEnd?: () => void): void {
     u.voice = v
     u.lang = v.lang
   }
-  u.rate = 1
   u.onend = () => onEnd?.()
   u.onerror = () => onEnd?.()
   speechSynthesis.speak(u)
 }
 
-export const stopSpeaking = (): void => {
-  if (canSpeak()) speechSynthesis.cancel()
+export function speak(text: string, onEnd?: () => void): void {
+  window.vox.tts.speak(text).then(
+    () => onEnd?.(),
+    () => webSpeak(text, onEnd)
+  )
+}
+
+export function stopSpeaking(): void {
+  void window.vox.tts.stop()
+  if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel()
+}
+
+const KEY = 'vox.autoRead'
+export function getAutoRead(): boolean {
+  try {
+    return localStorage.getItem(KEY) === '1'
+  } catch {
+    return false
+  }
+}
+export function setAutoRead(v: boolean): void {
+  try {
+    localStorage.setItem(KEY, v ? '1' : '0')
+  } catch {
+    /* ignore */
+  }
 }

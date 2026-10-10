@@ -25,6 +25,11 @@ export interface VoxApi {
   ai: {
     status(): Promise<AiStatus>
     onStatus(cb: (s: AiStatus) => void): () => void
+    assist(task: string, context: string): Promise<{ text: string; ai: boolean }>
+  }
+  tts: {
+    speak(text: string): Promise<void>
+    stop(): Promise<void>
   }
   meta: {
     // What runs where, and how many requests the window has made to the internet since launch.

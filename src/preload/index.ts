@@ -4,7 +4,12 @@ import type { VoxApi } from '../shared/api'
 import type { AiStatus } from '../shared/status'
 
 const api: VoxApi = {
+  tts: {
+    speak: (t) => ipcRenderer.invoke('tts:speak', t),
+    stop: () => ipcRenderer.invoke('tts:stop')
+  },
   ai: {
+    assist: (task, ctx) => ipcRenderer.invoke('ai:assist', task, ctx),
     status: () => ipcRenderer.invoke('ai:status'),
     onStatus: (cb) => {
       const h = (_e: unknown, s: AiStatus): void => cb(s)
