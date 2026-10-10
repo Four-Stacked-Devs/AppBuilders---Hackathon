@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs'
+import { freemem, totalmem } from 'node:os'
 import path from 'node:path'
 import { app } from 'electron'
 import type {
@@ -16,11 +17,21 @@ export const FAKE_LLM = process.env.VOX_FAKE_LLM === '1'
 // Preferred files, best first. The first one present in models/llm is used; VOX_MODEL_FILE wins.
 const MAIN_CANDIDATES = [
   'Qwen3-4B-Instruct-2507-Q4_K_M.gguf',
-  'qwen2.5-3b-instruct-q4_k_m.gguf'
+  'qwen2.5-3b-instruct-q4_k_m.gguf',
+  'qwen2.5-1.5b-instruct-q4_k_m.gguf'
 ]
+// Rough memory each file needs (model plus context), in GB, so a model is skipped up front
+// when it would not fit in the free memory.
+const NEEDS_GB: Record<string, number> = {
+  'Qwen3-4B-Instruct-2507-Q4_K_M.gguf': 3.6,
+  'qwen2.5-3b-instruct-q4_k_m.gguf': 3,
+  'qwen2.5-1.5b-instruct-q4_k_m.gguf': 1.6
+}
 const FAST_CANDIDATES = ['qwen2.5-1.5b-instruct-q4_k_m.gguf']
 // VOX_PROFILE=lite loads only the main model (for an 8 GB computer).
-const LITE = process.env.VOX_PROFILE === 'lite'
+const GB = 1024 ** 3
+// Lite (one model, small context) when asked, or when this computer has little free memory.
+const LITE = process.env.VOX_PROFILE === 'lite' || totalmem() < 10 * GB || freemem() < 5 * GB
 
 function baseDir(): string {
   const base = app.isPackaged
@@ -95,16 +106,26 @@ export async function initLlm(
       set({ state: 'loading', message: 'Loading AI model on this computer…', progress: p })
     }
     // Try every model file that exists (best first); a failed load falls through to the next.
-    const files = [...new Set([MODEL_FILE_ACTIVE, ...MAIN_CANDIDATES])].filter((f) => existsSync(modelPath(f)))
+    const free = (freemem() + totalmem() * 0.1) / GB // swap helps a little, so count some headroom
+    const all = [...new Set([MODEL_FILE_ACTIVE, ...MAIN_CANDIDATES])].filter((f) => existsSync(modelPath(f)))
+    const fits = all.filter((f) => (NEEDS_GB[f] ?? 3) <= free)
+    // Best file that fits first, then every smaller one as a fallback (smallest last resort).
+    const files = fits.length ? [...fits, ...all.filter((f) => !fits.includes(f)).reverse()] : [...all].reverse()
     let lastErr: unknown = new Error('No model file found. Run npm run models:download.')
     let mainCtx: Awaited<ReturnType<LlamaModel['createContext']>> | null = null
     for (const file of files) {
       try {
-        main = await llama.loadModel({ modelPath: modelPath(file), onLoadProgress })
+        try {
+          main = await llama.loadModel({ modelPath: modelPath(file), onLoadProgress })
+        } catch (gpuErr) {
+          // GPU memory too small or a driver problem: run this model on the CPU instead.
+          console.warn('GPU load failed, trying CPU:', gpuErr)
+          main = await llama.loadModel({ modelPath: modelPath(file), gpuLayers: 0, onLoadProgress })
+        }
         // Context: full size first, then smaller and without flash attention if memory is tight.
-        for (const [size, flash] of [[6144, true], [3072, true], [2048, false]] as const) {
+        for (const [size, flash] of (LITE ? [[3072, true], [2048, false]] : [[6144, true], [3072, true], [2048, false], [1024, false]]) as readonly (readonly [number, boolean])[]) {
           try {
-            mainCtx = await main.createContext({ contextSize: size, sequences: 3, flashAttention: flash })
+            mainCtx = await main.createContext({ contextSize: size, sequences: LITE ? 2 : 3, flashAttention: flash })
             break
           } catch (e) {
             lastErr = e
@@ -134,7 +155,9 @@ export async function initLlm(
     }
     slots.set('parse', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
     if (!slots.has('explain')) slots.set('explain', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
-    if (!slots.has('coach')) slots.set('coach', { seq: mainCtx.getSequence(), queue: Promise.resolve() })
+    // Lite has two sequences: coach shares explain's (they never need to run at once).
+    if (!slots.has('coach'))
+      slots.set('coach', LITE ? (slots.get('explain') as Slot) : { seq: mainCtx.getSequence(), queue: Promise.resolve() })
     for (const s of schemas) await grammarFor(s) // compile once, up front
     await generate({
       system: 'Reply with OK.',
