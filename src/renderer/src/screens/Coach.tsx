@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { PanelLeftClose, PanelLeftOpen, SendHorizontal } from 'lucide-react'
+import { PanelLeftClose, PanelLeftOpen, SendHorizontal, Square, Volume2 } from 'lucide-react'
+import { canSpeak, speak, stopSpeaking } from '../voice/speak'
 import type { ChatMessage, Chip, ConversationSummary, MsgBody } from '@shared/chat'
 import type { ConfirmInput } from '@shared/schemas'
 import { useVox, type Screen } from '../store'
@@ -315,11 +316,35 @@ function MessageView(props: {
 }): React.JSX.Element {
   const { msg, onChip, onConfirm, onDiscard } = props
   const [busy, setBusy] = useState(false)
+  const [talking, setTalking] = useState(false)
   const b: MsgBody = msg.body
   if (msg.role === 'user' && b.type === 'text') return <div className="you">{b.text}</div>
 
   let body: React.JSX.Element | null = null
-  if (b.type === 'text') body = <div className="vox">{b.text}</div>
+  if (b.type === 'text')
+    body = (
+      <div className="vox">
+        {b.text}
+        {canSpeak() && (
+          <button
+            className="icon-btn"
+            style={{ marginLeft: '0.8rem', width: '2.6rem', height: '2.6rem' }}
+            aria-label={talking ? 'Stop reading' : 'Read aloud'}
+            onClick={() => {
+              if (talking) {
+                stopSpeaking()
+                setTalking(false)
+              } else {
+                setTalking(true)
+                speak(b.text, () => setTalking(false))
+              }
+            }}
+          >
+            {talking ? <Square size={12} /> : <Volume2 size={13} />}
+          </button>
+        )}
+      </div>
+    )
   else if (b.type === 'notice')
     body = (
       <div className="safety" role="alert">

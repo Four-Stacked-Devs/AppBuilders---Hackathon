@@ -14,14 +14,25 @@ env.backends.onnx.wasm!.wasmPaths = {
 }
 
 // whisper-small hears Filipino far better than base; base remains the fallback if small is missing.
-const MODEL = 'onnx-community/whisper-small'
+const MODELS = ['onnx-community/whisper-small', 'onnx-community/whisper-base']
 
 let asr: Promise<AutomaticSpeechRecognitionPipeline> | null = null
 const load = (): Promise<AutomaticSpeechRecognitionPipeline> =>
-  (asr ??= pipeline('automatic-speech-recognition', MODEL, {
-    dtype: 'q8', // the *_quantized.onnx files from npm run models:download
-    device: 'wasm'
-  }) as Promise<AutomaticSpeechRecognitionPipeline>)
+  (asr ??= (async () => {
+    let last: unknown
+    for (const m of MODELS) {
+      try {
+        return (await pipeline('automatic-speech-recognition', m, {
+          dtype: 'q8', // the *_quantized.onnx files from npm run models:download
+          device: 'wasm'
+        })) as AutomaticSpeechRecognitionPipeline
+      } catch (err) {
+        last = err
+      }
+    }
+    asr = null
+    throw last
+  })())
 
 load().then(
   () => self.postMessage({ type: 'ready' }),
