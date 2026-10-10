@@ -44,7 +44,7 @@ export function startStt(): Worker {
     if (m.type === 'ready') setState('ready')
     else if (m.type === 'load-error') {
       console.error('Whisper failed to load:', m.error)
-      lastError = String(m.error).slice(0, 160)
+      lastError = String(m.error).slice(0, 300)
       setState('error')
     } else if (m.type === 'result') {
       console.info(`[vox stt] transcribed ${m.text.length} chars in ${m.ms} ms`)

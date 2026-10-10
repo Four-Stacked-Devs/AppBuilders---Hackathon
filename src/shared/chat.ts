@@ -7,6 +7,7 @@ export type Chip = {
   label: string
   send?: string // sends this text as the person's next message
   screen?: string // or opens a screen (see Screen in the renderer store)
+  go?: boolean // the app opens the screen right away
 }
 
 export type MsgBody =
