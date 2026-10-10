@@ -24,6 +24,8 @@ import {
   renameConversation
 } from './chat/repo'
 import { loadTaught } from './nlu/taught'
+import { FinishInput, WorkoutInput } from '@shared/workouts/types'
+import { activePlan, createPlan, deletePlan, finishSession, listPlans as listWorkouts, muscleWeek } from './workouts'
 import { getMeta } from './meta'
 import { addPlan, listActivities, listPlans, resolvePlan } from './plans'
 import { getProfile, saveProfile } from './profile'
@@ -72,6 +74,16 @@ export function registerIpc(): void {
     confirmLogMessage(id, input)
   )
   handle('chat:discard', z.tuple([z.number().int()]), (id) => discardLogMessage(id))
+
+  handle('workout:generate', z.tuple([WorkoutInput]), (input) => createPlan(input))
+  handle('workout:active', none, () => activePlan())
+  handle('workout:list', none, () => listWorkouts())
+  handle('workout:delete', z.tuple([z.string().min(1).max(100)]), (id) => {
+    deletePlan(id)
+    return { ok: true }
+  })
+  handle('workout:finish', z.tuple([FinishInput]), (input) => finishSession(input))
+  handle('workout:muscles', none, () => muscleWeek())
 
   handle('insights:get', none, () => getInsights())
   handle('insights:dismiss', z.tuple([FindingId]), (id) => dismissInsight(id))

@@ -36,6 +36,14 @@ const api: VoxApi = {
     confirm: (messageId, input) => ipcRenderer.invoke('chat:confirm', messageId, input),
     discard: (messageId) => ipcRenderer.invoke('chat:discard', messageId)
   },
+  workout: {
+    generate: (input) => ipcRenderer.invoke('workout:generate', input),
+    active: () => ipcRenderer.invoke('workout:active'),
+    list: () => ipcRenderer.invoke('workout:list'),
+    delete: (id) => ipcRenderer.invoke('workout:delete', id),
+    finish: (input) => ipcRenderer.invoke('workout:finish', input),
+    muscles: () => ipcRenderer.invoke('workout:muscles')
+  },
   insights: {
     get: () => ipcRenderer.invoke('insights:get'),
     dismiss: (id) => ipcRenderer.invoke('insights:dismiss', id)
