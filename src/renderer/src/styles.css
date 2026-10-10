@@ -2789,3 +2789,14 @@ p {
 @keyframes wiggle { 25% { transform: rotate(-10deg) scale(1.08); } 75% { transform: rotate(8deg) scale(1.08); } }
 .banner h2 { animation: rise 0.6s var(--ease-out) both; }
 .skeleton { animation-duration: 1.1s; }
+
+/* builder forms: spacing and a calmer, readable layout */
+.workout-form .form-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1.4rem; margin-top: 2.4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+.workout-form .form-actions .btn { height: 3.8rem; padding: 0 2.2rem; }
+.workout-form .form-actions .link { color: var(--muted); }
+.workout-form .form-actions .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.workout-form .pills { max-height: 15rem; overflow-y: auto; padding: 0.4rem; }
+.workout-form .choice-pill { min-width: 0; padding: 0.8rem 1.2rem; }
+.workout-form .choice-pill b { font-weight: 600; font-size: 1.15rem; }
+.workout-form .plan-form { display: flex; gap: 1rem; margin-top: 1.2rem; align-items: center; }
+.workout-form .metric { display: flex; align-items: center; gap: 1rem; margin-top: 0.8rem; }
