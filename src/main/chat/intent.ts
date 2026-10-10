@@ -1,7 +1,7 @@
 import { parseRules, type NluResult } from '../nlu/parseRules'
 import { strip } from '../nlu/normalize'
 
-export type Intent = 'log' | 'stats' | 'workout_plan' | 'meal_plan' | 'advice' | 'help' | 'chitchat' | 'unknown'
+export type Intent = 'log' | 'stats' | 'workout_plan' | 'meal_plan' | 'advice' | 'help' | 'chitchat' | 'food' | 'unknown'
 
 const QUESTION_START =
   /^(ano|anong|ilan|ilang|gaano|gaanong|magkano|paano|bakit|saan|kailan|sino|pwede|puwede|dapat|can|how|what|why|when|where|which|show|tell|give|gawa|gawan|gumawa|make|create|suggest|recommend|ok lang|okay lang|may|meron|is|are|do|does|should)\b/
@@ -23,6 +23,8 @@ export function classifyIntent(raw: string): { intent: Intent; nlu: NluResult } 
   const question = raw.includes('?') || QUESTION_START.test(t)
   const words = t.split(' ').length
 
+  if (has(t, /\b(calories?|kcal|protein|carbs?|macros?)\s+(sa|ng|in|of|per)\b/) || has(t, /\b(ilang|ilan)\s+(na\s+)?(calories?|kcal)\s+(sa|ng|ang)\b/))
+    return { intent: 'food', nlu }
   if (has(t, /\b(ano kaya mo|ano ang magagawa|ano magagawa|paano gamitin|paano ko gagamitin|help|tulong|saan mo kinukuha|offline ba|ano ka|sino ka|what can you do|how do i use|paano mag log|paano mag-log)\b/))
     return { intent: 'help', nlu }
   if (words <= 5 && has(t, /^(hi|hello|hey|kumusta|kamusta|salamat|thanks|thank you|magandang|good morning|good afternoon|good evening|ok|okay|sige|wow|haha|hehe|nice|ayos|boss|vox)\b/) && !found)

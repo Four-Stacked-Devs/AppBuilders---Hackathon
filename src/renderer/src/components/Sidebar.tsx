@@ -11,6 +11,7 @@ import type { LucideIcon } from 'lucide-react'
 import { useVox, type Screen } from '../store'
 import { AiChip } from './AiChip'
 import { Brand } from './Brand'
+import { tr } from '../i18n'
 import { StreakChip } from './StreakCard'
 
 const ITEMS: { id: Screen; label: string; icon: LucideIcon }[] = [
@@ -32,7 +33,7 @@ export function Sidebar(): React.JSX.Element {
       onClick={() => setScreen(id)}
     >
       <Icon size={17} aria-hidden="true" />
-      {label}
+      {tr(label)}
     </button>
   )
   return (

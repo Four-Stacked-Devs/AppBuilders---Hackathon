@@ -2749,3 +2749,17 @@ p {
 .palette-item { display: flex; align-items: baseline; justify-content: space-between; width: 100%; padding: 1.1rem 1.2rem; border: 0; border-radius: var(--r-sm); background: none; text-align: left; }
 .palette-item span { color: var(--muted); font-size: 1.05rem; }
 .palette-item[data-active='true'] { background: var(--primary-soft); color: var(--primary); }
+
+/* ---------- goals, wrapped ---------- */
+.goal-row { margin-top: 1.4rem; }
+.goal-top { display: flex; justify-content: space-between; margin-bottom: 0.6rem; }
+.goal-bar { height: 0.9rem; border-radius: 99rem; background: var(--line); overflow: hidden; }
+.goal-bar span { display: block; height: 100%; border-radius: inherit; background: var(--primary); transition: width var(--dur-slow) var(--ease-out); }
+.goal-edit { display: flex; gap: 1.6rem; margin-top: 1rem; }
+.goal-edit label { display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+.goal-edit input { height: 3.6rem; padding: 0 1rem; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); }
+.wrapped { background: linear-gradient(160deg, var(--bg), var(--primary-soft)); cursor: pointer; }
+.wrapped-big { font-size: 16rem; font-weight: 800; line-height: 1; letter-spacing: -0.05em; color: var(--primary); animation: pop 0.5s var(--ease-spring) both; }
+.dots { display: flex; gap: 0.8rem; }
+.dots i { width: 0.9rem; height: 0.9rem; border-radius: 50%; background: var(--line); transition: all var(--dur-med); }
+.dots i[data-on='true'] { width: 2.4rem; border-radius: 99rem; background: var(--primary); }

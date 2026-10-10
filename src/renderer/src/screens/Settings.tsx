@@ -1,6 +1,7 @@
 import { Cpu, Monitor, Moon, ShieldCheck, Sun, User, CircleCheck } from 'lucide-react'
 import { ageYears } from '@shared/calc'
 import { useState } from 'react'
+import { getLang, setLang } from '../i18n'
 import { Mic } from 'lucide-react'
 import { useVox } from '../store'
 import { getVoiceLang, setVoiceLang, type VoiceLang } from '../voice/stt'
@@ -97,6 +98,21 @@ export function Settings(): React.JSX.Element {
             ))}
           </div>
           <p className="note">Choose how VOX looks on this computer.</p>
+        </section>
+
+        <section className="panel">
+          <h3 className="panel-title">Language and data</h3>
+          <p className="sub">Menu language</p>
+          <div className="theme-opts">
+            {(['en', 'fil'] as const).map((l) => (
+              <button key={l} className="theme-opt" aria-pressed={getLang() === l} onClick={() => { setLang(l); window.location.reload() }}>
+                {l === 'en' ? 'English' : 'Filipino'}
+              </button>
+            ))}
+          </div>
+          <p className="sub" style={{ marginTop: '1.4rem' }}>Your data</p>
+          <button className="btn" onClick={() => void window.vox.data.export()}>Export my data (JSON)</button>
+          <p className="note">Saves a copy of your logs and profile to a file you choose. Ctrl+Shift+V opens VOX from anywhere.</p>
         </section>
 
         <section className="panel">

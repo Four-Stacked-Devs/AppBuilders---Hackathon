@@ -20,7 +20,11 @@ function App(): React.JSX.Element {
     const off = window.vox.ai.onStatus(setAi)
     window.vox.ai.status().then(setAi)
     window.vox.profile.get().then(setProfile)
-    return off
+    const offQuick = window.vox.app.onQuickCapture(() => useVox.getState().setScreen('coach'))
+    return () => {
+      off()
+      offQuick()
+    }
   }, [setAi, setProfile])
 
   if (ai.state === 'error')

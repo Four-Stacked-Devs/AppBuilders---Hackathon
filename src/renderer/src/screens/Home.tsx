@@ -10,6 +10,7 @@ import { Banner } from '../components/Banner'
 import { SkeletonCard, SkeletonStats } from '../components/Skeleton'
 import { StreakCard } from '../components/StreakCard'
 import { KpiCard, RangeChips, type RangeKey } from '../components/widgets'
+import { GoalsCard, WrappedButton } from '../components/TierC'
 import { usePlans } from '../usePlans'
 
 const DAYS: Record<RangeKey, number> = { day: 1, week: 7, month: 30 }
@@ -64,7 +65,10 @@ export function Home(): React.JSX.Element {
           <h1>Home</h1>
           <p className="sub">{longDate(localDate())}</p>
         </div>
-        <RangeChips value={range} onChange={setRange} />
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <WrappedButton />
+          <RangeChips value={range} onChange={setRange} />
+        </div>
       </div>
 
       <Banner icon={Flame} title={`${greeting(new Date().getHours())}, ${profile?.nickname}!`}>
@@ -155,6 +159,8 @@ export function Home(): React.JSX.Element {
               </button>
             </section>
           </div>
+
+          <GoalsCard />
 
           {today?.latestReaction && (
             <section className="insight">

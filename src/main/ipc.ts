@@ -25,6 +25,8 @@ import {
 } from './chat/repo'
 import { MealInput, PlanRef } from '@shared/meals/types'
 import { activeMealPlan, createMealPlan, recipes as allRecipes, swapMealInPlan } from './meals'
+import { addLift, exportData, listLifts } from './extras'
+import { localDate } from '@shared/dates'
 import { loadTaught } from './nlu/taught'
 import { FinishInput, WorkoutInput } from '@shared/workouts/types'
 import { activePlan, createPlan, deletePlan, finishSession, listPlans as listWorkouts, muscleWeek } from './workouts'
@@ -76,6 +78,10 @@ export function registerIpc(): void {
     confirmLogMessage(id, input)
   )
   handle('chat:discard', z.tuple([z.number().int()]), (id) => discardLogMessage(id))
+
+  handle('lifts:add', z.tuple([z.object({ exercise: z.string().trim().min(1).max(60), reps: z.number().int().min(1).max(100), weightKg: z.number().min(0).max(600) })]), (i) => addLift(i, localDate()))
+  handle('lifts:list', none, () => listLifts())
+  handle('data:export', none, () => exportData())
 
   handle('meals:generate', z.tuple([MealInput]), (input) => createMealPlan(input))
   handle('meals:active', none, () => activeMealPlan())
