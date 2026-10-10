@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { SendHorizontal } from 'lucide-react'
+import { PanelLeftClose, PanelLeftOpen, SendHorizontal } from 'lucide-react'
 import type { ChatMessage, Chip, ConversationSummary, MsgBody } from '@shared/chat'
 import type { ConfirmInput } from '@shared/schemas'
 import { useVox, type Screen } from '../store'
@@ -60,6 +60,7 @@ export function Coach(): React.JSX.Element {
   const [sending, setSending] = useState(false)
   const [auto, setAuto] = useState(false)
   const [error, setError] = useState('')
+  const [sessionsOpen, setSessionsOpen] = useState(true)
   const end = useRef<HTMLDivElement>(null)
   const timer = useRef<number | undefined>(undefined)
 
@@ -194,7 +195,7 @@ export function Coach(): React.JSX.Element {
   }
 
   return (
-    <div className="coach">
+    <div className="coach" data-closed={!sessionsOpen}>
       <ChatSessions
         items={items}
         activeId={activeId}
@@ -205,7 +206,12 @@ export function Coach(): React.JSX.Element {
       />
       <section className="talk">
         <header className="talk-head">
-          <h1>Coach</h1>
+          <div className="talk-title">
+            <button className="icon-btn" aria-label={sessionsOpen ? 'Hide chats' : 'Show chats'} onClick={() => setSessionsOpen(!sessionsOpen)}>
+              {sessionsOpen ? <PanelLeftClose size={17} /> : <PanelLeftOpen size={17} />}
+            </button>
+            <h1>Coach</h1>
+          </div>
           <p className="sub">
             Say or type what you ate, how you moved or slept, or ask about your progress.
           </p>

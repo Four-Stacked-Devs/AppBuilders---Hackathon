@@ -14,6 +14,7 @@ import { Settings } from './screens/Settings'
 function App(): React.JSX.Element {
   const { screen, setAi, ai, profile, profileLoaded, setProfile } = useVox()
   const [skipSplash, setSkipSplash] = useState(false)
+  const navCollapsed = useVox((s) => s.navCollapsed)
 
   useEffect(() => {
     const off = window.vox.ai.onStatus(setAi)
@@ -49,7 +50,7 @@ function App(): React.JSX.Element {
   }
 
   return (
-    <div className="app">
+    <div className="app" data-collapsed={navCollapsed}>
       <Sidebar />
       <main className="main" key={screen}>
         {body[screen as Exclude<Screen, 'onboarding'>]}

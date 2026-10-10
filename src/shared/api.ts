@@ -67,12 +67,16 @@ export interface VoxApi {
   data: { export(): Promise<{ path: string } | null> }
   app: { onQuickCapture(cb: () => void): () => void }
   meals: {
+    custom(i: { meals: { slot: Slot; recipeIds: string[] }[]; people: number }): Promise<MealPlanView>
     generate(input: MealInput): Promise<MealPlanView> // becomes the active plan
     active(): Promise<MealPlanView | null>
     recipes(): Promise<RecipeView[]>
     swap(id: string, day: number, slot: Slot): Promise<MealPlanView>
   }
   workout: {
+    library(): Promise<{ id: string; name: string; muscles: string[]; equipment: string }[]>
+    setActive(id: string): Promise<WorkoutPlan | null>
+    custom(i: { title: string; days: { name: string; exercises: { exerciseId: string; sets: number; reps: string; restSec: number }[] }[] }): Promise<WorkoutPlan>
     generate(input: WorkoutInput): Promise<WorkoutPlan> // becomes the active plan
     active(): Promise<WorkoutPlan | null>
     list(): Promise<WorkoutPlan[]>

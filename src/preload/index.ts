@@ -46,12 +46,16 @@ const api: VoxApi = {
     }
   },
   meals: {
+    custom: (i) => ipcRenderer.invoke('meals:custom', i),
     generate: (input) => ipcRenderer.invoke('meals:generate', input),
     active: () => ipcRenderer.invoke('meals:active'),
     recipes: () => ipcRenderer.invoke('meals:recipes'),
     swap: (id, day, slot) => ipcRenderer.invoke('meals:swap', id, day, slot)
   },
   workout: {
+    library: () => ipcRenderer.invoke('workout:library'),
+    setActive: (id) => ipcRenderer.invoke('workout:setActive', id),
+    custom: (i) => ipcRenderer.invoke('workout:custom', i),
     generate: (input) => ipcRenderer.invoke('workout:generate', input),
     active: () => ipcRenderer.invoke('workout:active'),
     list: () => ipcRenderer.invoke('workout:list'),

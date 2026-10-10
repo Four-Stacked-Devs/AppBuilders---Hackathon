@@ -14,6 +14,8 @@ type State = {
   profileLoaded: boolean
   themePref: ThemePref
   diaryDate: string | null // set when another screen opens a specific day in the Diary
+  navCollapsed: boolean
+  toggleNav: () => void
   setScreen: (s: Screen) => void
   openDiary: (date: string) => void
   setAi: (s: AiStatus) => void
@@ -39,6 +41,22 @@ export const useVox = create<State>((set) => ({
   profileLoaded: false,
   themePref: loadThemePref(),
   diaryDate: null,
+  navCollapsed: (() => {
+    try {
+      return localStorage.getItem('vox.navCollapsed') === '1'
+    } catch {
+      return false
+    }
+  })(),
+  toggleNav: () =>
+    set((s) => {
+      try {
+        localStorage.setItem('vox.navCollapsed', s.navCollapsed ? '0' : '1')
+      } catch {
+        /* ignore */
+      }
+      return { navCollapsed: !s.navCollapsed }
+    }),
   setScreen: (screen) => transition(() => set({ screen })),
   openDiary: (date) => transition(() => set({ screen: 'diary', diaryDate: date })),
   setAi: (ai) => set({ ai }),

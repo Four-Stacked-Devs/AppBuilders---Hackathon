@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { RefreshCw, ShoppingBasket, Soup } from 'lucide-react'
 import type { AvoidTag, MealPlanView, PlateGroup, Slot } from '@shared/meals/types'
 import { useVox } from '../store'
+import { CustomMeal } from './CustomBuilders'
 import { SkeletonCard } from './Skeleton'
 
 const SLOTS: Slot[] = ['breakfast', 'lunch', 'dinner', 'snack']
@@ -62,6 +63,7 @@ export function MealsTab(): React.JSX.Element {
     avoid: AvoidTag[]
   }>({ days: 5, slots: ['breakfast', 'lunch', 'dinner'], people: 2, avoid: [] })
   const [creating, setCreating] = useState(false)
+  const [custom, setCustom] = useState(false)
   const [tab, setTab] = useState<'plan' | 'grocery' | 'prep'>('plan')
   const [checked, setChecked] = useState<Set<string>>(new Set())
 
@@ -105,6 +107,17 @@ export function MealsTab(): React.JSX.Element {
       <b>{label}</b>
     </button>
   )
+
+  if (custom)
+    return (
+      <CustomMeal
+        onCancel={() => setCustom(false)}
+        onDone={(v) => {
+          setView(v)
+          setCustom(false)
+        }}
+      />
+    )
 
   if (!view || creating)
     return (
@@ -162,6 +175,7 @@ export function MealsTab(): React.JSX.Element {
           </div>
         </details>
         <div className="form-actions">
+          <button className="btn" onClick={() => setCustom(true)}>Build my own instead</button>
           <button
             className="btn primary"
             onClick={() => {
@@ -200,6 +214,7 @@ export function MealsTab(): React.JSX.Element {
           </button>
         ))}
         <span className="spacer" />
+        <button className="btn sm" onClick={() => setCustom(true)}>Build my own</button>
         <button className="btn sm" onClick={() => setCreating(true)}>
           <RefreshCw size={14} aria-hidden="true" /> New plan
         </button>

@@ -2,6 +2,8 @@ import {
   BookOpen,
   CalendarDays,
   ChartNoAxesColumnIncreasing,
+  ChevronsLeft,
+  ChevronsRight,
   ClipboardList,
   House,
   MessageSquare,
@@ -24,7 +26,7 @@ const ITEMS: { id: Screen; label: string; icon: LucideIcon }[] = [
 ]
 
 export function Sidebar(): React.JSX.Element {
-  const { screen, setScreen, ai } = useVox()
+  const { screen, setScreen, ai, navCollapsed, toggleNav } = useVox()
   const item = (id: Screen, label: string, Icon: LucideIcon): React.JSX.Element => (
     <button
       key={id}
@@ -33,12 +35,17 @@ export function Sidebar(): React.JSX.Element {
       onClick={() => setScreen(id)}
     >
       <Icon size={17} aria-hidden="true" />
-      {tr(label)}
+      <span className="nav-label">{tr(label)}</span>
     </button>
   )
   return (
     <aside className="sidebar">
-      <Brand />
+      <div className="brand-row">
+        <Brand />
+        <button className="icon-btn" aria-label={navCollapsed ? 'Expand menu' : 'Collapse menu'} onClick={toggleNav}>
+          {navCollapsed ? <ChevronsRight size={16} /> : <ChevronsLeft size={16} />}
+        </button>
+      </div>
       <nav className="nav" aria-label="Screens">
         {ITEMS.map((i) => item(i.id, i.label, i.icon))}
       </nav>

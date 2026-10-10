@@ -5,7 +5,7 @@ import type { Commitment, PlanAction, PlanAddInput, PlanList } from '@shared/sch
 import { ACTIVITIES } from './matching/match'
 import { db } from './store/db'
 
-const MAX_PER_DAY = 2
+const MAX_PER_DAY = 12
 
 // Plans around today (yesterday, today, tomorrow) with their status, plus the comeback and
 // rest flags. Everything is computed from the saved entries; nothing is stored as "missed".
@@ -46,7 +46,7 @@ function create(
   const activity = ACTIVITIES.find((a) => a.id === input.activityRefId)
   if (!activity) throw new Error('Unknown activity.')
   if (countFor(commitments, input.date) >= MAX_PER_DAY)
-    throw new Error('That day already has two plans. Keep it small.')
+    throw new Error('That day already has a lot of plans.')
   return {
     id: randomUUID(),
     date: input.date,

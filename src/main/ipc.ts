@@ -24,12 +24,12 @@ import {
   renameConversation
 } from './chat/repo'
 import { MealInput, PlanRef } from '@shared/meals/types'
-import { activeMealPlan, createMealPlan, recipes as allRecipes, swapMealInPlan } from './meals'
+import { activeMealPlan, createCustomMealPlan, createMealPlan, recipes as allRecipes, swapMealInPlan } from './meals'
 import { addLift, exportData, listLifts } from './extras'
 import { localDate } from '@shared/dates'
 import { loadTaught } from './nlu/taught'
 import { FinishInput, WorkoutInput } from '@shared/workouts/types'
-import { activePlan, createPlan, deletePlan, finishSession, listPlans as listWorkouts, muscleWeek } from './workouts'
+import { activePlan, createCustomPlan, createPlan, setActivePlan, workoutLibrary, deletePlan, finishSession, listPlans as listWorkouts, muscleWeek } from './workouts'
 import { getMeta } from './meta'
 import { addPlan, listActivities, listPlans, resolvePlan } from './plans'
 import { getProfile, saveProfile } from './profile'
@@ -90,6 +90,39 @@ export function registerIpc(): void {
 
   handle('workout:generate', z.tuple([WorkoutInput]), (input) => createPlan(input))
   handle('workout:active', none, () => activePlan())
+  handle('workout:library', none, () => workoutLibrary())
+  handle('workout:setActive', z.tuple([z.string().min(1).max(100)]), (id) => setActivePlan(id))
+  handle(
+    'workout:custom',
+    z.tuple([
+      z.object({
+        title: z.string().trim().min(1).max(60),
+        days: z
+          .array(
+            z.object({
+              name: z.string().trim().min(1).max(40),
+              exercises: z
+                .array(z.object({ exerciseId: z.string().max(60), sets: z.number().int().min(1).max(10), reps: z.string().max(20), restSec: z.number().int().min(0).max(300) }))
+                .min(1)
+                .max(15)
+            })
+          )
+          .min(1)
+          .max(7)
+      })
+    ]),
+    (i) => createCustomPlan(i)
+  )
+  handle(
+    'meals:custom',
+    z.tuple([
+      z.object({
+        meals: z.array(z.object({ slot: z.enum(['breakfast', 'lunch', 'dinner', 'snack']), recipeIds: z.array(z.string().max(60)).min(1).max(6) })).min(1).max(8),
+        people: z.number().int().min(1).max(10)
+      })
+    ]),
+    (i) => createCustomMealPlan(i)
+  )
   handle('workout:list', none, () => listWorkouts())
   handle('workout:delete', z.tuple([z.string().min(1).max(100)]), (id) => {
     deletePlan(id)
